@@ -68,6 +68,10 @@ public class FachadaServicios extends Observable {
     public void cerrar(Sesion sesion) {
         servicioUsuario.cerrar(sesion);
     }
+    
+    public ArrayList<Sesion> getUsuariosConectados() {
+        return servicioUsuario.getUsuariosConectados();
+    }
  //////////////////////////////////////////////////////////////////
  //   //Aplicación para la atención de mesas                     //
  //////////////////////////////////////////////////////////////////
@@ -120,10 +124,6 @@ public class FachadaServicios extends Observable {
         
         ItemServicio is = servicioMesa.agregarProductoAServicio(mesa, producto, cantidad, descripcion);
         servicioProcesadoraPedidos.agregarProducto(is);
-    }
-    
-     public ArrayList<Sesion> getUsuariosConectados() {
-        return servicioUsuario.getUsuariosConectados();
     }
     
 }

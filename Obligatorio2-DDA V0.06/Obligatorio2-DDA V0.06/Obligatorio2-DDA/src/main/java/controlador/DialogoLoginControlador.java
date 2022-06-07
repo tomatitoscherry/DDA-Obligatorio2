@@ -5,6 +5,7 @@
 package controlador;
 
 import dominio.Usuario;
+import exceptions.SesionDuplicada;
 import ui.DialogoLoginVista;
 
 /**
@@ -19,16 +20,19 @@ public abstract class DialogoLoginControlador {
         this.vista = vista;
     }
     
-    public abstract Usuario loguinUsuario(String nombreUsuario, String password);
+    public abstract Usuario loguinUsuario(String nombreUsuario, String password)throws SesionDuplicada;
     
-    public void login(String nombreUsuario, String password){
-        Usuario usuario= loguinUsuario(nombreUsuario, password);
-        
-        if(usuario == null){
-            vista.mostrarError("Login incorrecto. Ingrese nuevamente sus credenciales");
-        }else{
-            vista.ejecutarCasoDeUsoInicial(usuario);
-            vista.cerrarVista();
+    public void login(String nombreUsuario, String password) throws SesionDuplicada{
+        try{
+            Usuario usuario= loguinUsuario(nombreUsuario, password);
+            if(usuario == null){
+                vista.mostrarError("Login incorrecto. Ingrese nuevamente sus credenciales");
+            }else{
+                vista.ejecutarCasoDeUsoInicial(usuario);
+                vista.cerrarVista();
+            }
+        }catch(SesionDuplicada e){
+            vista.mostrarError(e.getMessage());
         }
     }
     

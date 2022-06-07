@@ -12,6 +12,7 @@ import dominio.Gestor;
 import dominio.Mozo;
 import dominio.Sesion;
 import dominio.Usuario;
+import exceptions.SesionDuplicada;
 import java.util.ArrayList;
 
 /**
@@ -56,19 +57,31 @@ public class ServicioUsuario {
     }
     
     // LOGICA PARA EL LOGIN
-    public Mozo loginMozo(String usuario, String password) {
+    public Mozo loginMozo(String usuario, String password) throws SesionDuplicada {
         return (Mozo) loginGenerico(usuario, password, (ArrayList) mozos);
     }
 
-    public Gestor loginGestor(String usuario, String password) {
+    public Gestor loginGestor(String usuario, String password) throws SesionDuplicada {
         return (Gestor) loginGenerico(usuario, password, (ArrayList) gestores);
     }
     
-    private Usuario loginGenerico(String usuario, String password, ArrayList<Usuario> listaUsuarios) {
+    ////////////////////////////////////////////////////////////////////////////////////
+    //Falta devolver algun tipo de mensaje cuando el usuario ya aparece como logueado,//
+    //y otro cuando el psw o usuario no coinciden. Ver en ejemplo agenda 4.2         //
+    ///////////////////////////////////////////////////////////////////////////////////
+    private Usuario loginGenerico(String usuario, String password, ArrayList<Usuario> listaUsuarios) throws SesionDuplicada {
         for (Usuario u : listaUsuarios) {
             //Confirma si nombre usuario = usuario, si password es valida y si usuario no esta en el array de usuarios logeados.
-            if (u.getNombreUsuario().equals(usuario) && u.esPassordValida(password) && !usuariosLogeados.contains(u)) {
+            /*if (u.getNombreUsuario().equals(usuario) && u.esPassordValida(password) && !usuariosLogeados.contains(u)){
                 return u;
+            }*/
+            
+            if (u.getNombreUsuario().equals(usuario) && u.esPassordValida(password)) {
+                if(!usuariosLogeados.contains(u)){
+                    return u;
+                }else{
+                    throw new SesionDuplicada("El usuario ya se encuentra logueado");
+                }
             }
         }
         return null;

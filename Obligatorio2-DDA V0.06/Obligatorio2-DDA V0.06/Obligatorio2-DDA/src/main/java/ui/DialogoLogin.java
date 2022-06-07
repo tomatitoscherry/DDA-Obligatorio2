@@ -3,6 +3,10 @@ package ui;
 import controlador.DialogoLoginControlador;
 import dominio.Mozo;
 import dominio.Usuario;
+import exceptions.ObligatorioException;
+import exceptions.SesionDuplicada;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -97,7 +101,11 @@ public abstract class DialogoLogin extends javax.swing.JDialog implements Dialog
     }// </editor-fold>//GEN-END:initComponents
 
     private void bIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bIngresarActionPerformed
-       this.ingresar();
+        try {
+            this.ingresar();
+        } catch (SesionDuplicada ex) {
+            Logger.getLogger(DialogoLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_bIngresarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -109,9 +117,9 @@ public abstract class DialogoLogin extends javax.swing.JDialog implements Dialog
     // End of variables declaration//GEN-END:variables
 
     
-    private void ingresar() {
+    private void ingresar() throws SesionDuplicada{
         String nombreUsuario = tUsuario.getText();
-        String password = new String(tPassword.getPassword());    
+        String password = new String(tPassword.getPassword());
         controlador.login(nombreUsuario, password);
     }
     

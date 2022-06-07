@@ -44,7 +44,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         sesion = new Sesion(mozo, new Date());
         controlador.iniciarSesion(sesion);
         this.setTitle("Ventana mozo");
-        this.cargarMesasMozo();
+        ejecutarCu1();
     }
     
     /**
@@ -275,11 +275,19 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
 
     @Override
     public void mostrarError(String mensaje) {
-         JOptionPane.showMessageDialog(this, mensaje,"Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, mensaje,"Error", JOptionPane.ERROR_MESSAGE);
+    }
+    //Caso Uso 1
+    private void ejecutarCu1() {
+        cargarNombreMozo();
+        cargarMesasMozo();
+    }
+    
+    public void cargarNombreMozo(){
+        lblMesasMozo.setText("Mesas del mozo: "+mozo.getNombreCompleto());
     }
     
     public void cargarMesasMozo(){
-        lblMesasMozo.setText("Mesas del mozo: "+mozo.getNombreUsuario());
         if(mozo!=null){
             if(!mozo.getMesas().isEmpty()){
                 listMesas.setCellRenderer(new MesasRenderer());

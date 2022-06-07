@@ -14,6 +14,7 @@ import dominio.Producto;
 import dominio.Servicio;
 import dominio.Sesion;
 import dominio.Usuario;
+import exceptions.SesionDuplicada;
 import java.util.ArrayList;
 
 
@@ -78,11 +79,11 @@ public class FachadaServicios extends Observable {
  //   //*CU: Ingresar a la aplicación                            //               
  //////////////////////////////////////////////////////////////////   
     
-    public Mozo loginMozo(String usuario, String password) {
+    public Mozo loginMozo(String usuario, String password) throws SesionDuplicada {
         return servicioUsuario.loginMozo(usuario, password);
     }
         
-    public Gestor loginGestor(String usuario, String password) {
+    public Gestor loginGestor(String usuario, String password) throws SesionDuplicada {
         return servicioUsuario.loginGestor(usuario, password);
     }
 

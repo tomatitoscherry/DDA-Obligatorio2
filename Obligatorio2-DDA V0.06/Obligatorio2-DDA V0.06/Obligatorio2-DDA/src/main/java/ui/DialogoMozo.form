@@ -23,50 +23,51 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" min="-2" pref="750" max="-2" attributes="0"/>
+                  <Component id="jLabel2" min="-2" pref="284" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
+                      <Component id="lblMesasMozo" min="-2" pref="295" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblProductosDisponilbes" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jScrollPane3" min="-2" pref="141" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel2" min="-2" pref="284" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="lblMesasMozo" min="-2" pref="295" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblProductosDisponilbes" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jScrollPane3" min="-2" pref="141" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="btnAbrir" min="-2" pref="90" max="-2" attributes="0"/>
-                                          <Component id="btnCerrar" min="-2" pref="90" max="-2" attributes="0"/>
-                                          <Component id="btnTransferir" min="-2" pref="90" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Component id="lblMesaSeleccionada" min="-2" pref="142" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" min="-2" pref="276" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="lblCantidadProducto" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnAgregarProducto" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtCantidadProducto" alignment="0" min="-2" pref="133" max="-2" attributes="0"/>
-                                  <Component id="txtDescripcionProducto" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblDescripcionProducto" alignment="0" pref="134" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="btnAbrir" min="-2" pref="90" max="-2" attributes="0"/>
+                                  <Component id="btnCerrar" min="-2" pref="90" max="-2" attributes="0"/>
+                                  <Component id="btnTransferir" min="-2" pref="90" max="-2" attributes="0"/>
                               </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Component id="lblMesaSeleccionada" min="-2" pref="142" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="276" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="lblCantidadProducto" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnAgregarProducto" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtCantidadProducto" alignment="0" min="-2" pref="133" max="-2" attributes="0"/>
+                          <Component id="txtDescripcionProducto" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblDescripcionProducto" alignment="0" pref="134" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="txtNumeroCliente" min="-2" pref="181" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                      <Component id="btnGuardarCliente" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="lblNumeroCliente" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -103,11 +104,18 @@
                       <Component id="btnTransferir" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace pref="33" max="32767" attributes="0"/>
+              <Component id="lblNumeroCliente" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtNumeroCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnGuardarCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="105" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -289,5 +297,20 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JTextField" name="txtNumeroCliente">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblNumeroCliente">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Ingrese el numero de cliente:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnGuardarCliente">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Guardar cliente"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

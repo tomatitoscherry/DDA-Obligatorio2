@@ -7,6 +7,7 @@ package Logica;
  */
 
 
+import Logica.observer.Observer;
 import dominio.ItemServicio;
 import dominio.Mesa;
 import dominio.Mozo;
@@ -93,6 +94,7 @@ public class ServicioMesa {
             Servicio servicio = new Servicio();
             mesa.setServicio(servicio);
             mozo.agregarMesa(mesa);
+            FachadaServicios.getInstance().notifyObservers(Observer.Eventos.MESAS_ACTUALIZADAS);
         }
         
     }

@@ -26,7 +26,7 @@ public abstract class DialogoLoginControlador {
         try{
             Usuario usuario= loguinUsuario(nombreUsuario, password);
             if(usuario == null){
-                vista.mostrarError("Login incorrecto. Ingrese nuevamente sus credenciales");
+                vista.mostrarError("Nombre de usuario y/o contraseña incorrectos”");
             }else{
                 vista.ejecutarCasoDeUsoInicial(usuario);
                 vista.cerrarVista();

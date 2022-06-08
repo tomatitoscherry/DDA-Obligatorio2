@@ -6,6 +6,7 @@ package controlador;
 
 import Logica.FachadaServicios;
 import dominio.Usuario;
+import exceptions.SesionDuplicada;
 import ui.DialogoLoginVista;
 
 /**
@@ -19,7 +20,7 @@ public class DialogoLoginGestorControlador extends DialogoLoginControlador{
     }
 
     @Override
-    public Usuario loguinUsuario(String nombreUsuario, String password) {
+    public Usuario loguinUsuario(String nombreUsuario, String password) throws SesionDuplicada {
         return FachadaServicios.getInstance().loginGestor(nombreUsuario, password);
     }
     

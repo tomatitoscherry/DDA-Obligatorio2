@@ -80,7 +80,7 @@ public class ServicioUsuario {
                 if(!usuariosLogeados.contains(u)){
                     return u;
                 }else{
-                    throw new SesionDuplicada("El usuario ya se encuentra logueado");
+                    throw new SesionDuplicada("Ud. ya está logueado");
                 }
             }
         }

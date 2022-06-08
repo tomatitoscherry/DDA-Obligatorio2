@@ -6,6 +6,7 @@
 package Logica;
 
 import Logica.observer.Observable;
+import dominio.Cliente;
 import dominio.Gestor;
 import dominio.ItemServicio;
 import dominio.Mesa;
@@ -100,10 +101,10 @@ public class FachadaServicios extends Observable {
  ////////////////////////////////////////////////////////////////// 
     
     //estaria faltando implementar en el dominio al cliente / tipo clientes y pasarle por parametro cliente.
+    //Por la letra en el caso de uso de cierre de mesa, entiendo que el cliente se agrega cuando la mesa se cierra. Y es opcional.
     public void abrirMesa (Mesa mesa, Mozo mozo) {
         servicioMesa.abrirMesa(mesa, mozo);
     }
-    
     
  //////////////////////////////////////////////////////////////////
  //   //CU: Agregar un producto al servicio                      //               

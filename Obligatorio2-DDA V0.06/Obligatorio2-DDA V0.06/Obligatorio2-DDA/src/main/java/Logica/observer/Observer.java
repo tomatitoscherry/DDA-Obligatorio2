@@ -12,7 +12,8 @@ package Logica.observer;
 public interface Observer {
     
     public enum Eventos {
-        SESIONES_ACTUALIZADAS
+        SESIONES_ACTUALIZADAS,
+        MESAS_ACTUALIZADAS
     }
 
     public void update(Observable source, Object event);

@@ -4,7 +4,9 @@
  */
 package ui;
 
+import Logica.FachadaServicios;
 import Logica.observer.Observable;
+import Logica.observer.Observer;
 import controlador.DialogoMozoControlador;
 import dominio.Mesa;
 import dominio.Mozo;
@@ -74,6 +76,9 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         tblServicio = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         listMesas = new javax.swing.JList();
+        txtNumeroCliente = new javax.swing.JTextField();
+        lblNumeroCliente = new javax.swing.JLabel();
+        btnGuardarCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -153,6 +158,11 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         listMesas.setVisibleRowCount(5);
         jScrollPane3.setViewportView(listMesas);
 
+        lblNumeroCliente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lblNumeroCliente.setText("Ingrese el numero de cliente:");
+
+        btnGuardarCliente.setText("Guardar cliente");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,37 +170,39 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblMesasMozo, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblProductosDisponilbes))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblMesasMozo, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblProductosDisponilbes))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(12, 12, 12)
-                                        .addComponent(lblMesaSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblCantidadProducto)
-                                    .addComponent(btnAgregarProducto)
-                                    .addComponent(txtCantidadProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDescripcionProducto)
-                                    .addComponent(lblDescripcionProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(lblMesaSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblCantidadProducto)
+                            .addComponent(btnAgregarProducto)
+                            .addComponent(txtCantidadProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDescripcionProducto)
+                            .addComponent(lblDescripcionProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtNumeroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnGuardarCliente))
+                    .addComponent(lblNumeroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,11 +233,17 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
                         .addComponent(btnCerrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnTransferir)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(lblNumeroCliente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNumeroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardarCliente))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(47, 47, 47))
         );
 
         pack();
@@ -251,6 +269,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private javax.swing.JButton btnAbrir;
     private javax.swing.JButton btnAgregarProducto;
     private javax.swing.JButton btnCerrar;
+    private javax.swing.JButton btnGuardarCliente;
     private javax.swing.JButton btnTransferir;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -260,12 +279,14 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private javax.swing.JLabel lblDescripcionProducto;
     private javax.swing.JLabel lblMesaSeleccionada;
     private javax.swing.JLabel lblMesasMozo;
+    private javax.swing.JLabel lblNumeroCliente;
     private javax.swing.JLabel lblProductosDisponilbes;
     private javax.swing.JList listMesas;
     private javax.swing.JList listProductos;
     private javax.swing.JTable tblServicio;
     private javax.swing.JTextField txtCantidadProducto;
     private javax.swing.JTextField txtDescripcionProducto;
+    private javax.swing.JTextField txtNumeroCliente;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -281,24 +302,32 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private void ejecutarCu1() {
         cargarNombreMozo();
         cargarMesasMozo();
+        desactivarCamposAgregarClienteMesa();   
     }
     
     public void cargarNombreMozo(){
-        lblMesasMozo.setText("Mesas del mozo: "+mozo.getNombreCompleto());
+        String nombreCompleto= controlador.nombreCompletoMozo(mozo);
+        lblMesasMozo.setText("Mesas del mozo: "+nombreCompleto);
     }
     
     public void cargarMesasMozo(){
         if(mozo!=null){
-            if(!mozo.getMesas().isEmpty()){
+            ArrayList<Mesa> mesasMozo= controlador.conjuntoMesasDeMozo(mozo);
+            if(!mesasMozo.isEmpty()){
                 listMesas.setCellRenderer(new MesasRenderer());
-                listMesas.setListData(mozo.getMesas().toArray());
+                listMesas.setListData(mesasMozo.toArray());
             }
         }
     }
 
+    private void desactivarCamposAgregarClienteMesa(){
+        txtNumeroCliente.setEnabled(false);
+        btnGuardarCliente.setEnabled(false);
+    }
+    
     public void abrirMesa() {
         Mesa mesaSeleccionada= (Mesa) listMesas.getSelectedValue();
-        controlador.abrirMesa(mesaSeleccionada);
+        controlador.abrirMesa(mesaSeleccionada, this.mozo);
     }
     
     public void cargarProductosDisponibles(ArrayList<Producto> productosDisponibles){
@@ -318,7 +347,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private void cerrarMesa() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     private class MesasRenderer extends JLabel implements ListCellRenderer<Mesa> {
 
         @Override
@@ -333,5 +362,4 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
             return this;
         }
     }
-
 }

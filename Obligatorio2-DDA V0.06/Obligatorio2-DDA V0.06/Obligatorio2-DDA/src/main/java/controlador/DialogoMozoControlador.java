@@ -73,4 +73,16 @@ public class DialogoMozoControlador{
         return FachadaServicios.getInstance().mesaEstaAbierta(mesa);
     }
 
+    public boolean mesaTienePeidosSinFinalizar(Mesa mesa) {
+        return FachadaServicios.getInstance().mesaTienePedidosSinFinalizar(mesa);
+    }
+
+    public boolean tieneMesasAbiertas(Mozo mozo) {
+        return FachadaServicios.getInstance().tieneMesasAbiertas(mozo);
+    }
+
+    public void cerrarSesion(Sesion sesion) {
+        FachadaServicios.getInstance().cerrar(sesion);
+    }
+
 }

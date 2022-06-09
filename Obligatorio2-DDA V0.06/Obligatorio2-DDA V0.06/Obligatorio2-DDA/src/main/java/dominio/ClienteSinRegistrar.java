@@ -11,7 +11,7 @@ package dominio;
 public class ClienteSinRegistrar extends TipoCliente{
 
     @Override
-    public float calcularTotalDescuentoPorBeneficio(Servicio unServicio) {
+    public float calcularDescuentoBeneficios(Servicio unServicio) {
         return 0;
     }
     

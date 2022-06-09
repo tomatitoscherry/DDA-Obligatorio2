@@ -79,4 +79,11 @@ public class Beneficio {
     public int getMontoMinimoDescuento() {
         return montoMinimoDescuento;
     }
+
+    @Override
+    public String toString() {
+        return "Beneficio: " + descripcion;
+    }
+
+    
 }

@@ -31,15 +31,4 @@ public class DialogoCerrarMesaControlador{
         return cliente;
     }
 
-    public void agregarClienteMesa(Cliente cliente, Mesa mesa) {
-        FachadaServicios.getInstance().agregarClienteMesa(cliente, mesa);
-    }
-
-    public void agregarClienteMesa(Mesa mesa) {
-        FachadaServicios.getInstance().agregarClienteMesa(mesa);
-    }
-
-    public float calcularMontoTotalServicio(Mesa mesa) {
-       return FachadaServicios.getInstance().calcularMontoTotalServicio(mesa);
-    }
 }

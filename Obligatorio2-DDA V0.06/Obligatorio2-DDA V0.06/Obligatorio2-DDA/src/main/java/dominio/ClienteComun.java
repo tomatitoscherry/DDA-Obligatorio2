@@ -13,7 +13,7 @@ public class ClienteComun extends TipoCliente{
     //Pagan $0 por todos los cafés consumidos en el servicio.
     //-------------------------------------------------------
     @Override
-    public float calcularTotalDescuentoPorBeneficio(Servicio unServicio) {
+    public float calcularDescuentoBeneficios(Servicio unServicio) {
         float total=0;
         float montoDescontarProductos= 0;
         float montoDescontarDinero= 0;
@@ -29,7 +29,7 @@ public class ClienteComun extends TipoCliente{
             
             }else if(b.getTipoBeneficio().equals(TipoBeneficioEnum.DESCUENTO_PORCENTAJE)){
                 
-                if(unServicio.getMontoSinBeneficio() >= b.getMontoMinimoDescuento()){
+                if(unServicio.montoServicio()>= b.getMontoMinimoDescuento()){
                     montoDescontarPorcentaje+=b.getPorcentaje();
                 }
             }
@@ -54,7 +54,7 @@ public class ClienteComun extends TipoCliente{
        
        total+=montoDescontarProductos;
        total+=montoDescontarDinero;
-       total+=((montoDescontarPorcentaje*unServicio.getMontoSinBeneficio())/100);
+       total+=((montoDescontarPorcentaje*unServicio.montoServicio())/100);
        
        return total;
     }

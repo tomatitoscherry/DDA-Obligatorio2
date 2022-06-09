@@ -13,11 +13,12 @@ import java.util.ArrayList;
 public class Mozo extends Usuario{
     
     private String telefono;
-    private ArrayList<Mesa> mesas= new ArrayList();
+    private ArrayList<Mesa> mesas;
 
     public Mozo(String nombreUsuario, String contrasenia, String nombreCompleto, String telefono) {
         super(nombreUsuario, contrasenia, nombreCompleto);
         this.telefono = telefono;
+        this.mesas= new ArrayList<Mesa>();
     }
 
     public String getTelefono() {
@@ -45,5 +46,20 @@ public class Mozo extends Usuario{
             }
             i++;
         }
+    }
+
+    public boolean tengoMesasAbiertas() {
+        boolean mesasAbiertas=false;
+        if(!mesas.isEmpty()){
+            int i=0;
+            while(!mesasAbiertas && i<mesas.size()){
+                Mesa mesa= mesas.get(i);
+                if(mesa.isAbierta()){
+                    mesasAbiertas=true;
+                }  
+                i++;
+            }
+        }
+        return mesasAbiertas;
     }
 }

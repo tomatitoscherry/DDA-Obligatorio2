@@ -60,12 +60,16 @@ public class Mesa {
     }
     
     public float calcularMontoTotalConBeneficios(){
-        float total=0;
-        float totalDescuentos= this.cliente.getTipoCliente().calcularTotalDescuentoPorBeneficio(servicio);
-        
-        if(totalDescuentos < this.servicio.getMontoSinBeneficio()){
-            total= this.servicio.getMontoSinBeneficio()-totalDescuentos;
+        float totalServicio=this.servicio.montoServicio();
+        float totalDescuentos= descuentoBeneficios();
+        float totalPagar=0;
+        if(totalDescuentos < totalServicio){
+            totalPagar= totalServicio-totalDescuentos;
         }
-        return total;
+        return totalPagar;
+    }
+    
+    public float descuentoBeneficios(){
+        return this.cliente.getTipoCliente().calcularDescuentoBeneficios(this.servicio);
     }
 }

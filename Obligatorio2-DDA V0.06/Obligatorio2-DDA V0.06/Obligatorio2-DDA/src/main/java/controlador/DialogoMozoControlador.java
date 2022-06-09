@@ -11,8 +11,11 @@ import java.util.ArrayList;
 import Logica.FachadaServicios;
 import Logica.observer.Observable;
 import Logica.observer.Observer;
+import dominio.ItemServicio;
 import dominio.Mozo;
+import dominio.Servicio;
 import dominio.Sesion;
+import exceptions.AgregarProductoServicioException;
 import ui.DialogoMozo;
 import ui.DialogoMozoVista;
 
@@ -20,13 +23,12 @@ import ui.DialogoMozoVista;
  *
  * @author yamil
  */
-public class DialogoMozoControlador implements Observer{
+public class DialogoMozoControlador{
     
     private DialogoMozoVista vista;
     
     public DialogoMozoControlador(DialogoMozoVista vista) {
         this.vista = vista;
-        FachadaServicios.getInstance().addObserver((Observer) vista);
     }
 
     public void iniciarSesion(Sesion sesion) {
@@ -41,38 +43,34 @@ public class DialogoMozoControlador implements Observer{
         return FachadaServicios.getInstance().mostrarNombreCompletoMozo(mozo);
     }
     
-    public void abrirMesa(Mesa mesa, Mozo mozo) {
-        //Valido si mesa esta cerrada
+    public boolean abrirMesa(Mesa mesa, Mozo mozo) {
         if(!FachadaServicios.getInstance().mesaEstaAbierta(mesa)){
-            
+            FachadaServicios.getInstance().abrirMesa(mesa, mozo);
+            return true;
         }else{
             vista.mostrarError("La mesa ya está abierta");
+            return false;
         }
-        
-        //FachadaServicios.getInstance().abrirMesa(mesa, mozo, cliente);
-        //if(){
-        //Si la mesa ya esta abierta, muestra un error
-        //}else{
-        //Si la mesa esta cerrada, se abre.
-        //Para abrir el backend debe crear un nuevo servicio a la mesa
-        //Se trae desde fachada la lista de productos disponibles y
-        // se le pasa a la vista la lista de Productos disponibles actualizada
-        //vista.cargarProductosDisponibles(productosDisponibles);
-        //}
-
     }
     
-    public void agregarProductoAlServicio(Mesa mesa, Producto producto, String descripcion, int cantidad) {
-        //if(mesa==null || producto==null || descripcion==null || cantidad==null){
-            vista.mostrarError("No se puede agregar el pedido, debe completar todos los campos");
-        //}else{
-            
-        //}
+    public ArrayList<Producto> getProductosDisponibles(){
+        return FachadaServicios.getInstance().mostrarProductosDisponibles(); 
+    }
+     
+    public void agregarProductoAlServicio(Mesa mesa, Producto producto, String descripcion, int cantidad) throws AgregarProductoServicioException {
+        try{
+            FachadaServicios.getInstance().agregarProductoAServicio(mesa, producto, cantidad, descripcion);
+        }catch(AgregarProductoServicioException e){
+            vista.mostrarError(e.getMessage());
+        }
     }
 
-    @Override
-    public void update(Observable source, Object event) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Servicio getServicioMesa(Mesa mesa) {
+        return FachadaServicios.getInstance().mostrarServicioMesa(mesa);
+    }
+    
+    public boolean mesaEstaAbierta(Mesa mesa){
+        return FachadaServicios.getInstance().mesaEstaAbierta(mesa);
     }
 
 }

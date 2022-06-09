@@ -13,7 +13,7 @@ public interface Observer {
     
     public enum Eventos {
         SESIONES_ACTUALIZADAS,
-        MESAS_ACTUALIZADAS
+        PEDIDOS_ACTUALIZADOS
     }
 
     public void update(Observable source, Object event);

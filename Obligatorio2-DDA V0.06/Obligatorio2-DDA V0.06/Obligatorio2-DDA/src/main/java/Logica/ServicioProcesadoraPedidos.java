@@ -7,10 +7,13 @@ package Logica;
  */
 
 
+import Logica.observer.Observer;
 import dominio.ItemServicio;
 import dominio.Mesa;
 import dominio.Producto;
 import dominio.Servicio;
+import dominio.UnidadProcesadora;
+import exceptions.AgregarProductoServicioException;
 import java.util.ArrayList;
 
 /**
@@ -20,10 +23,12 @@ import java.util.ArrayList;
 public class ServicioProcesadoraPedidos {
     
     //lista que tiene todos los pedidos generados
-    ArrayList<Servicio> pedidosMonitor = new ArrayList<>();
+    ArrayList<Servicio> pedidosMonitor = new ArrayList<Servicio>();
+    ArrayList<UnidadProcesadora> unidadesProcesadoras = new ArrayList<UnidadProcesadora>();
     
-    public void agregarUnidadProcesadora(){
-     //agrega unidad procesadora, no lo usa ususario.
+    //agrega unidad procesadora, no lo usa ususario.
+    public void agregarUnidadProcesadora(UnidadProcesadora unaUnidadProcesadora){    
+        unidadesProcesadoras.add(unaUnidadProcesadora);
     }
     
     public void tomarPedido(Servicio servicio){
@@ -36,7 +41,13 @@ public class ServicioProcesadoraPedidos {
             return null;
     }
 
-    void agregarProducto(ItemServicio is) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    void agregarProducto(ItemServicio is){
+        Producto p= is.getProducto();
+        for(UnidadProcesadora up : unidadesProcesadoras){
+            if(up.equals(p.getUnidadProcesadora())){
+                up.addItemServicio(is);
+                FachadaServicios.getInstance().notifyObservers(Observer.Eventos.PEDIDOS_ACTUALIZADOS);
+            }
+        }
     }
 }

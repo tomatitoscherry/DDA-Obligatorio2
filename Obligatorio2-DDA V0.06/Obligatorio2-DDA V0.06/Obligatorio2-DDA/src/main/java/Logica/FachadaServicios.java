@@ -15,6 +15,7 @@ import dominio.Producto;
 import dominio.Servicio;
 import dominio.Sesion;
 import dominio.Usuario;
+import exceptions.AgregarProductoServicioException;
 import exceptions.SesionDuplicada;
 import java.util.ArrayList;
 
@@ -101,7 +102,8 @@ public class FachadaServicios extends Observable {
  ////////////////////////////////////////////////////////////////// 
     
     //estaria faltando implementar en el dominio al cliente / tipo clientes y pasarle por parametro cliente.
-    //Por la letra en el caso de uso de cierre de mesa, entiendo que el cliente se agrega cuando la mesa se cierra. Y es opcional.
+    
+    //>>>>>>Por la letra en el caso de uso de cierre de mesa, entiendo que el cliente se agrega cuando la mesa se cierra. Y es opcional.
     public void abrirMesa (Mesa mesa, Mozo mozo) {
         servicioMesa.abrirMesa(mesa, mozo);
     }
@@ -122,9 +124,14 @@ public class FachadaServicios extends Observable {
         return servicioMesa.mostrarProductosDisponibles();
     }
     
-    public void agregarProductoAServicio(Mesa mesa, Producto producto, int cantidad, String descripcion){
-        
+    public void agregarProductoAServicio(Mesa mesa, Producto producto, int cantidad, String descripcion) throws AgregarProductoServicioException{
         ItemServicio is = servicioMesa.agregarProductoAServicio(mesa, producto, cantidad, descripcion);
+        if(is!=null){
+            agregarServcioProcesadoraPedidos(is);
+        }
+    }
+    
+    public void agregarServcioProcesadoraPedidos(ItemServicio is){
         servicioProcesadoraPedidos.agregarProducto(is);
     }
     

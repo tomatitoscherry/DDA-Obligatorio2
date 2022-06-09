@@ -39,6 +39,10 @@ public class Producto {
     public int getStock() {
         return stock;
     }
+
+    public UnidadProcesadora getUnidadProcesadora() {
+        return unidadProcesadora;
+    }
     
     public void bajarStock(int cant){
         //baja la cant de stock

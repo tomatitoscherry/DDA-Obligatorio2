@@ -13,6 +13,7 @@ import dominio.Mesa;
 import dominio.Mozo;
 import dominio.Producto;
 import dominio.Servicio;
+import exceptions.AgregarProductoServicioException;
 import java.util.ArrayList;
 import java.lang.Exception;
 
@@ -62,22 +63,22 @@ public class ServicioMesa {
         return productosConStock;
     }
       
-    public ItemServicio agregarProductoAServicio(Mesa mesa, Producto producto, int cantidad, String descripcion){
+    public ItemServicio agregarProductoAServicio(Mesa mesa, Producto producto, int cantidad, String descripcion) throws AgregarProductoServicioException{
         if(cantidad > producto.getStock()){
           //  “Sin stock, solo quedan (n)”
+          throw new AgregarProductoServicioException("Sin stock, solo quedan "+producto.getStock());
         } else if (cantidad <= 0){
             //  “cantidad inválida”
+            throw new AgregarProductoServicioException("Cantidad inválida");
         } else if (this.mesaEstaAbierta(mesa)){
             // “La mesa está cerrada”
+            throw new AgregarProductoServicioException("La mesa está cerrada");
         } else {
             producto.actualizarStock(cantidad);
             ItemServicio is = new ItemServicio(cantidad, descripcion, producto);
             mesa.getServicio().agregarItem(is);
             return is;
         }
-        
-       return null;
-       
     }
     
     public void transferirMesa(Mesa mesa, Mozo mozo){
@@ -93,8 +94,8 @@ public class ServicioMesa {
             mesa.abrirMesa();
             Servicio servicio = new Servicio();
             mesa.setServicio(servicio);
-            mozo.agregarMesa(mesa);
-            FachadaServicios.getInstance().notifyObservers(Observer.Eventos.MESAS_ACTUALIZADAS);
+            //mozo.agregarMesa(mesa); cuando se abre la mesa es una mesa que ya pertence al mozo, 
+            //por tanto no se le debe agregar.
         }
         
     }

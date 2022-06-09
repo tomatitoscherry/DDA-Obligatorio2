@@ -23,49 +23,39 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane2" min="-2" pref="750" max="-2" attributes="0"/>
-                  <Component id="jLabel2" min="-2" pref="284" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="lblMesasMozo" min="-2" pref="295" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lblProductosDisponilbes" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jScrollPane3" min="-2" pref="141" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="btnAbrir" min="-2" pref="90" max="-2" attributes="0"/>
-                                  <Component id="btnCerrar" min="-2" pref="90" max="-2" attributes="0"/>
-                                  <Component id="btnTransferir" min="-2" pref="90" max="-2" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="btnCerrar" alignment="0" max="32767" attributes="0"/>
+                              <Component id="btnAgregarProducto" alignment="0" max="32767" attributes="0"/>
+                              <Component id="btnTransferir" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                              <Component id="lblMesaSeleccionada" min="-2" pref="142" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="btnAbrir" min="-2" pref="113" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="276" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="lblCantidadProducto" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnAgregarProducto" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnAgregarItemServicio" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="txtCantidadProducto" alignment="0" min="-2" pref="133" max="-2" attributes="0"/>
                           <Component id="txtDescripcionProducto" alignment="0" max="32767" attributes="0"/>
                           <Component id="lblDescripcionProducto" alignment="0" pref="134" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="txtNumeroCliente" min="-2" pref="181" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="btnGuardarCliente" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="lblMesasMozo" min="-2" pref="295" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblProductosDisponilbes" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="lblNumeroCliente" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
+                  <Component id="btnSalir" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel2" alignment="0" min="-2" pref="284" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -74,7 +64,9 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnSalir" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblProductosDisponilbes" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblMesasMozo" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -90,32 +82,26 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtDescripcionProducto" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnAgregarProducto" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAgregarItemServicio" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="133" max="32767" attributes="0"/>
                   <Component id="jScrollPane3" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="lblMesaSeleccionada" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Component id="btnAbrir" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnAgregarProducto" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnCerrar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnTransferir" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="33" max="32767" attributes="0"/>
-              <Component id="lblNumeroCliente" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtNumeroCliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnGuardarCliente" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="105" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+              <EmptySpace pref="73" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -181,14 +167,6 @@
         <Property name="text" type="java.lang.String" value="Mesas del mozo: "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblMesaSeleccionada">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="14" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Mesa:"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JTextField" name="txtCantidadProducto">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
@@ -212,12 +190,12 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtDescripcionProducto">
     </Component>
-    <Component class="javax.swing.JButton" name="btnAgregarProducto">
+    <Component class="javax.swing.JButton" name="btnAgregarItemServicio">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Agregar producto"/>
+        <Property name="text" type="java.lang.String" value="Agregar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarProductoActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarItemServicioActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblProductosDisponilbes">
@@ -238,17 +216,60 @@
         <Component class="javax.swing.JTable" name="tblServicio">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="6" rowCount="5">
-                <Column editable="true" title="Cant." type="java.lang.Object"/>
-                <Column editable="true" title="Producto" type="java.lang.Object"/>
-                <Column editable="true" title="Descripcion" type="java.lang.Object"/>
-                <Column editable="true" title="P. Unit." type="java.lang.Object"/>
-                <Column editable="true" title="Subtotal" type="java.lang.Object"/>
-                <Column editable="true" title="Estado" type="java.lang.Object"/>
+              <Table columnCount="7" rowCount="0">
+                <Column editable="false" title="Cant." type="java.lang.Object"/>
+                <Column editable="false" title="Producto" type="java.lang.Object"/>
+                <Column editable="false" title="Descripcion" type="java.lang.Object"/>
+                <Column editable="false" title="P. Unit." type="java.lang.Object"/>
+                <Column editable="false" title="Subtotal" type="java.lang.Object"/>
+                <Column editable="false" title="Estado" type="java.lang.Object"/>
+                <Column editable="false" title="Gestor" type="java.lang.Object"/>
               </Table>
+            </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
             </Property>
             <Property name="name" type="java.lang.String" value="" noResource="true"/>
             <Property name="opaque" type="boolean" value="false"/>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>
@@ -291,26 +312,30 @@
             </Property>
             <Property name="visibleRowCount" type="int" value="5"/>
           </Properties>
+          <Events>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="listMesasValueChanged"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
           </AuxValues>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JTextField" name="txtNumeroCliente">
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblNumeroCliente">
+    <Component class="javax.swing.JButton" name="btnSalir">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Arial" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Ingrese el numero de cliente:"/>
+        <Property name="text" type="java.lang.String" value="Salir"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalirActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnGuardarCliente">
+    <Component class="javax.swing.JButton" name="btnAgregarProducto">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Guardar cliente"/>
+        <Property name="text" type="java.lang.String" value="Agregar Producto"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarProductoActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

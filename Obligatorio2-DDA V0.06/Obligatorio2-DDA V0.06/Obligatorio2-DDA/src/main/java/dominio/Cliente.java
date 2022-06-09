@@ -15,6 +15,37 @@ public class Cliente {
     private String nombre;
     private String email;
     private TipoCliente tipoCliente;
+
+    public Cliente(String nombre, String email, TipoCliente tipoCliente) {
+        this.id = contadorId;
+        this.nombre = nombre;
+        this.email = email;
+        this.tipoCliente = tipoCliente;
+        contadorId++;
+    }
     
+    public Cliente(){
+        this.tipoCliente = new ClienteSinRegistrar();
+    }
+
+    public static int getContadorId() {
+        return contadorId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public TipoCliente getTipoCliente() {
+        return tipoCliente;
+    }
     
 }

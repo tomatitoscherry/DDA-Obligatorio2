@@ -13,11 +13,12 @@ import java.util.ArrayList;
 public class Servicio {
     
     private ArrayList<ItemServicio> items= new ArrayList();
-    
-
+    private float montoSinBeneficio;
+    private float montoTotal;
     
     public Servicio() {
-    
+        this.montoSinBeneficio=0;
+        this.montoTotal=0;
     }
 
     public ArrayList<ItemServicio> getItems() {
@@ -30,13 +31,21 @@ public class Servicio {
         }
     }
 
-    public float montoTotalServicio(){
-        float total = 0;
-        for(ItemServicio is : items){
-                total= total+is.montoTotalItem();
-            
-        }
+    public float getMontoSinBeneficio() {
+        return montoSinBeneficio;
+    }
 
+    public float getMontoTotal() {
+        return montoTotal;
+    }
+    
+    public float montoTotalServicioSinBeneficioAplicado(){
+        float total = 0;
+        if(!items.isEmpty()){
+            for(ItemServicio is : items){
+                total= total+is.montoTotalItem();
+            }
+        }
         return total;
     }
     

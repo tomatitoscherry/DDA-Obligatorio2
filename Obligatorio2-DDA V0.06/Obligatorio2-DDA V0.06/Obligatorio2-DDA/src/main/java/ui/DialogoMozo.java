@@ -8,6 +8,7 @@ import Logica.FachadaServicios;
 import Logica.observer.Observable;
 import Logica.observer.Observer;
 import controlador.DialogoMozoControlador;
+import dominio.Cliente;
 import dominio.ItemServicio;
 import dominio.Mesa;
 import dominio.Mozo;
@@ -67,7 +68,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
+        lblServicioMesa = new javax.swing.JLabel();
         btnAbrir = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
         btnTransferir = new javax.swing.JButton();
@@ -89,8 +90,8 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Servicio de la mesa:");
+        lblServicioMesa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblServicioMesa.setText("Servicio de la mesa:");
 
         btnAbrir.setText("Abrir");
         btnAbrir.addActionListener(new java.awt.event.ActionListener() {
@@ -216,7 +217,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblProductosDisponilbes))
                     .addComponent(btnSalir)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblServicioMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -252,7 +253,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnTransferir)))
                 .addGap(41, 41, 41)
-                .addComponent(jLabel2)
+                .addComponent(lblServicioMesa)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(73, Short.MAX_VALUE))
@@ -300,7 +301,6 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTransferir;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -308,6 +308,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private javax.swing.JLabel lblDescripcionProducto;
     private javax.swing.JLabel lblMesasMozo;
     private javax.swing.JLabel lblProductosDisponilbes;
+    private javax.swing.JLabel lblServicioMesa;
     private javax.swing.JList listMesas;
     private javax.swing.JList listProductos;
     private javax.swing.JTable tblServicio;
@@ -365,12 +366,13 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         dtm.setNumRows(0);
         Mesa mesa= (Mesa) listMesas.getSelectedValue();
         if(controlador.mesaEstaAbierta(mesa)){
+            lblServicioMesa.setText("Servicio de la mesa: "+mesa.getNumero());
             Servicio servicio= controlador.getServicioMesa(mesa);
             if(servicio!=null){
                 cargarServicioCompleto(servicio);
             }
         }else{
-            mostrarError("La mesa está cerrada");
+            lblServicioMesa.setText("La mesa "+mesa.getNumero()+" está cerrada.");
             listMesas.clearSelection();
         }
     }
@@ -397,7 +399,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         cargarServicioCompleto(servicio);
     }
     
-    public void cargarServicioCompleto(Servicio servicio){    
+    public void cargarServicioCompleto(Servicio servicio){
         for(int i=0; i < servicio.getItems().size(); i++){
             ItemServicio item= servicio.getItems().get(i);
             agregarItemTablaServicio(item);
@@ -416,9 +418,14 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         newRow[6]= item.getGestorActual().getNombreCompleto();
         dtm.addRow(newRow);
     }
-
+    
+    //////////////////////////////////////////////////////////////////
+    //   //CU: Cerrar una mesa                                      //               
+    //////////////////////////////////////////////////////////////////
+    
     private void cerrarMesa() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Mesa mesa= (Mesa) listMesas.getSelectedValue();
+        new DialogoCerrarMesa((java.awt.Frame) this.getParent(), false, this.mozo, mesa).setVisible(true); 
     }
 
     @Override

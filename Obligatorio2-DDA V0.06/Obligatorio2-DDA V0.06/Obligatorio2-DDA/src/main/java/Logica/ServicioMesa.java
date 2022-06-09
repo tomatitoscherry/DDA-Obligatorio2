@@ -8,6 +8,8 @@ package Logica;
 
 
 import Logica.observer.Observer;
+import dominio.Beneficio;
+import dominio.Cliente;
 import dominio.ItemServicio;
 import dominio.Mesa;
 import dominio.Mozo;
@@ -24,14 +26,22 @@ import java.lang.Exception;
 public class ServicioMesa {
     ArrayList<Mesa> mesas = new ArrayList<Mesa>();
     ArrayList<Producto> todosLosProductos = new ArrayList<Producto>();
+    ArrayList<Cliente> todosLosClientes= new ArrayList<Cliente>();
     
+    /////////////////////////////////////////////
+    //      //Logica precarga de datos         //
+    ////////////////////////////////////////////
     
     public void agregarMesa(int numero){
         //Logica para agregar mesa, no lo usa usuario
     }
     
-    void agregarProducto(int codigo, String nombre, float precioUnidad, int stock) {
+    public void agregarProducto(int codigo, String nombre, float precioUnidad, int stock) {
          //Logica para agregar producto, no lo usa usuario
+    }
+    
+    public void agregarCliente(Cliente cli){
+        todosLosClientes.add(cli);
     }
     
     public void cerrarMesa(Mozo mozo, Mesa mesa){
@@ -53,7 +63,7 @@ public class ServicioMesa {
     }
     
     
-    ArrayList<Producto> mostrarProductosDisponibles() {
+    public ArrayList<Producto> mostrarProductosDisponibles() {
         ArrayList<Producto> productosConStock = new ArrayList<Producto>();
         for(Producto p : todosLosProductos){
             if (p.getStock() > 0){
@@ -85,7 +95,7 @@ public class ServicioMesa {
         //transfiere mesa a otro mozo. faltan varias funciones internas no explicitas en la letra que serian creadas luego de analizar la IU como seria.
     }
 
-    ArrayList<Mesa> conjuntoMesasDeMozo(Mozo mozo) {
+    public ArrayList<Mesa> conjuntoMesasDeMozo(Mozo mozo) {
         return mozo.getMesas();
     }
 
@@ -100,10 +110,36 @@ public class ServicioMesa {
         
     }
 
-    boolean mesaEstaAbierta(Mesa mesa) {
+    public boolean mesaEstaAbierta(Mesa mesa) {
        return mesa.isAbierta();
     }
 
+    public Cliente buscarCliente(int nroCliente) {
+        boolean encontre= false;
+        int aux=0;
+        Cliente retorno= null;
+        
+        while(!encontre && aux < todosLosClientes.size()){
+            Cliente cli= todosLosClientes.get(aux);
+            if(nroCliente == cli.getId()){
+                encontre= true;
+                retorno= cli;
+            }
+            aux++;
+        }  
+        return retorno;
+    }
 
+    public void agregaClienteMesa(Cliente cliente, Mesa mesa) {
+        mesa.agregarCliente(cliente);
+    }
 
+    public void agregaClienteMesa(Mesa mesa) {
+        Cliente cli= new Cliente();
+        mesa.agregarCliente(cli);
+    }
+
+    public float calcularMontoTotalServicio(Mesa mesa) {
+        return mesa.calcularMontoTotalConBeneficios();
+    }
 }

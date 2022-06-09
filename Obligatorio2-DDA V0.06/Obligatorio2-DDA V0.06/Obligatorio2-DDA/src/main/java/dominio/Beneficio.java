@@ -13,9 +13,11 @@ public class Beneficio {
     
     private int id;
     private String descripcion;
+    private TipoBeneficioEnum tipoBeneficio;
     private Producto producto;
     private float porcentaje;
     private int montoDescuento;
+    private int montoMinimoDescuento;
 
     public Beneficio(String descripcion, Producto producto) {
         this.id = contadorId;
@@ -23,15 +25,19 @@ public class Beneficio {
         this.producto= producto;
         this.porcentaje=0;
         this.montoDescuento=0;
+        this.tipoBeneficio= TipoBeneficioEnum.DESCUENTO_PRODUCTO;
+        this.montoMinimoDescuento= 0;
         contadorId++;
     }
     
-    public Beneficio(String descripcion, float porcentaje) {
+    public Beneficio(String descripcion, float porcentaje, int montoMinimoDescuento) {
         this.id = contadorId;
         this.descripcion = descripcion;
         this.producto= null;
         this.porcentaje= porcentaje;
         this.montoDescuento=0;
+        this.tipoBeneficio= TipoBeneficioEnum.DESCUENTO_PORCENTAJE;
+        this.montoMinimoDescuento= montoMinimoDescuento;
         contadorId++;
     }
 
@@ -41,6 +47,8 @@ public class Beneficio {
         this.producto= null;
         this.porcentaje= 0;
         this.montoDescuento= montoDescuento;
+        this.tipoBeneficio= TipoBeneficioEnum.DESCUENTO_DINERO;
+        this.montoMinimoDescuento=0;
         contadorId++;
     }
     
@@ -51,5 +59,24 @@ public class Beneficio {
     public String getDescripcion() {
         return descripcion;
     }
-    
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public float getPorcentaje() {
+        return porcentaje;
+    }
+
+    public int getMontoDescuento() {
+        return montoDescuento;
+    }
+
+    public TipoBeneficioEnum getTipoBeneficio() {
+        return tipoBeneficio;
+    }
+
+    public int getMontoMinimoDescuento() {
+        return montoMinimoDescuento;
+    }
 }

@@ -283,7 +283,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     }//GEN-LAST:event_btnAgregarItemServicioActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        this.cerrarVista();
+        salir();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
@@ -425,7 +425,29 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     
     private void cerrarMesa() {
         Mesa mesa= (Mesa) listMesas.getSelectedValue();
-        new DialogoCerrarMesa((java.awt.Frame) this.getParent(), false, this.mozo, mesa).setVisible(true); 
+        if(mesa.isAbierta()){
+            if(!mesa.getServicio().pedidosPendientes()){
+                new DialogoCerrarMesa((java.awt.Frame) this.getParent(), false, this.mozo, mesa).setVisible(true);
+                cargarMesasMozo();
+            }else{
+                mostrarError("Tiene pedidos pendientes");
+            }
+        }else{
+            mostrarError("La mesa no está abierta");
+        }
+    }
+    
+    //////////////////////////////////////////////////////////////////
+    //   //CU: Salir del sistema                                    //               
+    //////////////////////////////////////////////////////////////////
+    
+    private void salir(){
+        if(!controlador.tieneMesasAbiertas(mozo)){
+            controlador.cerrarSesion(this.sesion);
+            cerrarVista();
+        }else{
+            mostrarError("Debe cerrar las mesas abiertas antes de salir");
+        }
     }
 
     @Override

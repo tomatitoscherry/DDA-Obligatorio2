@@ -13,4 +13,5 @@ public interface DialogoCerrarMesaVista {
     public void mostrarError(String mensaje);
     public void agregarClienteMesa();
     public void noAgregarClienteMesa();
+    public void cerrarMesa();
 }

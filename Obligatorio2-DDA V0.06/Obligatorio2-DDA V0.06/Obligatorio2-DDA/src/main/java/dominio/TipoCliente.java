@@ -26,6 +26,6 @@ public abstract class TipoCliente {
         beneficios.add(unBeneficio);
     }
     
-    public abstract float calcularTotalDescuentoPorBeneficio(Servicio unServicio);
+    public abstract float calcularDescuentoBeneficios(Servicio unServicio);
     
 }

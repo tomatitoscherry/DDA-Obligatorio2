@@ -12,13 +12,10 @@ import java.util.ArrayList;
  */
 public class Servicio {
     
-    private ArrayList<ItemServicio> items= new ArrayList();
-    private float montoSinBeneficio;
-    private float montoTotal;
+    private ArrayList<ItemServicio> items;
     
     public Servicio() {
-        this.montoSinBeneficio=0;
-        this.montoTotal=0;
+        this.items= new ArrayList<ItemServicio>();
     }
 
     public ArrayList<ItemServicio> getItems() {
@@ -30,24 +27,28 @@ public class Servicio {
             items.add(unItem);
         }
     }
-
-    public float getMontoSinBeneficio() {
-        return montoSinBeneficio;
-    }
-
-    public float getMontoTotal() {
-        return montoTotal;
-    }
     
-    public float montoTotalServicioSinBeneficioAplicado(){
+    public float montoServicio(){
         float total = 0;
-        if(!items.isEmpty()){
-            for(ItemServicio is : items){
+        if(!this.items.isEmpty()){
+            for(ItemServicio is : this.items){
                 total= total+is.montoTotalItem();
             }
         }
         return total;
     }
     
-    
+    public boolean pedidosPendientes(){
+        boolean pedidosPendientes=false;
+        int aux= 0;
+        while(aux < this.items.size() && !pedidosPendientes){
+            ItemServicio is= this.items.get(aux);
+            if(is.getEstado().equals(EstadoItemEnum.EN_ESPERA) || is.getEstado().equals(EstadoItemEnum.PREPARANDO)){
+                pedidosPendientes=true;
+            }
+            aux++;
+        }
+        
+        return pedidosPendientes;
+    }
 }

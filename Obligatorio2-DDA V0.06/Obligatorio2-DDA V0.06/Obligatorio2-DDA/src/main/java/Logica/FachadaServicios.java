@@ -144,16 +144,11 @@ public class FachadaServicios extends Observable {
         return servicioMesa.buscarCliente(nroCliente);
     }
 
-    public void agregarClienteMesa(Cliente cliente, Mesa mesa) {
-        servicioMesa.agregaClienteMesa(cliente, mesa);
+    public boolean mesaTienePedidosSinFinalizar(Mesa mesa) {
+        return servicioMesa.mesaTienePeidosSinFinalizar(mesa);
     }
 
-    public void agregarClienteMesa(Mesa mesa) {
-        servicioMesa.agregaClienteMesa(mesa);
+    public boolean tieneMesasAbiertas(Mozo mozo) {
+        return servicioUsuario.tieneMesasAbiertas(mozo);
     }
-
-    public float calcularMontoTotalServicio(Mesa mesa) {
-        return servicioMesa.calcularMontoTotalServicio(mesa);
-    }
-    
 }

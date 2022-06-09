@@ -31,6 +31,7 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
         this.mozo= mozo;
         this.controlador= new DialogoCerrarMesaControlador(this);
         this.setTitle("Cerrar mesa");
+        btnCerrar.setEnabled(false);
         lblCerrandoMesa.setText("Cerrando mesa "+mesa.getNumero());
         lblCliente.setVisible(false);
     }
@@ -188,7 +189,8 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
     }//GEN-LAST:event_btnNoAgregarClienteActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        // TODO add your handling code here:
+        cerrarMesa();
+        cerrarVista();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -223,24 +225,22 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
         int nroCliente= Integer.parseInt(txtNroCliente.getText());
         Cliente cliente= controlador.buscarCliente(nroCliente);
         if(cliente!=null){
-            btnAgregarCliente.setEnabled(false);
-            btnNoAgregarCliente.setEnabled(false);
-            controlador.agregarClienteMesa(cliente, this.mesa);
+            desactivarBotones();
+            this.mesa.agregarCliente(cliente);
             lblCliente.setText("Cliente: "+cliente.getNombre());
             lblCliente.setVisible(true);
-            listarBeneficiosCliente(cliente);
-            
+            cargarServicio(cliente);
         }
     }
     
     @Override
     public void noAgregarClienteMesa() {
-        btnAgregarCliente.setEnabled(false);
-        btnNoAgregarCliente.setEnabled(false);
-        controlador.agregarClienteMesa(this.mesa);
+        desactivarBotones();
+        Cliente cli= new Cliente();
+        this.mesa.agregarCliente(cli);
         lblCliente.setText("Cliente sin registrar");
         lblCliente.setVisible(true);
-        
+        cargarServicio(cli);
     }
     
     public void listarBeneficiosCliente(Cliente cliente){
@@ -250,7 +250,22 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
         }
     }
     
-    public void montoTotalPagar(){
-        float montoTotalServicio= controlador.calcularMontoTotalServicio(mesa);
+    public void cargarServicio(Cliente cliente){
+        lblMontoServicio.setText("Monto del servicio : $"+mesa.getServicio().montoServicio());
+        lblBeneficiosAplicados.setText("Monto descuento por beneficios : $"+mesa.descuentoBeneficios());
+        listarBeneficiosCliente(cliente);
+        lblMontoPagar.setText("Monto total a pagar : $"+mesa.calcularMontoTotalConBeneficios());
+        btnCerrar.setEnabled(true);
+    }
+    
+    public void desactivarBotones(){
+        btnAgregarCliente.setEnabled(false);
+        btnNoAgregarCliente.setEnabled(false);
+    }
+
+    @Override
+    public void cerrarMesa() {
+        this.mesa.cerrarMesa();
+        this.mesa.limpiarMesa();
     }
 }

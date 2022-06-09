@@ -130,16 +130,12 @@ public class ServicioMesa {
         return retorno;
     }
 
-    public void agregaClienteMesa(Cliente cliente, Mesa mesa) {
-        mesa.agregarCliente(cliente);
-    }
-
-    public void agregaClienteMesa(Mesa mesa) {
-        Cliente cli= new Cliente();
-        mesa.agregarCliente(cli);
-    }
-
-    public float calcularMontoTotalServicio(Mesa mesa) {
-        return mesa.calcularMontoTotalConBeneficios();
+    boolean mesaTienePeidosSinFinalizar(Mesa mesa) {
+        boolean pedidosPendientes=true;
+        //no se si hacer todo este camino como
+        //o teniendo la mesa en la vista llamo al metodo desde la vista derecho
+        
+        
+        return pedidosPendientes;
     }
 }

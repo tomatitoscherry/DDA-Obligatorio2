@@ -64,11 +64,7 @@ public class ServicioUsuario {
     public Gestor loginGestor(String usuario, String password) throws SesionDuplicada {
         return (Gestor) loginGenerico(usuario, password, (ArrayList) gestores);
     }
-    
-    ////////////////////////////////////////////////////////////////////////////////////
-    //Falta devolver algun tipo de mensaje cuando el usuario ya aparece como logueado,//
-    //y otro cuando el psw o usuario no coinciden. Ver en ejemplo agenda 4.2         //
-    ///////////////////////////////////////////////////////////////////////////////////
+
     private Usuario loginGenerico(String usuario, String password, ArrayList<Usuario> listaUsuarios) throws SesionDuplicada {
         for (Usuario u : listaUsuarios) {
             //Confirma si nombre usuario = usuario, si password es valida y si usuario no esta en el array de usuarios logeados.
@@ -92,9 +88,15 @@ public class ServicioUsuario {
 //        2) El sistema registra que el mozo salió del sistema y cierra la interfaz de usuario
         // se quita de la lista de usuarios logeados
     }
+    
      
-        public String mostrarNombreCompletoMozo (Mozo mozo){
+     
+    public String mostrarNombreCompletoMozo (Mozo mozo){
         return mozo.getNombreCompleto();
+    }
+
+    public boolean tieneMesasAbiertas(Mozo mozo) {
+        return mozo.tengoMesasAbiertas();
     }
 
      

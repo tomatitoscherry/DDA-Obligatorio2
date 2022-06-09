@@ -12,12 +12,17 @@ import java.util.Objects;
  * @author yamil
  */
 public class UnidadProcesadora {
+    private static int contId=1;
+    
+    private int id;
     private String nombre;
     private ArrayList<ItemServicio> itemServicios;
      
     public UnidadProcesadora (String nombre){
         this.nombre = nombre;
+        this.id= contId;
         this.itemServicios= new ArrayList<ItemServicio>();
+        contId++;
     }
     
     public void addItemServicio(ItemServicio itemServicio){
@@ -33,6 +38,14 @@ public class UnidadProcesadora {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + this.id;
+        hash = 17 * hash + Objects.hashCode(this.nombre);
+        return hash;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -44,6 +57,12 @@ public class UnidadProcesadora {
             return false;
         }
         final UnidadProcesadora other = (UnidadProcesadora) obj;
+        if (this.id != other.id) {
+            return false;
+        }
         return Objects.equals(this.nombre, other.nombre);
     }
+
+    
+
 }

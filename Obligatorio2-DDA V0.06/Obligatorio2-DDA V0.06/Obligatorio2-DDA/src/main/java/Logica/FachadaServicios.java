@@ -6,6 +6,7 @@
 package Logica;
 
 import Logica.observer.Observable;
+import dominio.Beneficio;
 import dominio.Cliente;
 import dominio.Gestor;
 import dominio.ItemServicio;
@@ -133,6 +134,26 @@ public class FachadaServicios extends Observable {
     
     public void agregarServcioProcesadoraPedidos(ItemServicio is){
         servicioProcesadoraPedidos.agregarProducto(is);
+    }
+
+     //////////////////////////////////////////////////////////////////
+    //   //CU: Cerrar una mesa                                       //               
+    ////////////////////////////////////////////////////////////////// 
+    
+    public Cliente buscarCliente(int nroCliente) {
+        return servicioMesa.buscarCliente(nroCliente);
+    }
+
+    public void agregarClienteMesa(Cliente cliente, Mesa mesa) {
+        servicioMesa.agregaClienteMesa(cliente, mesa);
+    }
+
+    public void agregarClienteMesa(Mesa mesa) {
+        servicioMesa.agregaClienteMesa(mesa);
+    }
+
+    public float calcularMontoTotalServicio(Mesa mesa) {
+        return servicioMesa.calcularMontoTotalServicio(mesa);
     }
     
 }

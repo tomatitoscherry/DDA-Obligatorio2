@@ -12,9 +12,10 @@ import java.util.ArrayList;
  */
 public abstract class TipoCliente {
     
-    private ArrayList<Beneficio> beneficios= new ArrayList<Beneficio>();
+    protected ArrayList<Beneficio> beneficios;
 
     public TipoCliente() {
+        this.beneficios= new ArrayList<Beneficio>();
     }
 
     public ArrayList<Beneficio> getBeneficios() {

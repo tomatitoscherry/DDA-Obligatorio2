@@ -8,32 +8,40 @@ import Logica.FachadaServicios;
 import Logica.observer.Observable;
 import Logica.observer.Observer;
 import controlador.DialogoMozoControlador;
+import dominio.ItemServicio;
 import dominio.Mesa;
 import dominio.Mozo;
 import dominio.Producto;
+import dominio.Servicio;
 import dominio.Sesion;
 import dominio.Usuario;
+import exceptions.AgregarProductoServicioException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Frame;
+import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import javax.swing.ListCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author yamil
  */
-public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista{
+public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista, Observer{
     
     private Mozo mozo;
     private DialogoMozoControlador controlador;
     private Sesion sesion;
+    DefaultTableModel dtm;
 
     /**
      * Creates new form DialogoMozo
@@ -45,6 +53,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         this.controlador= new DialogoMozoControlador(this);
         sesion = new Sesion(mozo, new Date());
         controlador.iniciarSesion(sesion);
+        dtm = (DefaultTableModel) tblServicio.getModel();
         this.setTitle("Ventana mozo");
         ejecutarCu1();
     }
@@ -65,20 +74,18 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         jScrollPane1 = new javax.swing.JScrollPane();
         listProductos = new javax.swing.JList();
         lblMesasMozo = new javax.swing.JLabel();
-        lblMesaSeleccionada = new javax.swing.JLabel();
         txtCantidadProducto = new javax.swing.JTextField();
         lblCantidadProducto = new javax.swing.JLabel();
         lblDescripcionProducto = new javax.swing.JLabel();
         txtDescripcionProducto = new javax.swing.JTextField();
-        btnAgregarProducto = new javax.swing.JButton();
+        btnAgregarItemServicio = new javax.swing.JButton();
         lblProductosDisponilbes = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblServicio = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         listMesas = new javax.swing.JList();
-        txtNumeroCliente = new javax.swing.JTextField();
-        lblNumeroCliente = new javax.swing.JLabel();
-        btnGuardarCliente = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
+        btnAgregarProducto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -112,19 +119,16 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         lblMesasMozo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblMesasMozo.setText("Mesas del mozo: ");
 
-        lblMesaSeleccionada.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblMesaSeleccionada.setText("Mesa:");
-
         lblCantidadProducto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblCantidadProducto.setText("Ingrese la cantidad");
 
         lblDescripcionProducto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblDescripcionProducto.setText("Ingrese una descripcion");
 
-        btnAgregarProducto.setText("Agregar producto");
-        btnAgregarProducto.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregarItemServicio.setText("Agregar");
+        btnAgregarItemServicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarProductoActionPerformed(evt);
+                btnAgregarItemServicioActionPerformed(evt);
             }
         });
 
@@ -133,16 +137,20 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
 
         tblServicio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Cant.", "Producto", "Descripcion", "P. Unit.", "Subtotal", "Estado"
+                "Cant.", "Producto", "Descripcion", "P. Unit.", "Subtotal", "Estado", "Gestor"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblServicio.setName(""); // NOI18N
         tblServicio.setOpaque(false);
         jScrollPane2.setViewportView(tblServicio);
@@ -156,12 +164,26 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         listMesas.setMinimumSize(new java.awt.Dimension(45, 100));
         listMesas.setSelectionBackground(new java.awt.Color(204, 204, 204));
         listMesas.setVisibleRowCount(5);
+        listMesas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listMesasValueChanged(evt);
+            }
+        });
         jScrollPane3.setViewportView(listMesas);
 
-        lblNumeroCliente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lblNumeroCliente.setText("Ingrese el numero de cliente:");
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
-        btnGuardarCliente.setText("Guardar cliente");
+        btnAgregarProducto.setText("Agregar Producto");
+        btnAgregarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarProductoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -171,43 +193,38 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblMesasMozo, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblProductosDisponilbes))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(lblMesaSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnCerrar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAgregarProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnTransferir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblCantidadProducto)
-                            .addComponent(btnAgregarProducto)
+                            .addComponent(btnAgregarItemServicio)
                             .addComponent(txtCantidadProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtDescripcionProducto)
                             .addComponent(lblDescripcionProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtNumeroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnGuardarCliente))
-                    .addComponent(lblNumeroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblMesasMozo, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblProductosDisponilbes))
+                    .addComponent(btnSalir)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addContainerGap()
+                .addComponent(btnSalir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblProductosDisponilbes)
                     .addComponent(lblMesasMozo))
@@ -222,28 +239,23 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtDescripcionProducto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAgregarProducto))
-                    .addComponent(jScrollPane1)
+                        .addComponent(btnAgregarItemServicio))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
                     .addComponent(jScrollPane3)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblMesaSeleccionada)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(15, 15, 15)
                         .addComponent(btnAbrir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAgregarProducto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCerrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnTransferir)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(lblNumeroCliente)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNumeroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardarCliente))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(41, 41, 41)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
@@ -261,15 +273,32 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTransferirActionPerformed
 
+    private void btnAgregarItemServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarItemServicioActionPerformed
+        try {
+            agregarProductoAlServicio();
+        } catch (AgregarProductoServicioException ex) {
+            Logger.getLogger(DialogoMozo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAgregarItemServicioActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.cerrarVista();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
-        agregarProductoAlServicio();
+        cargarProductosDisponibles();
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
+
+    private void listMesasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listMesasValueChanged
+        cargarServicioDeLaMesa();
+    }//GEN-LAST:event_listMesasValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrir;
+    private javax.swing.JButton btnAgregarItemServicio;
     private javax.swing.JButton btnAgregarProducto;
     private javax.swing.JButton btnCerrar;
-    private javax.swing.JButton btnGuardarCliente;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTransferir;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -277,16 +306,13 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblCantidadProducto;
     private javax.swing.JLabel lblDescripcionProducto;
-    private javax.swing.JLabel lblMesaSeleccionada;
     private javax.swing.JLabel lblMesasMozo;
-    private javax.swing.JLabel lblNumeroCliente;
     private javax.swing.JLabel lblProductosDisponilbes;
     private javax.swing.JList listMesas;
     private javax.swing.JList listProductos;
     private javax.swing.JTable tblServicio;
     private javax.swing.JTextField txtCantidadProducto;
     private javax.swing.JTextField txtDescripcionProducto;
-    private javax.swing.JTextField txtNumeroCliente;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -298,43 +324,68 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     public void mostrarError(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje,"Error", JOptionPane.ERROR_MESSAGE);
     }
-    //Caso Uso 1
+    
     private void ejecutarCu1() {
         cargarNombreMozo();
         cargarMesasMozo();
-        desactivarCamposAgregarClienteMesa();   
     }
     
     public void cargarNombreMozo(){
-        String nombreCompleto= controlador.nombreCompletoMozo(mozo);
+        String nombreCompleto= controlador.nombreCompletoMozo(this.mozo);
         lblMesasMozo.setText("Mesas del mozo: "+nombreCompleto);
     }
     
     public void cargarMesasMozo(){
-        if(mozo!=null){
-            ArrayList<Mesa> mesasMozo= controlador.conjuntoMesasDeMozo(mozo);
+        if(this.mozo!=null){
+            ArrayList<Mesa> mesasMozo= controlador.conjuntoMesasDeMozo(this.mozo);
             if(!mesasMozo.isEmpty()){
                 listMesas.setCellRenderer(new MesasRenderer());
                 listMesas.setListData(mesasMozo.toArray());
             }
         }
     }
-
-    private void desactivarCamposAgregarClienteMesa(){
-        txtNumeroCliente.setEnabled(false);
-        btnGuardarCliente.setEnabled(false);
-    }
+    
+    //////////////////////////////////////////////////////////////////
+    //   //*CU: Abrir una mesa                                      //               
+    ////////////////////////////////////////////////////////////////// 
     
     public void abrirMesa() {
         Mesa mesaSeleccionada= (Mesa) listMesas.getSelectedValue();
-        controlador.abrirMesa(mesaSeleccionada, this.mozo);
+        if(controlador.abrirMesa(mesaSeleccionada, this.mozo)){
+            cargarMesasMozo();
+        }
     }
     
-    public void cargarProductosDisponibles(ArrayList<Producto> productosDisponibles){
-       listProductos.setListData(productosDisponibles.toArray());
+    //////////////////////////////////////////////////////////////////
+    //   //CU: Agregar un producto al servicio                      //               
+    ////////////////////////////////////////////////////////////////// 
+    //) El mozo selecciona una mesa
+    //El sistema muestra los datos del servicio de la mesa
+    private void cargarServicioDeLaMesa(){
+        dtm.setNumRows(0);
+        Mesa mesa= (Mesa) listMesas.getSelectedValue();
+        if(controlador.mesaEstaAbierta(mesa)){
+            Servicio servicio= controlador.getServicioMesa(mesa);
+            if(servicio!=null){
+                cargarServicioCompleto(servicio);
+            }
+        }else{
+            mostrarError("La mesa está cerrada");
+            listMesas.clearSelection();
+        }
     }
-
-    private void agregarProductoAlServicio() {
+    
+    //El mozo indica que desea agregar un producto al servicio.
+    // El sistema muestra la lista de productos con stock disponible.
+    private void cargarProductosDisponibles() {
+       listProductos.setListData(controlador.getProductosDisponibles().toArray());
+    }
+    
+    //El mozo selecciona un producto, ingresa la cantidad y opcionalmente una descripción.
+    //El sistema descuenta el stock del producto ingresado, envía el pedido a la unidad 
+    //procesadora correspondiente al producto (cocina, bar, etc) y mostrará los datos 
+    //actualizados del servicio
+    private void agregarProductoAlServicio() throws AgregarProductoServicioException {
         Mesa mesa= (Mesa) listMesas.getSelectedValue();
         Producto producto= (Producto) listProductos.getSelectedValue();
         String descripcion= txtDescripcionProducto.getText();
@@ -342,10 +393,40 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         int cantidadP=Integer.parseInt(cantidad);
         
         controlador.agregarProductoAlServicio(mesa, producto, descripcion, cantidadP);
+        Servicio servicio = controlador.getServicioMesa(mesa);
+        cargarServicioCompleto(servicio);
     }
     
+    public void cargarServicioCompleto(Servicio servicio){    
+        for(int i=0; i < servicio.getItems().size(); i++){
+            ItemServicio item= servicio.getItems().get(i);
+            agregarItemTablaServicio(item);
+        }
+    }
+    
+    public void agregarItemTablaServicio(ItemServicio item){
+        int col = dtm.getColumnCount();
+        Object[] newRow = new Object[col];
+        newRow[0]= item.getUnidades();
+        newRow[1]= item.getProducto();
+        newRow[2]= item.getDescripcion();
+        newRow[3]= item.getProducto().getPrecioUnidad();
+        newRow[4]= item.getSubTotal();
+        newRow[5]= item.getEstado();
+        newRow[6]= item.getGestorActual().getNombreCompleto();
+        dtm.addRow(newRow);
+    }
+
     private void cerrarMesa() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void update(Observable source, Object event) {
+        if(event.equals(Observer.Eventos.PEDIDOS_ACTUALIZADOS)){
+            listProductos.clearSelection();
+            cargarProductosDisponibles();
+        }
     }
 
     private class MesasRenderer extends JLabel implements ListCellRenderer<Mesa> {
@@ -362,4 +443,5 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
             return this;
         }
     }
+    
 }

@@ -15,6 +15,7 @@ import dominio.Mozo;
 import dominio.Producto;
 import dominio.Servicio;
 import dominio.Sesion;
+import dominio.TransferenciaMesa;
 import dominio.Usuario;
 import exceptions.ServicioException;
 import exceptions.MesaException;
@@ -137,6 +138,14 @@ public class FachadaServicios extends Observable {
     
     public void transferirMesa(Mozo mozo, Mesa mesa, Mozo mozoSeleccionado) {
         servicioMesa.transferirMesa(mesa, mozo, mozoSeleccionado);
+    }
+    
+    public void cambioEstadoTransferenciaMesa(int opcionSeleccionada, TransferenciaMesa transferencia) {
+        servicioMesa.cambioEstadoTransferenciaMesa(opcionSeleccionada, transferencia);
+    }
+    
+    public void tramitarTransferenciaMesa(Mozo mozo) throws MesaException {
+        servicioMesa.tramitarTransfernciaMesa(mozo);
     }
     
     //////////////////////////////////////////////////////////////////

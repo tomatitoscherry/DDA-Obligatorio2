@@ -4,6 +4,8 @@
  */
 package dominio;
 
+import Logica.FachadaServicios;
+
 /**
  *
  * @author yamil

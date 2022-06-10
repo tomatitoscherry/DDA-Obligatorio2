@@ -439,8 +439,13 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         String nombreMozo= transferencia.getMozoEmisor().getNombreCompleto();
         
         String[] options = {"Aceptar", "Rechazar"};
-        int x = JOptionPane.showOptionDialog(this, "Mesa "+numeroMesa+ ", estado: "+estadoMesa+" mozo: "+nombreMozo,
-                "Nueva transferencia de mesa", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
+        int opcionSeleccionada = JOptionPane.showOptionDialog(this, "Mesa "+numeroMesa+ ", estado: "+estadoMesa+" mozo: "+nombreMozo,
+                "Nueva transferencia de mesa", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        controlador.cambioEstadoTransferenciaMesa(opcionSeleccionada, transferencia);
+    }
+    
+    public void notificarEstadoTransferenciaEmitida(String estado){
+        JOptionPane.showMessageDialog(this, estado,"Estado transferencia", JOptionPane.PLAIN_MESSAGE);
     }
     
     //////////////////////////////////////////////////////////////////

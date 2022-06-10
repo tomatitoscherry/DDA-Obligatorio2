@@ -9,6 +9,7 @@ import dominio.Mesa;
 import dominio.Mozo;
 import dominio.Producto;
 import dominio.Servicio;
+import dominio.TransferenciaMesa;
 import java.util.ArrayList;
 
 /**
@@ -36,4 +37,8 @@ public interface DialogoMozoVista {
     public void callDialogoCerrarMesa(Mozo mozo, Mesa mesa);
 
     public void callDialogoMozoTransferirMesa(Mozo mozo, Mesa mesa);
+
+    public void notificarNuevaTransferenciaMesa(TransferenciaMesa transferenciaRecepcion);
+
+    public void notificarEstadoTransferenciaEmitida(String aprobada);
 }

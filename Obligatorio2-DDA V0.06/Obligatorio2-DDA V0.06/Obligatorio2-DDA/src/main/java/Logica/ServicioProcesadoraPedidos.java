@@ -50,4 +50,8 @@ public class ServicioProcesadoraPedidos {
             }
         }
     }
+
+    ArrayList<UnidadProcesadora> conjuntoUnidadesProcesadoras() {
+        return unidadesProcesadoras;
+    }
 }

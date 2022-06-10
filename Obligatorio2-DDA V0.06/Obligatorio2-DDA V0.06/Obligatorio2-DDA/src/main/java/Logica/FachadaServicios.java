@@ -16,6 +16,7 @@ import dominio.Producto;
 import dominio.Servicio;
 import dominio.Sesion;
 import dominio.TransferenciaMesa;
+import dominio.UnidadProcesadora;
 import dominio.Usuario;
 import exceptions.ServicioException;
 import exceptions.MesaException;
@@ -33,6 +34,7 @@ public class FachadaServicios extends Observable {
     private ServicioUsuario servicioUsuario;
     private ServicioMesa servicioMesa;
     private ServicioProcesadoraPedidos servicioProcesadoraPedidos;
+
     
         private FachadaServicios() {
         servicioMesa = new ServicioMesa();
@@ -94,6 +96,10 @@ public class FachadaServicios extends Observable {
 
     public ArrayList<Mesa> conjuntoMesasDeMozo (Mozo mozo){
         return servicioMesa.conjuntoMesasDeMozo(mozo);
+    }
+    
+    public ArrayList<UnidadProcesadora> conjuntoUnidadesProcesadoras(){
+        return servicioProcesadoraPedidos.conjuntoUnidadesProcesadoras();
     }
 
  //////////////////////////////////////////////////////////////////
@@ -160,7 +166,5 @@ public class FachadaServicios extends Observable {
         return servicioUsuario.tieneMesasAbiertas(mozo);
     }
     
-    public void siguienteFuncion(){
-    
-    }
+
 }

@@ -12,6 +12,7 @@ import java.util.Date;
  */
 public class Gestor extends Usuario{
     
+    
     private Date ultimoAcceso;
     
     public Gestor(String nombreUsuario, String contrasenia, String nombreCompleto) {

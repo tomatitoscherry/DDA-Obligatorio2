@@ -4,8 +4,13 @@
  */
 package ui;
 
+import controlador.DialogoGestorControlador;
+import controlador.DialogoMozoControlador;
 import dominio.Gestor;
+import dominio.UnidadProcesadora;
+import ui.DialogoGestorVista;
 import java.awt.Frame;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,12 +18,21 @@ import java.awt.Frame;
  */
 public class DialogoGestor extends javax.swing.JDialog {
 
+    private UnidadProcesadora unidadProcesadora;
+    private DialogoGestorControlador controlador;
+    DefaultTableModel dtm;
+    
     /**
      * Creates new form DialogoGestor
      */
-    public DialogoGestor(java.awt.Frame parent, boolean modal, Gestor gestor) {
+    
+    public DialogoGestor(java.awt.Frame parent, boolean modal, Gestor gestor, UnidadProcesadora unidadProcesadora) {
         super(parent, modal);
         initComponents();
+        this.setTitle("Ventana gestor");
+        this.controlador = new DialogoGestorControlador((DialogoGestorVista) this, gestor, unidadProcesadora);
+        this.unidadProcesadora = unidadProcesadora;
+//        dtm = (DefaultTableModel) tblServicio.getModel();
     }
 
     /**

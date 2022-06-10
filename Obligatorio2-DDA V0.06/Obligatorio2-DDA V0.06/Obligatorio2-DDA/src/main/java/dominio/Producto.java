@@ -43,11 +43,7 @@ public class Producto {
     public UnidadProcesadora getUnidadProcesadora() {
         return unidadProcesadora;
     }
-    
-    public void bajarStock(int cant){
-        //baja la cant de stock
-    }
-    
+
     public void actualizarStock(int unidades){
         if(this.getStock() != 0 && this.getStock() >= unidades){
             this.stock = this.stock - unidades;

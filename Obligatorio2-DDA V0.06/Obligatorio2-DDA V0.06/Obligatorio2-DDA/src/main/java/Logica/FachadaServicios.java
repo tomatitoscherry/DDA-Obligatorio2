@@ -142,4 +142,8 @@ public class FachadaServicios extends Observable {
     public boolean tieneMesasAbiertas(Mozo mozo) {
         return servicioUsuario.tieneMesasAbiertas(mozo);
     }
+    
+    public void siguienteFuncion(){
+    
+    }
 }

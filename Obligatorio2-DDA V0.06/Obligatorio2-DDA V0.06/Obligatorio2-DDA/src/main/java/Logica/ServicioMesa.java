@@ -15,6 +15,7 @@ import dominio.Mesa;
 import dominio.Mozo;
 import dominio.Producto;
 import dominio.Servicio;
+import dominio.TransferenciaAprobacionEnum;
 import dominio.TransferenciaMesa;
 import exceptions.ServicioException;
 import exceptions.MesaException;
@@ -101,6 +102,39 @@ public class ServicioMesa {
             mozoSeleccionado.agregarTransferenciaRecepcion(unaTransferencia);
             mozo.agregarTransferenciaEmitida(unaTransferencia);
             FachadaServicios.getInstance().notifyObservers(Observer.Eventos.NUEVA_TRANSFERENCIA);
+        }
+    }
+    
+    public void cambioEstadoTransferenciaMesa(int opcionSeleccionada, TransferenciaMesa transferencia) {
+        Mozo mozoEmisor= transferencia.getMozoEmisor();
+        Mozo mozoReceptor= transferencia.getMozoReceptor();
+        if(opcionSeleccionada==0){
+            transferencia.cambiarEstado(TransferenciaAprobacionEnum.APROBADA);
+        }else{
+            transferencia.cambiarEstado(TransferenciaAprobacionEnum.RECHAZADA);
+        }
+        FachadaServicios.getInstance().notifyObservers(Observer.Eventos.CAMBIO_ESTADO_TRANSFERENCIA);
+    }  
+    
+    public void tramitarTransfernciaMesa(Mozo mozo) throws MesaException {
+        TransferenciaMesa transferencia= mozo.getTransferenciaEmitida();
+        Mozo mozoReceptor= transferencia.getMozoReceptor();
+        
+        if(transferencia.getEstado().equals(TransferenciaAprobacionEnum.APROBADA)){
+            //agrega mesa al mozo receptor
+            mozoReceptor.agregarMesa(transferencia.getMesa());
+            //deja vacio el transfernciaRecepcion
+            mozoReceptor.quitarTransferenciaRecepcion();
+            //quita mesa al mozo emisor
+            mozo.quitarMesa(transferencia.getMesa());
+            //deja vacio el transferenciaEmitida
+            mozo.quitarTransferenciaEmitida();
+            
+        }else if(transferencia.getEstado().equals(TransferenciaAprobacionEnum.RECHAZADA)){
+            //deja vacio el transfernciaRecepcion
+            mozoReceptor.quitarTransferenciaRecepcion();
+            //quita mesa al mozo emisor
+            mozo.quitarMesa(transferencia.getMesa());
         }
     }
 

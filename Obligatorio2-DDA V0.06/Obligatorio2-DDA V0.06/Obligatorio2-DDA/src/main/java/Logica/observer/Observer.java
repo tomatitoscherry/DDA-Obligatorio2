@@ -15,7 +15,8 @@ public interface Observer {
         SESIONES_ACTUALIZADAS,
         PEDIDOS_ACTUALIZADOS,
         NUEVA_TRANSFERENCIA,
-        CAMBIO_ESTADO_TRANSFERENCIA
+        CAMBIO_ESTADO_TRANSFERENCIA,
+        TRANSFERENCIA_ACEPTADA
     }
 
     public void update(Observable source, Object event);

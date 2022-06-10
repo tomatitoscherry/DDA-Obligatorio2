@@ -15,9 +15,13 @@ import dominio.ItemServicio;
 import dominio.Mozo;
 import dominio.Servicio;
 import dominio.Sesion;
+import dominio.TransferenciaAprobacionEnum;
+import dominio.TransferenciaMesa;
 import exceptions.ServicioException;
 import exceptions.MesaException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ui.DialogoMozo;
 import ui.DialogoMozoVista;
 
@@ -124,6 +128,10 @@ public class DialogoMozoControlador implements Observer{
         vista.callDialogoMozoTransferirMesa(mozo, mesa);
     }
     
+    public void cambioEstadoTransferenciaMesa(int opcionSeleccionada, TransferenciaMesa transferencia) {
+        FachadaServicios.getInstance().cambioEstadoTransferenciaMesa(opcionSeleccionada, transferencia);
+    }
+    
     //////////////////////////////////////////////////////////////////
     //   //CU: Salir del sistema                                    //               
     //////////////////////////////////////////////////////////////////
@@ -150,7 +158,33 @@ public class DialogoMozoControlador implements Observer{
         }
         if(event.equals(Observer.Eventos.NUEVA_TRANSFERENCIA)){
             if(this.mozo.getTransferenciaRecepcion()!=null){
-                
+                vista.notificarNuevaTransferenciaMesa(this.mozo.getTransferenciaRecepcion());
+            }
+        }
+        if(event.equals(Observer.Eventos.CAMBIO_ESTADO_TRANSFERENCIA)){
+            if(this.mozo.getTransferenciaEmitida()!=null){
+                if(this.mozo.getTransferenciaEmitida().getEstado().equals(TransferenciaAprobacionEnum.APROBADA)){
+                    vista.notificarEstadoTransferenciaEmitida("Aprobada");
+                    try {
+                        FachadaServicios.getInstance().tramitarTransferenciaMesa(this.mozo);
+                    } catch (MesaException ex) {
+                        vista.mostrarError(ex.getMessage());
+                    }
+                    vista.cargarMesasMozo(this.mozo.getMesas());
+                }
+                if(this.mozo.getTransferenciaEmitida().getEstado().equals(TransferenciaAprobacionEnum.RECHAZADA)){
+                    vista.notificarEstadoTransferenciaEmitida("Rechazada");
+                    try {
+                        FachadaServicios.getInstance().tramitarTransferenciaMesa(this.mozo);
+                    } catch (MesaException ex) {
+                        vista.mostrarError(ex.getMessage());
+                    }
+                }
+            }
+            if(this.mozo.getTransferenciaRecepcion()!=null){
+                if(this.mozo.getTransferenciaRecepcion().getEstado().equals(TransferenciaAprobacionEnum.APROBADA)){
+                    vista.cargarMesasMozo(this.mozo.getMesas());
+                }
             }
         }
     }

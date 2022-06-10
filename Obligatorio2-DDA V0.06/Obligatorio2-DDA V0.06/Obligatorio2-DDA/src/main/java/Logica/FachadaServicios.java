@@ -16,7 +16,8 @@ import dominio.Producto;
 import dominio.Servicio;
 import dominio.Sesion;
 import dominio.Usuario;
-import exceptions.AgregarProductoServicioException;
+import exceptions.ServicioException;
+import exceptions.MesaException;
 import exceptions.SesionDuplicada;
 import java.util.ArrayList;
 
@@ -101,38 +102,32 @@ public class FachadaServicios extends Observable {
  //////////////////////////////////////////////////////////////////
  //   //*CU: Abrir una mesa                                      //               
  ////////////////////////////////////////////////////////////////// 
-    
-    //estaria faltando implementar en el dominio al cliente / tipo clientes y pasarle por parametro cliente.
-    
-    //>>>>>>Por la letra en el caso de uso de cierre de mesa, entiendo que el cliente se agrega cuando la mesa se cierra. Y es opcional.
-    public void abrirMesa (Mesa mesa, Mozo mozo) {
-        servicioMesa.abrirMesa(mesa, mozo);
+
+    public void abrirMesa (Mesa mesa) throws MesaException {
+        servicioMesa.abrirMesa(mesa);
     }
     
  //////////////////////////////////////////////////////////////////
  //   //CU: Agregar un producto al servicio                      //               
  ////////////////////////////////////////////////////////////////// 
     
-    public Servicio mostrarServicioMesa (Mesa mesa){
-        return servicioMesa.mostrarServiciosMesa(mesa);
+    public Servicio getServicioMesa (Mesa mesa){
+        return servicioMesa.getServiciosMesa(mesa);
     }
     
     public boolean mesaEstaAbierta (Mesa mesa){
         return servicioMesa.mesaEstaAbierta(mesa);
     }
     
-    public ArrayList<Producto> mostrarProductosDisponibles(){
-        return servicioMesa.mostrarProductosDisponibles();
+    public ArrayList<Producto> getProductosDisponibles(){
+        return servicioMesa.getProductosDisponibles();
     }
     
-    public void agregarProductoAServicio(Mesa mesa, Producto producto, int cantidad, String descripcion) throws AgregarProductoServicioException{
-        ItemServicio is = servicioMesa.agregarProductoAServicio(mesa, producto, cantidad, descripcion);
-        if(is!=null){
-            agregarServcioProcesadoraPedidos(is);
-        }
+    public ItemServicio agregarProductoAServicio(Mesa mesa, Producto producto, int cantidad, String descripcion) throws ServicioException{
+        return servicioMesa.agregarProductoAServicio(mesa, producto, cantidad, descripcion);  
     }
     
-    public void agregarServcioProcesadoraPedidos(ItemServicio is){
+    public void agregarPedidoUnidadProcesadora(ItemServicio is) {
         servicioProcesadoraPedidos.agregarProducto(is);
     }
 
@@ -143,11 +138,7 @@ public class FachadaServicios extends Observable {
     public Cliente buscarCliente(int nroCliente) {
         return servicioMesa.buscarCliente(nroCliente);
     }
-
-    public boolean mesaTienePedidosSinFinalizar(Mesa mesa) {
-        return servicioMesa.mesaTienePeidosSinFinalizar(mesa);
-    }
-
+    
     public boolean tieneMesasAbiertas(Mozo mozo) {
         return servicioUsuario.tieneMesasAbiertas(mozo);
     }

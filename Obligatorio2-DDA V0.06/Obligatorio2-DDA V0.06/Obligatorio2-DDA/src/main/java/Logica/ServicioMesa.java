@@ -15,7 +15,8 @@ import dominio.Mesa;
 import dominio.Mozo;
 import dominio.Producto;
 import dominio.Servicio;
-import exceptions.AgregarProductoServicioException;
+import exceptions.ServicioException;
+import exceptions.MesaException;
 import java.util.ArrayList;
 import java.lang.Exception;
 
@@ -46,7 +47,7 @@ public class ServicioMesa {
     
     public void cerrarMesa(Mozo mozo, Mesa mesa){
         mozo.quitarMesa(mesa);
-        mesa.cerrarMesa();
+       // mesa.cerrarMesa();
         //2) El sistema muestra los datos del servicio de la mesa.
         //3) El mozo indica que desea cerrar la mesa.
         //4) Opcionalmente el mozo ingresa el id del cliente (Si el cliente es un cliente registrado).
@@ -58,12 +59,12 @@ public class ServicioMesa {
 
     }
       
-    public Servicio mostrarServiciosMesa(Mesa mesa){
+    public Servicio getServiciosMesa(Mesa mesa){
        return mesa.getServicio();
     }
     
     
-    public ArrayList<Producto> mostrarProductosDisponibles() {
+    public ArrayList<Producto> getProductosDisponibles() {
         ArrayList<Producto> productosConStock = new ArrayList<Producto>();
         for(Producto p : todosLosProductos){
             if (p.getStock() > 0){
@@ -73,22 +74,24 @@ public class ServicioMesa {
         return productosConStock;
     }
       
-    public ItemServicio agregarProductoAServicio(Mesa mesa, Producto producto, int cantidad, String descripcion) throws AgregarProductoServicioException{
+    public ItemServicio agregarProductoAServicio(Mesa mesa, Producto producto, int cantidad, String descripcion) throws ServicioException{
+        ItemServicio is;
         if(cantidad > producto.getStock()){
           //  “Sin stock, solo quedan (n)”
-          throw new AgregarProductoServicioException("Sin stock, solo quedan "+producto.getStock());
+          throw new ServicioException("Sin stock, solo quedan "+producto.getStock());
         } else if (cantidad <= 0){
             //  “cantidad inválida”
-            throw new AgregarProductoServicioException("Cantidad inválida");
+            throw new ServicioException("Cantidad inválida");
         } else if (this.mesaEstaAbierta(mesa)){
             // “La mesa está cerrada”
-            throw new AgregarProductoServicioException("La mesa está cerrada");
+            throw new ServicioException("La mesa está cerrada");
         } else {
             producto.actualizarStock(cantidad);
-            ItemServicio is = new ItemServicio(cantidad, descripcion, producto);
+            is = new ItemServicio(cantidad, descripcion, producto);
             mesa.getServicio().agregarItem(is);
-            return is;
+            FachadaServicios.getInstance().notifyObservers(Observer.Eventos.PEDIDOS_ACTUALIZADOS);
         }
+        return is;
     }
     
     public void transferirMesa(Mesa mesa, Mozo mozo){
@@ -99,15 +102,8 @@ public class ServicioMesa {
         return mozo.getMesas();
     }
 
-    public void abrirMesa(Mesa mesa, Mozo mozo) {
-        if(!mesa.isAbierta()){
-            mesa.abrirMesa();
-            Servicio servicio = new Servicio();
-            mesa.setServicio(servicio);
-            //mozo.agregarMesa(mesa); cuando se abre la mesa es una mesa que ya pertence al mozo, 
-            //por tanto no se le debe agregar.
-        }
-        
+    public void abrirMesa(Mesa mesa) throws MesaException {
+        mesa.abrirMesa();
     }
 
     public boolean mesaEstaAbierta(Mesa mesa) {
@@ -117,25 +113,17 @@ public class ServicioMesa {
     public Cliente buscarCliente(int nroCliente) {
         boolean encontre= false;
         int aux=0;
-        Cliente retorno= null;
+        Cliente cliente= null;
         
         while(!encontre && aux < todosLosClientes.size()){
             Cliente cli= todosLosClientes.get(aux);
             if(nroCliente == cli.getId()){
                 encontre= true;
-                retorno= cli;
+                cliente = cli;
             }
             aux++;
         }  
-        return retorno;
+        return cliente;
     }
 
-    boolean mesaTienePeidosSinFinalizar(Mesa mesa) {
-        boolean pedidosPendientes=true;
-        //no se si hacer todo este camino como
-        //o teniendo la mesa en la vista llamo al metodo desde la vista derecho
-        
-        
-        return pedidosPendientes;
-    }
 }

@@ -15,7 +15,9 @@ import dominio.ItemServicio;
 import dominio.Mozo;
 import dominio.Servicio;
 import dominio.Sesion;
-import exceptions.AgregarProductoServicioException;
+import exceptions.ServicioException;
+import exceptions.MesaException;
+import java.util.Date;
 import ui.DialogoMozo;
 import ui.DialogoMozoVista;
 
@@ -23,66 +25,120 @@ import ui.DialogoMozoVista;
  *
  * @author yamil
  */
-public class DialogoMozoControlador{
+public class DialogoMozoControlador implements Observer{
     
     private DialogoMozoVista vista;
+    private Mozo mozo;
+    private Sesion sesion;
     
-    public DialogoMozoControlador(DialogoMozoVista vista) {
+    public DialogoMozoControlador(DialogoMozoVista vista, Mozo mozo) {
         this.vista = vista;
-    }
-
-    public void iniciarSesion(Sesion sesion) {
+        this.mozo= mozo;
+        sesion = new Sesion(mozo, new Date());
         FachadaServicios.getInstance().iniciar(sesion);
-    }
-
-    public ArrayList<Mesa> conjuntoMesasDeMozo(Mozo mozo) {
-        return FachadaServicios.getInstance().conjuntoMesasDeMozo(mozo);
-    }
-
-    public String nombreCompletoMozo(Mozo mozo) {
-        return FachadaServicios.getInstance().mostrarNombreCompletoMozo(mozo);
+        FachadaServicios.getInstance().addObserver(this);
+        inicializarVista();
     }
     
-    public boolean abrirMesa(Mesa mesa, Mozo mozo) {
-        if(!FachadaServicios.getInstance().mesaEstaAbierta(mesa)){
-            FachadaServicios.getInstance().abrirMesa(mesa, mozo);
-            return true;
-        }else{
-            vista.mostrarError("La mesa ya está abierta");
-            return false;
+    //////////////////////////////////////////////////////////////////
+    //   //*CU:  Ingresar a la aplicación                           //               
+    ////////////////////////////////////////////////////////////////// 
+    
+    private void inicializarVista() {
+        cargarNombre();
+        cargarMesasMozo();
+    }
+    
+    private void cargarNombre() {
+        vista.cargarNombreMozo(mozo.getNombreCompleto());
+    }
+
+    public void cargarMesasMozo() {
+        ArrayList<Mesa> mesasMozo= FachadaServicios.getInstance().conjuntoMesasDeMozo(mozo);
+        if(!mesasMozo.isEmpty()){
+            vista.cargarMesasMozo(mesasMozo);
         }
     }
     
-    public ArrayList<Producto> getProductosDisponibles(){
-        return FachadaServicios.getInstance().mostrarProductosDisponibles(); 
+    //////////////////////////////////////////////////////////////////
+    //   //*CU: Abrir una mesa                                      //               
+    ////////////////////////////////////////////////////////////////// 
+    
+    public void abrirMesa(Mesa mesa) throws MesaException {
+        try{
+            FachadaServicios.getInstance().abrirMesa(mesa);
+        }catch(MesaException e){
+            vista.mostrarError(e.getMessage());
+        }
+    }
+    
+    //////////////////////////////////////////////////////////////////
+    //   //CU: Agregar un producto al servicio                      //               
+    //////////////////////////////////////////////////////////////////
+    
+    public void cargarServicioMesa(Mesa mesa) {
+        if(mesa.isAbierta()){
+            Servicio servicio=FachadaServicios.getInstance().getServicioMesa(mesa);
+            vista.setLblServicioMesa("Servicio de la mesa: "+mesa.getNumero());
+            if(!servicio.getItems().isEmpty()){
+                vista.cargarServicioCompleto(servicio);
+            }
+        }else{
+            vista.setLblServicioMesa("La mesa "+mesa.getNumero()+" está cerrada.");
+        }
+    }
+    
+    public void listaProductosDisponibles() {
+        ArrayList<Producto> productos = FachadaServicios.getInstance().getProductosDisponibles();
+        vista.setListProductos(productos);
     }
      
-    public void agregarProductoAlServicio(Mesa mesa, Producto producto, String descripcion, int cantidad) throws AgregarProductoServicioException {
+    public void agregarProductoAlServicio(Mesa mesa, Producto producto, String descripcion, int cantidad) throws ServicioException {
         try{
-            FachadaServicios.getInstance().agregarProductoAServicio(mesa, producto, cantidad, descripcion);
-        }catch(AgregarProductoServicioException e){
+        ItemServicio is= FachadaServicios.getInstance().agregarProductoAServicio(mesa, producto, cantidad, descripcion);
+        vista.agregarItemTablaServicio(is);
+        FachadaServicios.getInstance().agregarPedidoUnidadProcesadora(is);
+        }catch(ServicioException e){
             vista.mostrarError(e.getMessage());
         }
     }
 
-    public Servicio getServicioMesa(Mesa mesa) {
-        return FachadaServicios.getInstance().mostrarServicioMesa(mesa);
+    //////////////////////////////////////////////////////////////////
+    //   //CU: Cerrar una mesa                                      //               
+    //////////////////////////////////////////////////////////////////
+    
+    public void cerrarMesa(Mesa mesa) throws MesaException {
+        try{
+            mesa.cerrarMesa();
+            vista.callDialogoCerrarMesa(mozo, mesa);
+        }catch(MesaException e){
+            vista.mostrarError(e.getMessage());
+        }
     }
     
-    public boolean mesaEstaAbierta(Mesa mesa){
-        return FachadaServicios.getInstance().mesaEstaAbierta(mesa);
+    //////////////////////////////////////////////////////////////////
+    //   //CU: Salir del sistema                                    //               
+    //////////////////////////////////////////////////////////////////
+    
+    public void salirDelSistema() {
+        boolean mesasAbiertas= false;
+        mesasAbiertas= FachadaServicios.getInstance().tieneMesasAbiertas(mozo);
+        if(!mesasAbiertas){
+            cerrarSesion();
+            vista.cerrarVista();
+        }else{
+            vista.mostrarError("Debe cerrar las mesas abiertas antes de salir");
+        }
     }
 
-    public boolean mesaTienePeidosSinFinalizar(Mesa mesa) {
-        return FachadaServicios.getInstance().mesaTienePedidosSinFinalizar(mesa);
-    }
-
-    public boolean tieneMesasAbiertas(Mozo mozo) {
-        return FachadaServicios.getInstance().tieneMesasAbiertas(mozo);
-    }
-
-    public void cerrarSesion(Sesion sesion) {
+    public void cerrarSesion() {
         FachadaServicios.getInstance().cerrar(sesion);
     }
 
+    @Override
+    public void update(Observable source, Object event) {
+        if(event.equals(Observer.Eventos.PEDIDOS_ACTUALIZADOS)){
+            listaProductosDisponibles();
+        }
+    }
 }

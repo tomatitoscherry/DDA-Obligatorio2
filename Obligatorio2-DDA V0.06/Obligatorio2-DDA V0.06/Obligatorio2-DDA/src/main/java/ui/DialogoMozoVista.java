@@ -4,6 +4,13 @@
  */
 package ui;
 
+import dominio.ItemServicio;
+import dominio.Mesa;
+import dominio.Mozo;
+import dominio.Producto;
+import dominio.Servicio;
+import java.util.ArrayList;
+
 /**
  *
  * @author yamil
@@ -11,6 +18,20 @@ package ui;
 public interface DialogoMozoVista {
     
     public void cerrarVista(); 
+    
     public void mostrarError(String mensaje);
-    public void cargarMesasMozo();
+    
+    public void cargarNombreMozo(String nombreCompleto);
+    
+    public void cargarMesasMozo(ArrayList<Mesa> mesasMozo);
+
+    public void setLblServicioMesa(String string);
+
+    public void cargarServicioCompleto(Servicio servicio);
+
+    public void setListProductos(ArrayList<Producto> productos);
+
+    public void agregarItemTablaServicio(ItemServicio is);
+
+    public void callDialogoCerrarMesa(Mozo mozo, Mesa mesa);
 }

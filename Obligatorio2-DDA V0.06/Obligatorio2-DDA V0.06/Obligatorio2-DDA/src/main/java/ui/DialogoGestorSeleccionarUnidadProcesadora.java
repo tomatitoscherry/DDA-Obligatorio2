@@ -135,4 +135,5 @@ public class DialogoGestorSeleccionarUnidadProcesadora extends javax.swing.JDial
     public void callDialogoGestor(UnidadProcesadora unidadProcesadora){
         new DialogoGestor((java.awt.Frame) this.getParent(), false, gestor, unidadProcesadora).setVisible(true);   
     }
+
 }

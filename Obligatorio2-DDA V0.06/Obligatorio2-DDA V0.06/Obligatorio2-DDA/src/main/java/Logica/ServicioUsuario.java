@@ -29,7 +29,7 @@ public class ServicioUsuario {
     public ServicioUsuario() {
         mozos = new ArrayList();
         gestores = new ArrayList();
-        usuariosLogeados = new ArrayList();
+        usuariosLogeados = new ArrayList<Sesion>();
     }
     
     public void agregarMozo(String nombreUsuario, String contrasenia, String nombreCompleto, String Telefono){
@@ -54,6 +54,22 @@ public class ServicioUsuario {
     
      public ArrayList<Sesion> getUsuariosConectados() {
         return usuariosLogeados;
+    }
+     
+    public ArrayList<Mozo> getMozosConectados(Mozo mozo) {
+        ArrayList<Mozo> mozosConectados= new ArrayList<Mozo>();
+        for(Sesion s : usuariosLogeados){
+            Usuario u= s.getUsuario();
+            if(u instanceof Mozo){
+                Mozo mozoI= (Mozo) u;
+                if(!mozoI.equals(mozo)){
+                    if(mozoI.cantMesas()<5 && mozoI.getTransferenciaRecepcion()==null){
+                        mozosConectados.add(mozoI);
+                    }
+                }
+            }   
+        }        
+        return mozosConectados;
     }
     
     // LOGICA PARA EL LOGIN
@@ -88,16 +104,9 @@ public class ServicioUsuario {
 //        2) El sistema registra que el mozo salió del sistema y cierra la interfaz de usuario
         // se quita de la lista de usuarios logeados
     }
-    
-     
-     
-    public String mostrarNombreCompletoMozo (Mozo mozo){
-        return mozo.getNombreCompleto();
-    }
 
     public boolean tieneMesasAbiertas(Mozo mozo) {
         return mozo.tengoMesasAbiertas();
     }
-
      
 }

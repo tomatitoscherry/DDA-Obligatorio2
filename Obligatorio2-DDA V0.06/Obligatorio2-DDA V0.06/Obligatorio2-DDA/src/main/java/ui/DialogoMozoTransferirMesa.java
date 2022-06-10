@@ -11,15 +11,14 @@ import controlador.DialogoMozoTransferirMesaControlador;
 import dominio.Mesa;
 import dominio.Mozo;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author yamil
  */
-public class DialogoMozoTransferirMesa extends javax.swing.JDialog implements Observer, DialogoMozoTransferirMesaVista{
+public class DialogoMozoTransferirMesa extends javax.swing.JDialog implements DialogoMozoTransferirMesaVista{
     
-    private Mozo mozo;
-    private Mesa mesa;
     private DialogoMozoTransferirMesaControlador controlador;
     
     /**
@@ -28,10 +27,7 @@ public class DialogoMozoTransferirMesa extends javax.swing.JDialog implements Ob
     public DialogoMozoTransferirMesa(java.awt.Frame parent, boolean modal, Mozo mozo, Mesa mesa) {
         super(parent, modal);
         initComponents();
-        this.mozo= mozo;
-        this.mesa=mesa;
-        this.controlador= new DialogoMozoTransferirMesaControlador(this);
-        FachadaServicios.getInstance().addObserver(this);
+        this.controlador= new DialogoMozoTransferirMesaControlador(this, mozo, mesa);
     }
 
     /**
@@ -48,17 +44,9 @@ public class DialogoMozoTransferirMesa extends javax.swing.JDialog implements Ob
         lblListMozosConectados = new javax.swing.JLabel();
         lblTransfiriendoMesa = new javax.swing.JLabel();
         btnTransferirMesa = new javax.swing.JButton();
-        btnCancelarTransferencia = new javax.swing.JButton();
-        txtMozoSeleccionado = new javax.swing.JTextField();
-        lblMozoSeleccionado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        listMozosConectados.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                listMozosConectadosValueChanged(evt);
-            }
-        });
         jScrollPane1.setViewportView(listMozosConectados);
 
         lblListMozosConectados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -68,23 +56,11 @@ public class DialogoMozoTransferirMesa extends javax.swing.JDialog implements Ob
         lblTransfiriendoMesa.setText("Transfiriendo mesa ");
 
         btnTransferirMesa.setText("Transferir");
-        btnTransferirMesa.setActionCommand("Transferir");
         btnTransferirMesa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTransferirMesaActionPerformed(evt);
             }
         });
-
-        btnCancelarTransferencia.setText("Cancelar");
-        btnCancelarTransferencia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarTransferenciaActionPerformed(evt);
-            }
-        });
-
-        txtMozoSeleccionado.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-
-        lblMozoSeleccionado.setText("Mozo Seleccionado");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,17 +75,13 @@ public class DialogoMozoTransferirMesa extends javax.swing.JDialog implements Ob
                             .addComponent(lblListMozosConectados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnTransferirMesa)
-                                .addGap(207, 207, 207)
-                                .addComponent(btnCancelarTransferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblMozoSeleccionado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtMozoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 10, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnTransferirMesa)
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,62 +92,49 @@ public class DialogoMozoTransferirMesa extends javax.swing.JDialog implements Ob
                 .addComponent(lblListMozosConectados)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtMozoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblMozoSeleccionado))
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTransferirMesa)
-                    .addComponent(btnCancelarTransferencia))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnTransferirMesa)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTransferirMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirMesaActionPerformed
-        // TODO add your handling code here:
+        transferirMesa();
     }//GEN-LAST:event_btnTransferirMesaActionPerformed
 
-    private void btnCancelarTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarTransferenciaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCancelarTransferenciaActionPerformed
-
-    private void listMozosConectadosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listMozosConectadosValueChanged
-        Mozo mozoSeleccionado= (Mozo) listMozosConectados.getSelectedValuesList();
-        txtMozoSeleccionado.setText(mozoSeleccionado.getNombreCompleto());
-    }//GEN-LAST:event_listMozosConectadosValueChanged
-
-    @Override
-    public void update(Observable source, Object event) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelarTransferencia;
     private javax.swing.JButton btnTransferirMesa;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblListMozosConectados;
-    private javax.swing.JLabel lblMozoSeleccionado;
     private javax.swing.JLabel lblTransfiriendoMesa;
     private javax.swing.JList listMozosConectados;
-    private javax.swing.JTextField txtMozoSeleccionado;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void cerrarVista() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       this.dispose();
     }
 
     @Override
     public void mostrarError(String mensaje) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        JOptionPane.showMessageDialog(this, mensaje,"Error", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public void cargarMozosConectados(ArrayList<Mozo> mozosConectados) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        listMozosConectados.setListData(mozosConectados.toArray());
+    }
+
+    public void setLabelInicio(String texto){
+        lblTransfiriendoMesa.setText(texto);
+    }
+    
+    private void transferirMesa(){
+        Mozo mozoSeleccionado= (Mozo) listMozosConectados.getSelectedValuesList();
+        controlador.transferirMesa(mozoSeleccionado);
     }
 
 }

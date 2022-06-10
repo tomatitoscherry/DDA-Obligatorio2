@@ -13,7 +13,9 @@ public interface Observer {
     
     public enum Eventos {
         SESIONES_ACTUALIZADAS,
-        PEDIDOS_ACTUALIZADOS
+        PEDIDOS_ACTUALIZADOS,
+        NUEVA_TRANSFERENCIA,
+        CAMBIO_ESTADO_TRANSFERENCIA
     }
 
     public void update(Observable source, Object event);

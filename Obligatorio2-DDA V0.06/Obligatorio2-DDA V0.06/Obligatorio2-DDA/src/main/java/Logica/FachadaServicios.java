@@ -91,10 +91,6 @@ public class FachadaServicios extends Observable {
         return servicioUsuario.loginGestor(usuario, password);
     }
 
-    public String mostrarNombreCompletoMozo (Mozo mozo){
-        return servicioUsuario.mostrarNombreCompletoMozo(mozo);
-    }
-
     public ArrayList<Mesa> conjuntoMesasDeMozo (Mozo mozo){
         return servicioMesa.conjuntoMesasDeMozo(mozo);
     }
@@ -131,7 +127,19 @@ public class FachadaServicios extends Observable {
         servicioProcesadoraPedidos.agregarProducto(is);
     }
 
-     //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+    //   //CU: Transferir una mesa                                   //               
+    ////////////////////////////////////////////////////////////////// 
+    
+    public ArrayList<Mozo> getMozosConectados(Mozo mozo) {
+        return servicioUsuario.getMozosConectados(mozo);
+    }
+    
+    public void transferirMesa(Mozo mozo, Mesa mesa, Mozo mozoSeleccionado) {
+        servicioMesa.transferirMesa(mesa, mozo, mozoSeleccionado);
+    }
+    
+    //////////////////////////////////////////////////////////////////
     //   //CU: Cerrar una mesa                                       //               
     ////////////////////////////////////////////////////////////////// 
     

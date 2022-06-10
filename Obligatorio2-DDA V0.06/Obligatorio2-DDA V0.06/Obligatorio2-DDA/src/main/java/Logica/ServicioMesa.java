@@ -15,6 +15,7 @@ import dominio.Mesa;
 import dominio.Mozo;
 import dominio.Producto;
 import dominio.Servicio;
+import dominio.TransferenciaMesa;
 import exceptions.ServicioException;
 import exceptions.MesaException;
 import java.util.ArrayList;
@@ -94,8 +95,13 @@ public class ServicioMesa {
         return is;
     }
     
-    public void transferirMesa(Mesa mesa, Mozo mozo){
-        //transfiere mesa a otro mozo. faltan varias funciones internas no explicitas en la letra que serian creadas luego de analizar la IU como seria.
+    public void transferirMesa(Mesa mesa, Mozo mozo, Mozo mozoSeleccionado){
+        TransferenciaMesa unaTransferencia= new TransferenciaMesa(mozo, mozoSeleccionado, mesa);
+        if(mozoSeleccionado.cantMesas()<5){
+            mozoSeleccionado.agregarTransferenciaRecepcion(unaTransferencia);
+            mozo.agregarTransferenciaEmitida(unaTransferencia);
+            FachadaServicios.getInstance().notifyObservers(Observer.Eventos.NUEVA_TRANSFERENCIA);
+        }
     }
 
     public ArrayList<Mesa> conjuntoMesasDeMozo(Mozo mozo) {

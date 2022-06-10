@@ -18,8 +18,6 @@ import javax.swing.JOptionPane;
  */
 public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCerrarMesaVista{
     
-    private Mesa mesa;
-    private Mozo mozo;
     private DialogoCerrarMesaControlador controlador;
     /**
      * Creates new form DialogoAgregarCliente
@@ -27,13 +25,8 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
     public DialogoCerrarMesa(java.awt.Frame parent, boolean modal, Mozo mozo ,Mesa mesa) {
         super(parent, modal);
         initComponents();
-        this.mesa= mesa;
-        this.mozo= mozo;
-        this.controlador= new DialogoCerrarMesaControlador(this);
+        this.controlador= new DialogoCerrarMesaControlador(this, mozo, mesa);
         this.setTitle("Cerrar mesa");
-        btnCerrar.setEnabled(false);
-        lblCerrandoMesa.setText("Cerrando mesa "+mesa.getNumero());
-        lblCliente.setVisible(false);
     }
 
     /**
@@ -58,7 +51,7 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
         jScrollPane1 = new javax.swing.JScrollPane();
         listBeneficiosAplicados = new javax.swing.JList();
         lblMontoPagar = new javax.swing.JLabel();
-        btnCerrar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -98,10 +91,10 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
         lblMontoPagar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblMontoPagar.setText("Monto total a pagar :");
 
-        btnCerrar.setText("CERRAR");
-        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
@@ -113,36 +106,36 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCerrandoMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblAgregarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblCerrandoMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblAgregarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblNroCliente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAgregarCliente)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblNroCliente)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnNoAgregarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(txtNroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(126, 126, 126))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblDatosServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(149, 149, 149))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnAgregarCliente)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnNoAgregarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(txtNroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(126, 126, 126))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblDatosServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(149, 149, 149))))))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblMontoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblBeneficiosAplicados, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
-                            .addComponent(lblMontoPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(186, 186, 186)
-                        .addComponent(btnCerrar)))
+                .addGap(94, 94, 94)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMontoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblBeneficiosAplicados, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                    .addComponent(lblMontoPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -172,9 +165,9 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblMontoPagar)
-                .addGap(18, 18, 18)
-                .addComponent(btnCerrar)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         pack();
@@ -188,15 +181,14 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
         noAgregarClienteMesa();
     }//GEN-LAST:event_btnNoAgregarClienteActionPerformed
 
-    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        cerrarMesa();
-        cerrarVista();
-    }//GEN-LAST:event_btnCerrarActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        controlador.cerrar();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarCliente;
-    private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnNoAgregarCliente;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAgregarCliente;
     private javax.swing.JLabel lblBeneficiosAplicados;
@@ -210,6 +202,12 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
     private javax.swing.JTextField txtNroCliente;
     // End of variables declaration//GEN-END:variables
 
+    public void inicializarVista(Mesa mesa){
+        btnSalir.setEnabled(false);
+        lblCerrandoMesa.setText("Cerrando mesa "+mesa.getNumero());
+        lblCliente.setVisible(false);
+    }
+    
     @Override
     public void cerrarVista() {
         this.dispose();
@@ -223,39 +221,17 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
     @Override
     public void agregarClienteMesa() {
         int nroCliente= Integer.parseInt(txtNroCliente.getText());
-        Cliente cliente= controlador.buscarCliente(nroCliente);
-        if(cliente!=null){
-            desactivarBotones();
-            this.mesa.agregarCliente(cliente);
-            lblCliente.setText("Cliente: "+cliente.getNombre());
-            lblCliente.setVisible(true);
-            cargarServicio(cliente);
-        }
+        controlador.agregarCliente(nroCliente);
     }
     
     @Override
     public void noAgregarClienteMesa() {
-        desactivarBotones();
-        Cliente cli= new Cliente();
-        this.mesa.agregarCliente(cli);
-        lblCliente.setText("Cliente sin registrar");
-        lblCliente.setVisible(true);
-        cargarServicio(cli);
+        controlador.agregarCliente(-1);
     }
-    
-    public void listarBeneficiosCliente(Cliente cliente){
-        ArrayList<Beneficio> beneficios= cliente.getTipoCliente().getBeneficios();
-        if(!beneficios.isEmpty()){
-            listBeneficiosAplicados.setListData(beneficios.toArray());
-        }
-    }
-    
-    public void cargarServicio(Cliente cliente){
-        lblMontoServicio.setText("Monto del servicio : $"+mesa.getServicio().montoServicio());
-        lblBeneficiosAplicados.setText("Monto descuento por beneficios : $"+mesa.descuentoBeneficios());
-        listarBeneficiosCliente(cliente);
-        lblMontoPagar.setText("Monto total a pagar : $"+mesa.calcularMontoTotalConBeneficios());
-        btnCerrar.setEnabled(true);
+
+    public void cargarBeneficiosCliente(ArrayList<Beneficio> beneficios){
+        listBeneficiosAplicados.setListData(beneficios.toArray());
+        btnSalir.setEnabled(true);
     }
     
     public void desactivarBotones(){
@@ -263,9 +239,15 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
         btnNoAgregarCliente.setEnabled(false);
     }
 
-    @Override
-    public void cerrarMesa() {
-        this.mesa.cerrarMesa();
-        this.mesa.limpiarMesa();
+    public void setLebelsDatosCli(String texto){
+        lblCliente.setText(texto);
+        lblCliente.setVisible(true);
     }
+    
+    public void setLabelsServicio(String montoServicio, String montoDescuento, String montoPagar){
+        lblMontoServicio.setText(montoServicio);
+        lblBeneficiosAplicados.setText(montoDescuento);
+        lblMontoPagar.setText(montoPagar);
+    }
+    
 }

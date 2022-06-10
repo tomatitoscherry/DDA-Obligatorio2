@@ -10,8 +10,10 @@ package ui;
  */
 public interface DialogoCerrarMesaVista {
     public void cerrarVista(); 
+    
     public void mostrarError(String mensaje);
+    
     public void agregarClienteMesa();
+    
     public void noAgregarClienteMesa();
-    public void cerrarMesa();
 }

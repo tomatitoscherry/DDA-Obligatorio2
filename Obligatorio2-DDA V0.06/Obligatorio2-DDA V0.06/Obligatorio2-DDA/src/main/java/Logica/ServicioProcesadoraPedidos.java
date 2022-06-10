@@ -13,7 +13,7 @@ import dominio.Mesa;
 import dominio.Producto;
 import dominio.Servicio;
 import dominio.UnidadProcesadora;
-import exceptions.AgregarProductoServicioException;
+import exceptions.ServicioException;
 import java.util.ArrayList;
 
 /**

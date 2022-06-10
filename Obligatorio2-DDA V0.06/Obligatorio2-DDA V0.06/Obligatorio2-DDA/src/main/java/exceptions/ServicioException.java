@@ -8,9 +8,9 @@ package exceptions;
  *
  * @author yamil
  */
-public class AgregarProductoServicioException extends ObligatorioException{
+public class ServicioException extends ObligatorioException{
     
-    public AgregarProductoServicioException(String message) {
+    public ServicioException(String message) {
         super(message);
     }
     

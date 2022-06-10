@@ -4,6 +4,8 @@
  */
 package dominio;
 
+import exceptions.MesaException;
+
 /**
  *
  * @author yamil
@@ -33,21 +35,30 @@ public class Mesa {
     public Servicio getServicio() {
         return servicio;
     }
-
-    public void setServicio(Servicio servicio) {
-        this.servicio = servicio;
-    }
     
     public Cliente getCliente() {
         return cliente;
     }
     
-    public void cerrarMesa(){
-        this.abierta = false;
+    public void cerrarMesa() throws MesaException{
+        if(this.isAbierta()){
+            if(!servicio.pedidosPendientes()){
+                this.abierta = false;
+            }else{
+                throw new MesaException("Tiene pedidos pendientes");
+            }
+        }else{
+            throw new MesaException("La mesa no está abierta");
+        }
     }
     
-    public void abrirMesa(){
-        this.abierta = true;
+    public void abrirMesa() throws MesaException{
+        if(!this.isAbierta()){
+            this.abierta = true;
+            this.servicio= new Servicio();
+        }else{
+            throw new MesaException("La mesa ya está abierta");
+        }
     }
     
     public void agregarCliente(Cliente cliente) {

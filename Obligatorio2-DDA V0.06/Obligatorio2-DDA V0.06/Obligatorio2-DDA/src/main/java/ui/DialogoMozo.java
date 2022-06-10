@@ -5,8 +5,6 @@
 package ui;
 
 import Logica.FachadaServicios;
-import Logica.observer.Observable;
-import Logica.observer.Observer;
 import controlador.DialogoMozoControlador;
 import dominio.Cliente;
 import dominio.ItemServicio;
@@ -14,9 +12,9 @@ import dominio.Mesa;
 import dominio.Mozo;
 import dominio.Producto;
 import dominio.Servicio;
-import dominio.Sesion;
 import dominio.Usuario;
-import exceptions.AgregarProductoServicioException;
+import exceptions.ServicioException;
+import exceptions.MesaException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Frame;
@@ -37,11 +35,9 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author yamil
  */
-public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista, Observer{
+public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista{
     
-    private Mozo mozo;
     private DialogoMozoControlador controlador;
-    private Sesion sesion;
     DefaultTableModel dtm;
 
     /**
@@ -50,13 +46,9 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     public DialogoMozo(java.awt.Frame parent, boolean modal, Mozo mozo) {
         super(parent, modal);
         initComponents();
-        this.mozo= mozo;
-        this.controlador= new DialogoMozoControlador(this);
-        sesion = new Sesion(mozo, new Date());
-        controlador.iniciarSesion(sesion);
-        dtm = (DefaultTableModel) tblServicio.getModel();
         this.setTitle("Ventana mozo");
-        ejecutarCu1();
+        this.controlador= new DialogoMozoControlador(this, mozo);
+        dtm = (DefaultTableModel) tblServicio.getModel();
     }
     
     /**
@@ -263,11 +255,19 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
-        abrirMesa();
+        try {
+            abrirMesa();
+        } catch (MesaException ex) {
+            Logger.getLogger(DialogoMozo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAbrirActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        cerrarMesa();
+        try {
+            cerrarMesa();
+        } catch (MesaException ex) {
+            Logger.getLogger(DialogoMozo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void btnTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirActionPerformed
@@ -277,7 +277,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private void btnAgregarItemServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarItemServicioActionPerformed
         try {
             agregarProductoAlServicio();
-        } catch (AgregarProductoServicioException ex) {
+        } catch (ServicioException ex) {
             Logger.getLogger(DialogoMozo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAgregarItemServicioActionPerformed
@@ -287,7 +287,11 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
-        cargarProductosDisponibles();
+        try {
+            agregarProductoAlServicio();
+        } catch (ServicioException ex) {
+            Logger.getLogger(DialogoMozo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
     private void listMesasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listMesasValueChanged
@@ -316,78 +320,60 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private javax.swing.JTextField txtDescripcionProducto;
     // End of variables declaration//GEN-END:variables
 
-    @Override
     public void cerrarVista() {
         this.dispose();
     }
 
-    @Override
     public void mostrarError(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje,"Error", JOptionPane.ERROR_MESSAGE);
     }
+
+    //////////////////////////////////////////////////////////////////
+    //   //*CU:  Ingresar a la aplicación                           //               
+    ////////////////////////////////////////////////////////////////// 
     
-    private void ejecutarCu1() {
-        cargarNombreMozo();
-        cargarMesasMozo();
+    public void cargarNombreMozo(String nombreMozo){
+        lblMesasMozo.setText("Mesas del mozo: "+nombreMozo);
     }
     
-    public void cargarNombreMozo(){
-        String nombreCompleto= controlador.nombreCompletoMozo(this.mozo);
-        lblMesasMozo.setText("Mesas del mozo: "+nombreCompleto);
-    }
-    
-    public void cargarMesasMozo(){
-        if(this.mozo!=null){
-            ArrayList<Mesa> mesasMozo= controlador.conjuntoMesasDeMozo(this.mozo);
-            if(!mesasMozo.isEmpty()){
-                listMesas.setCellRenderer(new MesasRenderer());
-                listMesas.setListData(mesasMozo.toArray());
-            }
-        }
+    public void cargarMesasMozo(ArrayList<Mesa> mesasMozo){
+        listMesas.setCellRenderer(new MesasRenderer());
+        listMesas.setListData(mesasMozo.toArray());
     }
     
     //////////////////////////////////////////////////////////////////
     //   //*CU: Abrir una mesa                                      //               
     ////////////////////////////////////////////////////////////////// 
     
-    public void abrirMesa() {
+    public void abrirMesa() throws MesaException {
         Mesa mesaSeleccionada= (Mesa) listMesas.getSelectedValue();
-        if(controlador.abrirMesa(mesaSeleccionada, this.mozo)){
-            cargarMesasMozo();
-        }
+        controlador.abrirMesa(mesaSeleccionada);
     }
     
     //////////////////////////////////////////////////////////////////
     //   //CU: Agregar un producto al servicio                      //               
     ////////////////////////////////////////////////////////////////// 
-    //) El mozo selecciona una mesa
-    //El sistema muestra los datos del servicio de la mesa
+
     private void cargarServicioDeLaMesa(){
         dtm.setNumRows(0);
         Mesa mesa= (Mesa) listMesas.getSelectedValue();
-        if(controlador.mesaEstaAbierta(mesa)){
-            lblServicioMesa.setText("Servicio de la mesa: "+mesa.getNumero());
-            Servicio servicio= controlador.getServicioMesa(mesa);
-            if(servicio!=null){
-                cargarServicioCompleto(servicio);
-            }
-        }else{
-            lblServicioMesa.setText("La mesa "+mesa.getNumero()+" está cerrada.");
-            listMesas.clearSelection();
-        }
+        controlador.cargarServicioMesa(mesa);
     }
     
-    //El mozo indica que desea agregar un producto al servicio.
-    // El sistema muestra la lista de productos con stock disponible.
-    private void cargarProductosDisponibles() {
-       listProductos.setListData(controlador.getProductosDisponibles().toArray());
+    public void setLblServicioMesa(String texto){
+        lblServicioMesa.setText(texto);
+    }
+
+    private void productosDisponibles() {  
+        controlador.listaProductosDisponibles();
     }
     
-    //El mozo selecciona un producto, ingresa la cantidad y opcionalmente una descripción.
-    //El sistema descuenta el stock del producto ingresado, envía el pedido a la unidad 
-    //procesadora correspondiente al producto (cocina, bar, etc) y mostrará los datos 
-    //actualizados del servicio
-    private void agregarProductoAlServicio() throws AgregarProductoServicioException {
+    public void setListProductos(ArrayList<Producto> productos){
+        listProductos.clearSelection();
+        listProductos.setListData(productos.toArray());
+    }
+    
+    private void agregarProductoAlServicio() throws ServicioException {
         Mesa mesa= (Mesa) listMesas.getSelectedValue();
         Producto producto= (Producto) listProductos.getSelectedValue();
         String descripcion= txtDescripcionProducto.getText();
@@ -395,8 +381,6 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         int cantidadP=Integer.parseInt(cantidad);
         
         controlador.agregarProductoAlServicio(mesa, producto, descripcion, cantidadP);
-        Servicio servicio = controlador.getServicioMesa(mesa);
-        cargarServicioCompleto(servicio);
     }
     
     public void cargarServicioCompleto(Servicio servicio){
@@ -423,18 +407,13 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     //   //CU: Cerrar una mesa                                      //               
     //////////////////////////////////////////////////////////////////
     
-    private void cerrarMesa() {
+    private void cerrarMesa() throws MesaException {
         Mesa mesa= (Mesa) listMesas.getSelectedValue();
-        if(mesa.isAbierta()){
-            if(!mesa.getServicio().pedidosPendientes()){
-                new DialogoCerrarMesa((java.awt.Frame) this.getParent(), false, this.mozo, mesa).setVisible(true);
-                cargarMesasMozo();
-            }else{
-                mostrarError("Tiene pedidos pendientes");
-            }
-        }else{
-            mostrarError("La mesa no está abierta");
-        }
+        controlador.cerrarMesa(mesa);
+    }
+    
+    public void callDialogoCerrarMesa(Mozo mozo, Mesa mesa){
+        new DialogoCerrarMesa((java.awt.Frame) this.getParent(), false, mozo, mesa).setVisible(true);    
     }
     
     //////////////////////////////////////////////////////////////////
@@ -442,20 +421,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     //////////////////////////////////////////////////////////////////
     
     private void salir(){
-        if(!controlador.tieneMesasAbiertas(mozo)){
-            controlador.cerrarSesion(this.sesion);
-            cerrarVista();
-        }else{
-            mostrarError("Debe cerrar las mesas abiertas antes de salir");
-        }
-    }
-
-    @Override
-    public void update(Observable source, Object event) {
-        if(event.equals(Observer.Eventos.PEDIDOS_ACTUALIZADOS)){
-            listProductos.clearSelection();
-            cargarProductosDisponibles();
-        }
+        controlador.salirDelSistema();
     }
 
     private class MesasRenderer extends JLabel implements ListCellRenderer<Mesa> {
@@ -463,10 +429,8 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         @Override
         public Component getListCellRendererComponent(JList<? extends Mesa> list, Mesa m, int index, boolean isSelected, boolean cellHasFocus) {
             if(m.isAbierta()) {
-                setOpaque(true);
                 setBackground(Color.red);
             } else {
-                setOpaque(true);
                 setBackground(Color.white);
             }
             return this;

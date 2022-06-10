@@ -4,6 +4,7 @@
  */
 package dominio;
 
+import exceptions.MesaException;
 import java.util.ArrayList;
 
 /**
@@ -14,11 +15,15 @@ public class Mozo extends Usuario{
     
     private String telefono;
     private ArrayList<Mesa> mesas;
+    private TransferenciaMesa transferenciaRecepcion;
+    private TransferenciaMesa transferenciaEmitida;
 
     public Mozo(String nombreUsuario, String contrasenia, String nombreCompleto, String telefono) {
         super(nombreUsuario, contrasenia, nombreCompleto);
         this.telefono = telefono;
         this.mesas= new ArrayList<Mesa>();
+        this.transferenciaRecepcion= null;
+        this.transferenciaEmitida= null;
     }
 
     public String getTelefono() {
@@ -29,10 +34,24 @@ public class Mozo extends Usuario{
         return mesas;
     }
 
-    public void agregarMesa(Mesa unaMesa){
+    public TransferenciaMesa getTransferenciaRecepcion() {
+        return transferenciaRecepcion;
+    }
+
+    public TransferenciaMesa getTransferenciaEmitida() {
+        return transferenciaEmitida;
+    }
+
+    public void agregarMesa(Mesa unaMesa) throws MesaException{
         if(mesas.size()< 5){
              mesas.add(unaMesa);
+        }else{
+            throw new MesaException("No se pueden agregar mas mesas, tiene 5.");
         }
+    }
+    
+    public int cantMesas(){
+        return mesas.size();
     }
     
     public void quitarMesa(Mesa unaMesa){
@@ -61,5 +80,21 @@ public class Mozo extends Usuario{
             }
         }
         return mesasAbiertas;
+    }
+    
+    public void agregarTransferenciaRecepcion(TransferenciaMesa transferencia){
+        this.transferenciaRecepcion=transferencia;
+    }
+    
+    public void quitarTransferenciaRecepcion(){
+        this.transferenciaRecepcion=null;
+    }
+    
+    public void agregarTransferenciaEmitida(TransferenciaMesa transferencia){
+        this.transferenciaEmitida=transferencia;
+    }
+    
+    public void quitarTransferenciaEmitida(){
+        this.transferenciaEmitida= null;
     }
 }

@@ -34,4 +34,6 @@ public interface DialogoMozoVista {
     public void agregarItemTablaServicio(ItemServicio is);
 
     public void callDialogoCerrarMesa(Mozo mozo, Mesa mesa);
+
+    public void callDialogoMozoTransferirMesa(Mozo mozo, Mesa mesa);
 }

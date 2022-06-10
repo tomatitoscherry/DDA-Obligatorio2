@@ -14,6 +14,10 @@ import java.util.ArrayList;
 public interface DialogoMozoTransferirMesaVista {
     
     public void cerrarVista(); 
+    
     public void mostrarError(String mensaje);
+    
     public void cargarMozosConectados(ArrayList<Mozo> mozosConectados);
+
+    public void setLabelInicio(String string);
 }

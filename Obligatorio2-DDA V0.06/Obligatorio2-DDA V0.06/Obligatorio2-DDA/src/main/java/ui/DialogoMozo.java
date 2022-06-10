@@ -12,6 +12,7 @@ import dominio.Mesa;
 import dominio.Mozo;
 import dominio.Producto;
 import dominio.Servicio;
+import dominio.TransferenciaMesa;
 import dominio.Usuario;
 import exceptions.ServicioException;
 import exceptions.MesaException;
@@ -248,7 +249,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
                 .addComponent(lblServicioMesa)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -271,7 +272,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void btnTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirActionPerformed
-        // TODO add your handling code here:
+        transferirMesa();
     }//GEN-LAST:event_btnTransferirActionPerformed
 
     private void btnAgregarItemServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarItemServicioActionPerformed
@@ -414,6 +415,32 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     
     public void callDialogoCerrarMesa(Mozo mozo, Mesa mesa){
         new DialogoCerrarMesa((java.awt.Frame) this.getParent(), false, mozo, mesa).setVisible(true);    
+    }
+    
+    //////////////////////////////////////////////////////////////////
+    //   //CU: Transferir una mesa                                  //               
+    //////////////////////////////////////////////////////////////////
+    
+    private void transferirMesa(){
+        Mesa mesa= (Mesa) listMesas.getSelectedValue();
+        controlador.transferirMesa(mesa);
+    }
+    
+    public void callDialogoMozoTransferirMesa(Mozo mozo, Mesa mesa){
+        new DialogoMozoTransferirMesa((java.awt.Frame) this.getParent(), false, mozo, mesa).setVisible(true);   
+    }
+    
+    public void notificarNuevaTransferenciaMesa(TransferenciaMesa transferencia){
+        int numeroMesa= transferencia.getMesa().getNumero();
+        String estadoMesa="cerrada";
+        if(transferencia.getMesa().isAbierta()){
+            estadoMesa= "abierta";
+        }
+        String nombreMozo= transferencia.getMozoEmisor().getNombreCompleto();
+        
+        String[] options = {"Aceptar", "Rechazar"};
+        int x = JOptionPane.showOptionDialog(this, "Mesa "+numeroMesa+ ", estado: "+estadoMesa+" mozo: "+nombreMozo,
+                "Nueva transferencia de mesa", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon, options, options[0]);
     }
     
     //////////////////////////////////////////////////////////////////

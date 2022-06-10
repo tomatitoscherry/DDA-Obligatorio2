@@ -115,6 +115,14 @@ public class DialogoMozoControlador implements Observer{
             vista.mostrarError(e.getMessage());
         }
     }
+
+    //////////////////////////////////////////////////////////////////
+    //   //CU: Transferir una mesa                                  //               
+    //////////////////////////////////////////////////////////////////
+    
+    public void transferirMesa(Mesa mesa) {
+        vista.callDialogoMozoTransferirMesa(mozo, mesa);
+    }
     
     //////////////////////////////////////////////////////////////////
     //   //CU: Salir del sistema                                    //               
@@ -140,5 +148,11 @@ public class DialogoMozoControlador implements Observer{
         if(event.equals(Observer.Eventos.PEDIDOS_ACTUALIZADOS)){
             listaProductosDisponibles();
         }
+        if(event.equals(Observer.Eventos.NUEVA_TRANSFERENCIA)){
+            if(this.mozo.getTransferenciaRecepcion()!=null){
+                
+            }
+        }
     }
+
 }

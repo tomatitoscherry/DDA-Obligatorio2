@@ -49,6 +49,10 @@ public class ServicioMesa {
         todosLosClientes.add(cli);
     }
     
+    public void agregarProductos(Producto producto){
+        todosLosProductos.add(producto);
+    }
+    
     ///////////////////////////////////////////////////////////////////////////////
     //                   //LOGICA PROYECTO                                       //
     //////////////////////////////////////////////////////////////////////////////
@@ -78,7 +82,7 @@ public class ServicioMesa {
             producto.actualizarStock(cantidad);
             is = new ItemServicio(cantidad, descripcion, producto);
             mesa.getServicio().agregarItem(is);
-            FachadaServicios.getInstance().notifyObservers(Observer.Eventos.PEDIDOS_ACTUALIZADOS);
+            FachadaServicios.getInstance().notifyObservers(Observer.Eventos.STOCK_ACTUALIZADO);
         }
         return is;
     }

@@ -5,14 +5,22 @@
 package ui;
 
 import Logica.DatosPrueba;
+import exceptions.MesaException;
 
 /**
  *
  * @author yamil
  */
 public class Inicio {
-    public static void main(String args[]) {
+    
+    public static void main(String args[]) throws MesaException {
         
-        DatosPrueba.cargar();
+        try {
+           DatosPrueba.cargar();
+        } catch (MesaException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        new VentanaInicio().setVisible(true);
     }
 }

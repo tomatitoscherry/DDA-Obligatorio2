@@ -35,10 +35,6 @@ public class ServicioProcesadoraPedidos {
         unidadesProcesadoras.add(unaUnidadProcesadora);
     }
     
-    public void agregarProductoUniProcesadora(Producto producto, UnidadProcesadora uProcesadora) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
     public void tomarPedido(Servicio servicio){
         //cuando se toma un pedido se le asigna a un gestor y se quita de la lista de pedidosMonitor(la lista global)
     }
@@ -59,7 +55,7 @@ public class ServicioProcesadoraPedidos {
         }
     }
 
-    ArrayList<UnidadProcesadora> conjuntoUnidadesProcesadoras() {
+    public ArrayList<UnidadProcesadora> conjuntoUnidadesProcesadoras() {
         return unidadesProcesadoras;
     }
 }

@@ -38,7 +38,6 @@ public class ServicioUsuario {
       public void agregarGestor(Gestor gestor){
        gestores.add(gestor);
     }
-      
    
     // LOGICA PARA LA SESION
     public void iniciar(Sesion sesion) {

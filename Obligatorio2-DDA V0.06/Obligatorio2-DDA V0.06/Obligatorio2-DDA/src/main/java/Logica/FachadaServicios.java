@@ -68,8 +68,12 @@ public class FachadaServicios extends Observable {
         servicioMesa.agregarCliente(cli);
     }
     
-    public void agregarProductoUniProcesadora(Producto producto, UnidadProcesadora uProcesadora){
-        servicioProcesadoraPedidos.agregarProductoUniProcesadora(producto, uProcesadora);
+    public void agregarUnidadProcesadora(UnidadProcesadora unaUnidadProcesadora){    
+        servicioProcesadoraPedidos.agregarUnidadProcesadora(unaUnidadProcesadora);
+    }
+
+    public void agregarProductos(Producto producto){
+        servicioMesa.agregarProductos(producto);
     }
     
  //////////////////////////////////////////////////////////////////

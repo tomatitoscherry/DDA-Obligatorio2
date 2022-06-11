@@ -154,7 +154,7 @@ public class DialogoMozoControlador implements Observer{
 
     @Override
     public void update(Observable source, Object event) {
-        if(event.equals(Observer.Eventos.PEDIDOS_ACTUALIZADOS)){
+        if(event.equals(Observer.Eventos.STOCK_ACTUALIZADO)){
             listaProductosDisponibles();
         }
         if(event.equals(Observer.Eventos.NUEVA_TRANSFERENCIA)){

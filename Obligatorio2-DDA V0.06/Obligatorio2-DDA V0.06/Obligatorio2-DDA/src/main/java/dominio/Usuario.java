@@ -34,7 +34,8 @@ public class Usuario {
     
     
     public boolean esPassordValida(String password) {
-        return this.contrasenia.equals(password);
+        String pswUpperCase= password.toUpperCase();
+        return this.contrasenia.equals(pswUpperCase);
     }
 
     

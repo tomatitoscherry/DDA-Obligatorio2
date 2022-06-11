@@ -461,8 +461,10 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         @Override
         public Component getListCellRendererComponent(JList<? extends Mesa> list, Mesa m, int index, boolean isSelected, boolean cellHasFocus) {
             if(m.isAbierta()) {
+                setOpaque(false);
                 setBackground(Color.red);
             } else {
+                setOpaque(true);
                 setBackground(Color.white);
             }
             return this;

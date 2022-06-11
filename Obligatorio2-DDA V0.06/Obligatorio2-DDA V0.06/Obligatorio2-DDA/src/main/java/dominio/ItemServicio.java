@@ -17,17 +17,17 @@ public class ItemServicio {
     private int unidades;
     private String descripcion;
     private Producto producto;
-    private Gestor gestorInicial;
-    private Gestor gestorFinal;
+    private Gestor gestor;
+
     private float subTotal;
+
     private EstadoItemEnum estado;
 
     public ItemServicio(int unidades, String descripcion, Producto producto) {
         this.unidades = unidades;
         this.descripcion = descripcion;
         this.producto = producto;
-        this.gestorInicial = null;
-        this.gestorFinal = null;
+        this.gestor = null;
         this.subTotal= montoTotalItem();
         this.estado= EstadoItemEnum.EN_ESPERA;
     }
@@ -44,20 +44,12 @@ public class ItemServicio {
         return producto;
     }
 
-    public Gestor getGestorInicial() {
-        return gestorInicial;
+    public Gestor getGestor() {
+        return gestor;
     }
 
-    public Gestor getGestorFinal() {
-        return gestorFinal;
-    }
-
-    public void setGestorInicial(Gestor gestorInicial) {
-        this.gestorInicial = gestorInicial;
-    }
-
-    public void setGestorFinal(Gestor gestorFinal) {
-        this.gestorFinal = gestorFinal;
+    public void setGestor(Gestor gestorInicial) {
+        this.gestor = gestorInicial;
     }
 
     public float getSubTotal() {
@@ -93,16 +85,16 @@ public class ItemServicio {
     }*/
     
     
-    public Gestor getGestorActual(){
-        if(this.estado.equals(EstadoItemEnum.PREPARANDO)){
-            return this.gestorInicial; 
-        } else if (this.gestorFinal.equals(EstadoItemEnum.FINALIZADO)){
-            return this.gestorFinal;
-        } else {
-            //si devuelve null aun no ha sido tomado por un gestor.
-            return null;
-        }
-    }
+//    public Gestor getGestorActual(){
+//        if(this.estado.equals(EstadoItemEnum.PREPARANDO)){
+//            return this.gestorInicial; 
+//        } else if (this.gestorFinal.equals(EstadoItemEnum.FINALIZADO)){
+//            return this.gestorFinal;
+//        } else {
+//            //si devuelve null aun no ha sido tomado por un gestor.
+//            return null;
+//        }
+//    }
     
     public float montoTotalItem(){
         float total=0;

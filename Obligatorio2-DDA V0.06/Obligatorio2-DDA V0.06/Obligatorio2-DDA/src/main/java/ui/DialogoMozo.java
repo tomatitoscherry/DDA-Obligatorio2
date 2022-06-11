@@ -400,7 +400,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         newRow[3]= item.getProducto().getPrecioUnidad();
         newRow[4]= item.getSubTotal();
         newRow[5]= item.getEstado();
-        newRow[6]= item.getGestorActual().getNombreCompleto();
+        newRow[6]= item.getGestor().getNombreCompleto();
         dtm.addRow(newRow);
     }
     

@@ -157,4 +157,22 @@ public class ServicioMesa {
         return cliente;
     }
 
+    public Mesa buscarMesaAsociada(ItemServicio isBuscado) {
+        boolean encontre= false;
+        int aux=0;
+        Mesa mesa= null;
+        
+        while(!encontre && aux < mesas.size()){
+            Servicio ser = mesas.get(aux).getServicio();
+            for (ItemServicio is : ser.getItems()){
+                if(is == isBuscado){
+                    encontre= true;
+                    mesa = mesas.get(aux);
+                }
+                aux++;
+            }
+        }  
+        return mesa;
+    }
+
 }

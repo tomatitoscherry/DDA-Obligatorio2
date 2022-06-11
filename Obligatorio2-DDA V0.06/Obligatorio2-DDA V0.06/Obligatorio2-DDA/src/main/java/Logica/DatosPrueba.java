@@ -35,11 +35,13 @@ public class DatosPrueba {
         Mozo mozo2= new Mozo("A.Rolon", "ABC123", "Alberto Rolon", "098554466");
         Mozo mozo3= new Mozo("G.Perez", "ABC123", "Gonzalo Perez", "094336588");
         Mozo mozo4= new Mozo("A.Cuadrado", "ABC123", "Alicia Cuadrado", "099885544");
+        Mozo mozo5= new Mozo("123", "123", "123", "099885544");
         
         fachada.agregarMozo(mozo1);
         fachada.agregarMozo(mozo2);
         fachada.agregarMozo(mozo3);
         fachada.agregarMozo(mozo4);
+        fachada.agregarMozo(mozo5);
         
         ///////////////////////
         //    //MESAS        //

@@ -26,7 +26,6 @@ public class DialogoLoginGestor extends DialogoLogin {
     @Override
     public void ejecutarCasoDeUsoInicial(Usuario usuario) {
         new DialogoGestorSeleccionarUnidadProcesadora((java.awt.Frame) this.getParent(), false, (Gestor) usuario).setVisible(true);
-//        new DialogoGestor((java.awt.Frame) this.getParent(), false, (Gestor) usuario).setVisible(true);
     }
 
 }

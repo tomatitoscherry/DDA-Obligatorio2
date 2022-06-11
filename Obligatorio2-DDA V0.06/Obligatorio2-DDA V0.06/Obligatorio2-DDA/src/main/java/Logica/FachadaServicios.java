@@ -177,5 +177,17 @@ public class FachadaServicios extends Observable {
         return servicioUsuario.tieneMesasAbiertas(mozo);
     }
     
+         //////////////////////////////////////////////////////////////////
+         //   //    Aplicación procesadora de pedidos                    //
+         //////////////////////////////////////////////////////////////////
+         //   //*CU: Monitor de pedidos                                  //               
+         //////////////////////////////////////////////////////////////////   
+    
+    public Mesa buscarMesaAsociada(ItemServicio is){
+        return servicioMesa.buscarMesaAsociada(is);
+    }
 
+    public Mozo buscarMozoAsociado(ItemServicio is){
+        return servicioUsuario.buscarMozoAsociado(is);
+    }
 }

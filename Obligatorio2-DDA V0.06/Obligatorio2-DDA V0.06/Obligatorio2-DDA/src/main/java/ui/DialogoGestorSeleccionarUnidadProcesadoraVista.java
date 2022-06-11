@@ -23,7 +23,7 @@ public interface DialogoGestorSeleccionarUnidadProcesadoraVista {
 
     public void cargarListadoUnidadesProcesadoras(ArrayList<UnidadProcesadora> unidadesProcesadoras);
 
-    public void callDialogoGestor(UnidadProcesadora unidadProcesadora);
+    public void callDialogoGestor(UnidadProcesadora unidadProcesadora, Gestor gestor);
     
     
 }

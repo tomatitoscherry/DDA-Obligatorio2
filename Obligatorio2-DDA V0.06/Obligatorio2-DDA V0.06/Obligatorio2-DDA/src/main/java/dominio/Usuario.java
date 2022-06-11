@@ -31,8 +31,7 @@ public class Usuario {
     public String getNombreCompleto() {
         return nombreCompleto;
     }
-    
-    
+
     public boolean esPassordValida(String password) {
         String pswUpperCase= password.toUpperCase();
         return this.contrasenia.equals(pswUpperCase);

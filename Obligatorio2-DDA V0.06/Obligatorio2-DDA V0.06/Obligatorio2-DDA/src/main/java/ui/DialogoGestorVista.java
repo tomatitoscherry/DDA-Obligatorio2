@@ -19,7 +19,6 @@ public interface DialogoGestorVista {
 
     public void tomarPedido(ItemServicio pedido);
 
-   
-    
+    public void vaciarTabla(); 
    
 }

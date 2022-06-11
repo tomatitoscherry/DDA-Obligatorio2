@@ -29,7 +29,7 @@ public class Mesa {
     }
 
     public boolean isAbierta() {
-        return abierta;
+        return this.abierta;
     }
 
     public Servicio getServicio() {
@@ -82,5 +82,10 @@ public class Mesa {
     
     public float descuentoBeneficios(){
         return this.cliente.getTipoCliente().calcularDescuentoBeneficios(this.servicio);
+    }
+
+    @Override
+    public String toString() {
+        return "Mesa "+ numero;
     }
 }

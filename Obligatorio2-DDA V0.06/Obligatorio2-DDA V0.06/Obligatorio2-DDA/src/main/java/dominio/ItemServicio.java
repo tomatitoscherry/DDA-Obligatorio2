@@ -31,6 +31,8 @@ public class ItemServicio {
         this.subTotal= montoTotalItem();
         this.estado= EstadoItemEnum.EN_ESPERA;
     }
+    
+    public ItemServicio(){}
 
     public int getUnidades() {
         return unidades;
@@ -67,23 +69,7 @@ public class ItemServicio {
     public void setEstado(EstadoItemEnum estado) {
         this.estado = estado;
     }
-    
-    /////////////////////////////////////////
-    //El gestor inicial puede ser null cuando no lo han tomado, pero despues cuando pase al final,
-    //Ninguno de los gestores va a ser null, por tanto siempre va a devolver el promer if, gestorInicial
-    //Creo el getGestorActual() y cualquier cosa o discutimos
-    //////////////////////////////////////
-    /*public Gestor estadoItem(){
-        if(this.gestorInicial != null){
-            return this.gestorInicial; 
-        } else if (this.gestorFinal != null){
-            return this.gestorFinal;
-        } else {
-            //si devuelve null aun no ha sido tomado por un gestor.
-            return null;
-        }
-    }*/
-    
+
     
 //    public Gestor getGestorActual(){
 //        if(this.estado.equals(EstadoItemEnum.PREPARANDO)){

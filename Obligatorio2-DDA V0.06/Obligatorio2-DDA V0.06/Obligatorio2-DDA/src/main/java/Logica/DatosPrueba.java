@@ -31,11 +31,10 @@ public class DatosPrueba {
         //            // DATOS MOZOS                          //
         ////////////////////////////////////////////////////////
         
-        Mozo mozo1= new Mozo("M.Martinez", "ABC123", "Mariana Martinez", "091445566");
-        Mozo mozo2= new Mozo("A.Rolon", "ABC123", "Alberto Rolon", "098554466");
-        Mozo mozo3= new Mozo("G.Perez", "ABC123", "Gonzalo Perez", "094336588");
-        Mozo mozo4= new Mozo("A.Cuadrado", "ABC123", "Alicia Cuadrado", "099885544");
-        Mozo mozo5= new Mozo("123", "123", "123", "099885544");
+        Mozo mozo1= new Mozo("A", "A", "Mariana Martinez", "091445566");
+        Mozo mozo2= new Mozo("b", "b", "Alberto Rolon", "098554466");
+        Mozo mozo3= new Mozo("c", "c", "Gonzalo Perez", "094336588");
+        Mozo mozo4= new Mozo("d", "d", "Alicia Cuadrado", "099885544");
         
         fachada.agregarMozo(mozo1);
         fachada.agregarMozo(mozo2);
@@ -97,14 +96,24 @@ public class DatosPrueba {
         Producto p8= new Producto("Refresco", 180, 5, up1);
         Producto p9= new Producto("Cerveza", 280, 30, up1);
         
+        FachadaServicios.getInstance().agregarProductos(p1);
+        FachadaServicios.getInstance().agregarProductos(p2);
+        FachadaServicios.getInstance().agregarProductos(p3);
+        FachadaServicios.getInstance().agregarProductos(p4);
+        FachadaServicios.getInstance().agregarProductos(p5);
+        FachadaServicios.getInstance().agregarProductos(p6);
+        FachadaServicios.getInstance().agregarProductos(p7);
+        FachadaServicios.getInstance().agregarProductos(p8);
+        FachadaServicios.getInstance().agregarProductos(p9);
+        
         /////////////////////////////////////////////////////////
         //            // DATOS GESTORES                       //
         ////////////////////////////////////////////////////////
         
-        Gestor g1= new Gestor("M.Rivera", "ABC123", "Mario Rivera");
-        Gestor g2= new Gestor("A.Caceres", "ABC123", "Arturo Caceres");
-        Gestor g3= new Gestor("M.Rey", "ABC123", "Mariana Rey");
-        Gestor g4= new Gestor("R.Rodao", "ABC123", "Romina Rodao");
+        Gestor g1= new Gestor("e", "e", "Mario Rivera");
+        Gestor g2= new Gestor("f", "f", "Arturo Caceres");
+        Gestor g3= new Gestor("g", "g", "Mariana Rey");
+        Gestor g4= new Gestor("h", "h", "Romina Rodao");
         
         FachadaServicios.getInstance().agregarGestor(g1);
         FachadaServicios.getInstance().agregarGestor(g2);

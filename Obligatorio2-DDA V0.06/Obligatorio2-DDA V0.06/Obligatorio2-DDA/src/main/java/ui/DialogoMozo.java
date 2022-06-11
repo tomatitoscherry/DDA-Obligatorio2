@@ -158,9 +158,9 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         listMesas.setMinimumSize(new java.awt.Dimension(45, 100));
         listMesas.setSelectionBackground(new java.awt.Color(204, 204, 204));
         listMesas.setVisibleRowCount(5);
-        listMesas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                listMesasValueChanged(evt);
+        listMesas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listMesasMouseClicked(evt);
             }
         });
         jScrollPane3.setViewportView(listMesas);
@@ -288,16 +288,12 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
-        try {
-            agregarProductoAlServicio();
-        } catch (ServicioException ex) {
-            Logger.getLogger(DialogoMozo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        productosDisponibles();
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
-    private void listMesasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listMesasValueChanged
+    private void listMesasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMesasMouseClicked
         cargarServicioDeLaMesa();
-    }//GEN-LAST:event_listMesasValueChanged
+    }//GEN-LAST:event_listMesasMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrir;
@@ -351,6 +347,11 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         controlador.abrirMesa(mesaSeleccionada);
     }
     
+    public void mesaAbierta(String texto, ArrayList<Mesa> mesasMozo){
+        setLblServicioMesa(texto);
+        cargarMesasMozo(mesasMozo);
+    }
+    
     //////////////////////////////////////////////////////////////////
     //   //CU: Agregar un producto al servicio                      //               
     ////////////////////////////////////////////////////////////////// 
@@ -365,12 +366,12 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         lblServicioMesa.setText(texto);
     }
 
-    private void productosDisponibles() {  
-        controlador.listaProductosDisponibles();
+    private void productosDisponibles() {
+        Mesa mesa= (Mesa) listMesas.getSelectedValue();
+        controlador.listaProductosDisponibles(mesa);
     }
     
     public void setListProductos(ArrayList<Producto> productos){
-        listProductos.clearSelection();
         listProductos.setListData(productos.toArray());
     }
     
@@ -380,7 +381,6 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         String descripcion= txtDescripcionProducto.getText();
         String cantidad= txtCantidadProducto.getText();
         int cantidadP=Integer.parseInt(cantidad);
-        
         controlador.agregarProductoAlServicio(mesa, producto, descripcion, cantidadP);
     }
     
@@ -393,14 +393,14 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     
     public void agregarItemTablaServicio(ItemServicio item){
         int col = dtm.getColumnCount();
-        Object[] newRow = new Object[col];
+        Object[] newRow = new Object[col];       
         newRow[0]= item.getUnidades();
         newRow[1]= item.getProducto();
         newRow[2]= item.getDescripcion();
         newRow[3]= item.getProducto().getPrecioUnidad();
         newRow[4]= item.getSubTotal();
         newRow[5]= item.getEstado();
-        newRow[6]= item.getGestor().getNombreCompleto();
+        newRow[6]= item.getGestorInicial();
         dtm.addRow(newRow);
     }
     
@@ -461,9 +461,11 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         @Override
         public Component getListCellRendererComponent(JList<? extends Mesa> list, Mesa m, int index, boolean isSelected, boolean cellHasFocus) {
             if(m.isAbierta()) {
-                setOpaque(false);
+                setText(m.toString());
+                setOpaque(true);
                 setBackground(Color.red);
             } else {
+                setText(m.toString());
                 setOpaque(true);
                 setBackground(Color.white);
             }

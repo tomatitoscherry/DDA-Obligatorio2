@@ -55,4 +55,11 @@ public class Producto {
             throw new ServicioException("Sin stock, solo quedan "+this.getStock());
         }
     }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
+    
+    
 }

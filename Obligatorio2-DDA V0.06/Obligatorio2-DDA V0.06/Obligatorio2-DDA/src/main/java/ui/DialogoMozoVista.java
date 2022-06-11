@@ -41,4 +41,6 @@ public interface DialogoMozoVista {
     public void notificarNuevaTransferenciaMesa(TransferenciaMesa transferenciaRecepcion);
 
     public void notificarEstadoTransferenciaEmitida(String aprobada);
+
+    public void mesaAbierta(String string, ArrayList<Mesa> mesas);
 }

@@ -29,6 +29,11 @@ public class Gestor extends Usuario{
         this.ultimoAcceso = ultimoAcceso;
     }
 
+    @Override
+    public String toString() {
+        return this.getNombreCompleto();
+    }
+
     public ArrayList<ItemServicio> getPedidos() {
         return pedidos;
     }

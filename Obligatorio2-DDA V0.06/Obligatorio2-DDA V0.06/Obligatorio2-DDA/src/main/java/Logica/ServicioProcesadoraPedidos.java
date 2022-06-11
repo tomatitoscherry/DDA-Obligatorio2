@@ -26,22 +26,30 @@ public class ServicioProcesadoraPedidos {
     ArrayList<Servicio> pedidosMonitor = new ArrayList<Servicio>();
     ArrayList<UnidadProcesadora> unidadesProcesadoras = new ArrayList<UnidadProcesadora>();
     
+    /////////////////////////////////////////////
+    //      //Logica precarga de datos         //
+    ////////////////////////////////////////////
+    
     //agrega unidad procesadora, no lo usa ususario.
     public void agregarUnidadProcesadora(UnidadProcesadora unaUnidadProcesadora){    
         unidadesProcesadoras.add(unaUnidadProcesadora);
+    }
+    
+    public void agregarProductoUniProcesadora(Producto producto, UnidadProcesadora uProcesadora) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     public void tomarPedido(Servicio servicio){
         //cuando se toma un pedido se le asigna a un gestor y se quita de la lista de pedidosMonitor(la lista global)
     }
     
-      public String finalizarPedido(Servicio servicio){
+    public String finalizarPedido(Servicio servicio){
                 //cuando se finaliza un pedido se le asigna a un gestor y se quita de la lista de pedidos del gestor que tomo el pedido. 
                 // y devuelve un string mostrando el nombre del producto, la cantidad y el número de mesa
             return null;
     }
 
-    void agregarProducto(ItemServicio is){
+    public void agregarProducto(ItemServicio is){
         Producto p= is.getProducto();
         for(UnidadProcesadora up : unidadesProcesadoras){
             if(up.equals(p.getUnidadProcesadora())){

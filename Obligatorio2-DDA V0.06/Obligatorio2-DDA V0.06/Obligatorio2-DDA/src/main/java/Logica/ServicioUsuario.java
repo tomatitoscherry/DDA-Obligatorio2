@@ -20,7 +20,6 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class ServicioUsuario {
-
     
     ArrayList<Mozo> mozos;
     ArrayList<Gestor> gestores;
@@ -32,12 +31,12 @@ public class ServicioUsuario {
         usuariosLogeados = new ArrayList<Sesion>();
     }
     
-    public void agregarMozo(String nombreUsuario, String contrasenia, String nombreCompleto, String Telefono){
-        // aca se crea los usuarios y se agrega a la lista de usuarios, no seria necesario implementar una validacion ya que no lo crea un usuario sino nosotros
+    public void agregarMozo(Mozo mozo){
+        mozos.add(mozo);
     }
     
-      public void agregarGestor(String nombreUsuario, String contrasenia, String nombreCompleto){
-        // aca se crea los Gestores y se agrega a la lista de Gestores, no seria necesario implementar una validacion ya que no lo crea un usuario sino nosotros
+      public void agregarGestor(Gestor gestor){
+       gestores.add(gestor);
     }
       
    
@@ -72,7 +71,6 @@ public class ServicioUsuario {
         return mozosConectados;
     }
     
-    // LOGICA PARA EL LOGIN
     public Mozo loginMozo(String usuario, String password) throws SesionDuplicada {
         return (Mozo) loginGenerico(usuario, password, (ArrayList) mozos);
     }
@@ -83,11 +81,6 @@ public class ServicioUsuario {
 
     private Usuario loginGenerico(String usuario, String password, ArrayList<Usuario> listaUsuarios) throws SesionDuplicada {
         for (Usuario u : listaUsuarios) {
-            //Confirma si nombre usuario = usuario, si password es valida y si usuario no esta en el array de usuarios logeados.
-            /*if (u.getNombreUsuario().equals(usuario) && u.esPassordValida(password) && !usuariosLogeados.contains(u)){
-                return u;
-            }*/
-            
             if (u.getNombreUsuario().equals(usuario) && u.esPassordValida(password)) {
                 if(!usuariosLogeados.contains(u)){
                     return u;
@@ -99,12 +92,6 @@ public class ServicioUsuario {
         return null;
     }
         
-     public void logout(Usuario usu){
-//         1) El mozo indica que desea salir del sistema.
-//        2) El sistema registra que el mozo salió del sistema y cierra la interfaz de usuario
-        // se quita de la lista de usuarios logeados
-    }
-
     public boolean tieneMesasAbiertas(Mozo mozo) {
         return mozo.tengoMesasAbiertas();
     }

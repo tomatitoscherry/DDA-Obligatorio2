@@ -36,11 +36,10 @@ public class FachadaServicios extends Observable {
     private ServicioProcesadoraPedidos servicioProcesadoraPedidos;
 
     
-        private FachadaServicios() {
+    private FachadaServicios() {
         servicioMesa = new ServicioMesa();
         servicioUsuario = new ServicioUsuario();
-        servicioProcesadoraPedidos = new ServicioProcesadoraPedidos();
-        
+        servicioProcesadoraPedidos = new ServicioProcesadoraPedidos();    
     }
     
     public synchronized static FachadaServicios getInstance() {
@@ -53,16 +52,24 @@ public class FachadaServicios extends Observable {
  //   //Metodos para la precarga de datos                        //
  //////////////////////////////////////////////////////////////////
 
-    public void agregarMozo(String nombreUsuario, String contrasenia, String nombreCompleto, String telefono){
-        servicioUsuario.agregarMozo(nombreUsuario, contrasenia, nombreCompleto, telefono);
+    public void agregarMozo(Mozo mozo){
+        servicioUsuario.agregarMozo(mozo);
     }
     
-    public void agregarGestor(String nombreUsuario, String contrasenia, String nombreCompleto){
-        servicioUsuario.agregarGestor(nombreUsuario, contrasenia, nombreCompleto);
+    public void agregarGestor(Gestor gestor){
+        servicioUsuario.agregarGestor(gestor);
     }
     
-    public void agregarProducto(int codigo, String nombre, float precioUnidad, int stock){
-        servicioMesa.agregarProducto(codigo, nombre, precioUnidad, stock);
+    public void agregarMesa(Mozo mozo, Mesa mesa) throws MesaException{
+        servicioMesa.agregarMesa(mozo, mesa);
+    }
+    
+    public void agregarCliente(Cliente cli){
+        servicioMesa.agregarCliente(cli);
+    }
+    
+    public void agregarProductoUniProcesadora(Producto producto, UnidadProcesadora uProcesadora){
+        servicioProcesadoraPedidos.agregarProductoUniProcesadora(producto, uProcesadora);
     }
     
  //////////////////////////////////////////////////////////////////

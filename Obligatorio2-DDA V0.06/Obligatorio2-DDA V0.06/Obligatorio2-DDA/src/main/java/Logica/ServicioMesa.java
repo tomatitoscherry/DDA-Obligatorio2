@@ -27,44 +27,31 @@ import java.lang.Exception;
  * @author Admin
  */
 public class ServicioMesa {
+    
     ArrayList<Mesa> mesas = new ArrayList<Mesa>();
     ArrayList<Producto> todosLosProductos = new ArrayList<Producto>();
     ArrayList<Cliente> todosLosClientes= new ArrayList<Cliente>();
+    
+    public Servicio getServiciosMesa(Mesa mesa){
+       return mesa.getServicio();
+    }
     
     /////////////////////////////////////////////
     //      //Logica precarga de datos         //
     ////////////////////////////////////////////
     
-    public void agregarMesa(int numero){
-        //Logica para agregar mesa, no lo usa usuario
-    }
-    
-    public void agregarProducto(int codigo, String nombre, float precioUnidad, int stock) {
-         //Logica para agregar producto, no lo usa usuario
+    public void agregarMesa(Mozo mozo, Mesa mesa) throws MesaException {
+        mesas.add(mesa);
+        mozo.agregarMesa(mesa);
     }
     
     public void agregarCliente(Cliente cli){
         todosLosClientes.add(cli);
     }
     
-    public void cerrarMesa(Mozo mozo, Mesa mesa){
-        mozo.quitarMesa(mesa);
-       // mesa.cerrarMesa();
-        //2) El sistema muestra los datos del servicio de la mesa.
-        //3) El mozo indica que desea cerrar la mesa.
-        //4) Opcionalmente el mozo ingresa el id del cliente (Si el cliente es un cliente registrado).
-        //5) Si el mozo ingreso un id de cliente, el sistema aplica el beneficio correspondiente al
-        //cliente, muestra el nombre del cliente, el monto total sin beneficio aplicado, un texto que
-        //describe el beneficio aplicado (“Café invitación” p.ej.) el monto del beneficio aplicado y el
-        //monto total a pagar.
-        //6) El sistema cierra la mesa
-
-    }
-      
-    public Servicio getServiciosMesa(Mesa mesa){
-       return mesa.getServicio();
-    }
-    
+    ///////////////////////////////////////////////////////////////////////////////
+    //                   //LOGICA PROYECTO                                       //
+    //////////////////////////////////////////////////////////////////////////////
     
     public ArrayList<Producto> getProductosDisponibles() {
         ArrayList<Producto> productosConStock = new ArrayList<Producto>();

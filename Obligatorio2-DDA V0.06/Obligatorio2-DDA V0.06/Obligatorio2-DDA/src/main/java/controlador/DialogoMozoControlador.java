@@ -106,6 +106,18 @@ public class DialogoMozoControlador implements Observer{
             vista.mostrarError(e.getMessage());
         }
     }
+    
+    //////////////////////////////////////////////////////////////////
+    //   //CU: Transferir una mesa                                  //               
+    //////////////////////////////////////////////////////////////////
+    
+    public void transferirMesa(Mesa mesa) {
+        vista.callDialogoMozoTransferirMesa(mozo, mesa);
+    }
+    
+    public void cambioEstadoTransferenciaMesa(int opcionSeleccionada, TransferenciaMesa transferencia) {
+        FachadaServicios.getInstance().cambioEstadoTransferenciaMesa(opcionSeleccionada, transferencia);
+    }
 
     //////////////////////////////////////////////////////////////////
     //   //CU: Cerrar una mesa                                      //               
@@ -118,18 +130,6 @@ public class DialogoMozoControlador implements Observer{
         }catch(MesaException e){
             vista.mostrarError(e.getMessage());
         }
-    }
-
-    //////////////////////////////////////////////////////////////////
-    //   //CU: Transferir una mesa                                  //               
-    //////////////////////////////////////////////////////////////////
-    
-    public void transferirMesa(Mesa mesa) {
-        vista.callDialogoMozoTransferirMesa(mozo, mesa);
-    }
-    
-    public void cambioEstadoTransferenciaMesa(int opcionSeleccionada, TransferenciaMesa transferencia) {
-        FachadaServicios.getInstance().cambioEstadoTransferenciaMesa(opcionSeleccionada, transferencia);
     }
     
     //////////////////////////////////////////////////////////////////

@@ -20,8 +20,14 @@ import javax.swing.JOptionPane;
  */
 public class DialogoGestorSeleccionarUnidadProcesadora extends javax.swing.JDialog implements DialogoGestorSeleccionarUnidadProcesadoraVista{
     
-    private Gestor gestor;
+    private Gestor gestor; //esto no va
     private DialogoGestorSeleccionarUnidadProcesadoraControlador controlador;
+    
+    /////////////////////////////////////////////////////////////////
+    //  OJO: por MVC la vista no puede contener entidades del modelo//
+    //  quien tiene que tener la entidad de modelo es el controlador//
+    //////////////////////////////////////////////////////////////////
+    
     
     /**
      * Creates new form DialogoMozosConectados
@@ -29,7 +35,7 @@ public class DialogoGestorSeleccionarUnidadProcesadora extends javax.swing.JDial
     public DialogoGestorSeleccionarUnidadProcesadora(java.awt.Frame parent, boolean modal, Gestor gestor) {
         super(parent, modal);
         initComponents();
-        this.gestor = gestor;
+        this.gestor = gestor; //esto no va
         this.controlador= new DialogoGestorSeleccionarUnidadProcesadoraControlador(this, gestor);
     }
 
@@ -131,9 +137,10 @@ public class DialogoGestorSeleccionarUnidadProcesadora extends javax.swing.JDial
         UnidadProcesadora unidadProcesadora = (UnidadProcesadora) listUnidadesProcesadoras.getSelectedValue();
         controlador.continuarUnidadProcesadora(unidadProcesadora);
     }
-
+    
+    //aca el controler le pasa a la vista el gestor ademas de la unidadProcesadora
     public void callDialogoGestor(UnidadProcesadora unidadProcesadora){
         new DialogoGestor((java.awt.Frame) this.getParent(), false, gestor, unidadProcesadora).setVisible(true);   
     }
-
+    
 }

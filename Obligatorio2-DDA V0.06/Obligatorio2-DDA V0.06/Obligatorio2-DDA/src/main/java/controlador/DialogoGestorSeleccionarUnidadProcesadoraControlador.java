@@ -53,7 +53,8 @@ public class DialogoGestorSeleccionarUnidadProcesadoraControlador implements Obs
     
 //
     public void continuarUnidadProcesadora(UnidadProcesadora unidadProcesadora) {
-        vista.callDialogoGestor(unidadProcesadora);
+        vista.callDialogoGestor(unidadProcesadora); //aca hay que mandarle el gestor
+        FachadaServicios.getInstance().deleteObserver(this); //antes de cerrar la vista hay que sacarla de la lista de observadores
         vista.cerrarVista();
     }
     

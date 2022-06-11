@@ -148,6 +148,7 @@ public class DialogoMozoControlador implements Observer{
     }
 
     public void cerrarSesion() {
+        FachadaServicios.getInstance().deleteObserver(this);
         FachadaServicios.getInstance().cerrar(sesion);
     }
 

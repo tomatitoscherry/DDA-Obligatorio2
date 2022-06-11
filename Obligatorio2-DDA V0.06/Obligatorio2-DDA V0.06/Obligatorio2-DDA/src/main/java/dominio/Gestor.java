@@ -27,6 +27,11 @@ public class Gestor extends Usuario{
     public void setUltimoAcceso(Date ultimoAcceso) {
         this.ultimoAcceso = ultimoAcceso;
     }
+
+    @Override
+    public String toString() {
+        return this.getNombreCompleto();
+    }
     
     
 }

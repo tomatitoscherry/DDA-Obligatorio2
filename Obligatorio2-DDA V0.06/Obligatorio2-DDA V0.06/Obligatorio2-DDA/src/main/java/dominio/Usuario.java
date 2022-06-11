@@ -38,5 +38,10 @@ public class Usuario {
         return this.contrasenia.equals(pswUpperCase);
     }
 
+    @Override
+    public String toString() {
+        return nombreCompleto;
+    }
+
     
 }

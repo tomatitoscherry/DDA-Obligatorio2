@@ -68,21 +68,32 @@ public class ServicioMesa {
     }
       
     public ItemServicio agregarProductoAServicio(Mesa mesa, Producto producto, int cantidad, String descripcion) throws ServicioException{
+       System.out.println("Estoy en servicio mesa");
         ItemServicio is;
-        if(cantidad > producto.getStock()){
-          //  “Sin stock, solo quedan (n)”
-          throw new ServicioException("Sin stock, solo quedan "+producto.getStock());
-        } else if (cantidad <= 0){
-            //  “cantidad inválida”
+        if(cantidad > 0){
+            System.out.println("Cantidad > 0");
+            if(cantidad <= producto.getStock()){
+                System.out.println("Cantidad < STOCK");
+                System.out.println(mesa);
+                System.out.println(producto);
+                if(cantidad > 0){
+                    System.out.println("MESA ABIERTA");
+                    System.out.println("Pase todos los if, voy a actualizar stock");
+                    producto.actualizarStock(cantidad);
+                    is = new ItemServicio(cantidad, descripcion, producto);
+                    mesa.getServicio().agregarItem(is);
+                    FachadaServicios.getInstance().notifyObservers(Observer.Eventos.STOCK_ACTUALIZADO);     
+                }else{
+                    System.out.println("La mesa está cerrada");
+                    throw new ServicioException("La mesa está cerrada");
+                }
+            }else{
+                System.out.println("Sin stock, solo quedan "+producto.getStock());
+                throw new ServicioException("Sin stock, solo quedan "+producto.getStock());
+            }
+        }else{
+            System.out.println("Cantidad inválida");
             throw new ServicioException("Cantidad inválida");
-        } else if (this.mesaEstaAbierta(mesa)){
-            // “La mesa está cerrada”
-            throw new ServicioException("La mesa está cerrada");
-        } else {
-            producto.actualizarStock(cantidad);
-            is = new ItemServicio(cantidad, descripcion, producto);
-            mesa.getServicio().agregarItem(is);
-            FachadaServicios.getInstance().notifyObservers(Observer.Eventos.STOCK_ACTUALIZADO);
         }
         return is;
     }

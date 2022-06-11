@@ -71,6 +71,8 @@ public class DialogoMozoControlador implements Observer{
     public void abrirMesa(Mesa mesa) throws MesaException {
         try{
             FachadaServicios.getInstance().abrirMesa(mesa);
+            System.out.println("Abri mesa");
+            vista.mesaAbierta("Servicio de la mesa: "+mesa.getNumero(), mozo.getMesas());
         }catch(MesaException e){
             vista.mostrarError(e.getMessage());
         }
@@ -92,15 +94,26 @@ public class DialogoMozoControlador implements Observer{
         }
     }
     
-    public void listaProductosDisponibles() {
+    public void listaProductosDisponibles(Mesa mesa) {
+        if(mesa!=null && mesa.isAbierta()){
+            actualizarListaProductos();
+        }else{
+            vista.mostrarError("Seleccione una mesa");
+        }
+    }
+     
+    public void actualizarListaProductos(){
         ArrayList<Producto> productos = FachadaServicios.getInstance().getProductosDisponibles();
         vista.setListProductos(productos);
     }
-     
+    
     public void agregarProductoAlServicio(Mesa mesa, Producto producto, String descripcion, int cantidad) throws ServicioException {
+                System.out.println("estoy en controlador");
+
         try{
         ItemServicio is= FachadaServicios.getInstance().agregarProductoAServicio(mesa, producto, cantidad, descripcion);
         vista.agregarItemTablaServicio(is);
+        //cargarServicioMesa(mesa);
         FachadaServicios.getInstance().agregarPedidoUnidadProcesadora(is);
         }catch(ServicioException e){
             vista.mostrarError(e.getMessage());
@@ -155,7 +168,7 @@ public class DialogoMozoControlador implements Observer{
     @Override
     public void update(Observable source, Object event) {
         if(event.equals(Observer.Eventos.STOCK_ACTUALIZADO)){
-            listaProductosDisponibles();
+            actualizarListaProductos();
         }
         if(event.equals(Observer.Eventos.NUEVA_TRANSFERENCIA)){
             if(this.mozo.getTransferenciaRecepcion()!=null){

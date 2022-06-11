@@ -4,6 +4,7 @@
  */
 package dominio;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  */
 public class Gestor extends Usuario{
     
-    
+    private ArrayList<ItemServicio> pedidos;
     private Date ultimoAcceso;
     
     public Gestor(String nombreUsuario, String contrasenia, String nombreCompleto) {
@@ -32,6 +33,15 @@ public class Gestor extends Usuario{
     public String toString() {
         return this.getNombreCompleto();
     }
+
+    public ArrayList<ItemServicio> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(ItemServicio pedidos) {
+        this.pedidos.add(pedidos);
+    }
+    
     
     
 }

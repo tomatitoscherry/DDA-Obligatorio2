@@ -4,6 +4,8 @@
  */
 package ui;
 
+import dominio.ItemServicio;
+
 
 /**
  *
@@ -12,6 +14,10 @@ package ui;
 public interface DialogoGestorVista {
 
     public void cargarNombreGestor(String nombreCompleto);
+
+    public void cargarTabla();
+
+    public void tomarPedido(ItemServicio pedido);
 
    
     

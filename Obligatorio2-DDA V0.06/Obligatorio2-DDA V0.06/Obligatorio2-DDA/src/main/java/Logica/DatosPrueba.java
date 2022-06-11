@@ -40,6 +40,7 @@ public class DatosPrueba {
         fachada.agregarMozo(mozo2);
         fachada.agregarMozo(mozo3);
         fachada.agregarMozo(mozo4);
+        fachada.agregarMozo(mozo5);
         
         ///////////////////////
         //    //MESAS        //

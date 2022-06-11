@@ -29,6 +29,11 @@ public class UnidadProcesadora {
         itemServicios.add(itemServicio);
     }
 
+    public void removeItemServicio(ItemServicio itemServicio){
+        itemServicios.remove(itemServicio);
+    }
+    
+    
     public String getNombre() {
         return nombre;
     }

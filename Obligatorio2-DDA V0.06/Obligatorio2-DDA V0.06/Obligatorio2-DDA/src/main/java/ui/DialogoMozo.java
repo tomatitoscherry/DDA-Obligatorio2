@@ -380,8 +380,12 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         Producto producto= (Producto) listProductos.getSelectedValue();
         String descripcion= txtDescripcionProducto.getText();
         String cantidad= txtCantidadProducto.getText();
-        int cantidadP=Integer.parseInt(cantidad);
-        controlador.agregarProductoAlServicio(mesa, producto, descripcion, cantidadP);
+        controlador.agregarProductoAlServicio(mesa, producto, descripcion, cantidad);
+    }
+    
+    public void clearTextField(){
+        txtDescripcionProducto.setText("");
+        txtCantidadProducto.setText("");
     }
     
     public void cargarServicioCompleto(Servicio servicio){

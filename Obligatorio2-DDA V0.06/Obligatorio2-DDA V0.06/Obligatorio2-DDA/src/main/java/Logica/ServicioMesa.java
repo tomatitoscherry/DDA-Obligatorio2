@@ -67,33 +67,32 @@ public class ServicioMesa {
         return productosConStock;
     }
       
-    public ItemServicio agregarProductoAServicio(Mesa mesa, Producto producto, int cantidad, String descripcion) throws ServicioException{
-       System.out.println("Estoy en servicio mesa");
+    public ItemServicio agregarProductoAServicio(Mesa mesa, Producto producto, String cantidad, String descripcion) throws ServicioException{
         ItemServicio is;
-        if(cantidad > 0){
-            System.out.println("Cantidad > 0");
-            if(cantidad <= producto.getStock()){
-                System.out.println("Cantidad < STOCK");
-                System.out.println(mesa);
-                System.out.println(producto);
-                if(cantidad > 0){
-                    System.out.println("MESA ABIERTA");
-                    System.out.println("Pase todos los if, voy a actualizar stock");
-                    producto.actualizarStock(cantidad);
-                    is = new ItemServicio(cantidad, descripcion, producto);
-                    mesa.getServicio().agregarItem(is);
-                    FachadaServicios.getInstance().notifyObservers(Observer.Eventos.STOCK_ACTUALIZADO);     
+        if(producto!=null){
+            if(!cantidad.isEmpty()){
+                int cantP= Integer. parseInt(cantidad);
+                if(cantP > 0){
+                    if(cantP <= producto.getStock()){
+                        if(cantP > 0){
+                            producto.actualizarStock(cantP);
+                            is = new ItemServicio(cantP, descripcion, producto);
+                            mesa.getServicio().agregarItem(is);
+                            FachadaServicios.getInstance().notifyObservers(Observer.Eventos.STOCK_ACTUALIZADO);     
+                        }else{
+                            throw new ServicioException("La mesa está cerrada");
+                        }
+                    }else{
+                        throw new ServicioException("Sin stock, solo quedan "+producto.getStock());
+                    }
                 }else{
-                    System.out.println("La mesa está cerrada");
-                    throw new ServicioException("La mesa está cerrada");
+                    throw new ServicioException("Cantidad inválida");
                 }
             }else{
-                System.out.println("Sin stock, solo quedan "+producto.getStock());
-                throw new ServicioException("Sin stock, solo quedan "+producto.getStock());
+                throw new ServicioException("Cantidad inválida");
             }
         }else{
-            System.out.println("Cantidad inválida");
-            throw new ServicioException("Cantidad inválida");
+            throw new ServicioException("Seleccione un producto");
         }
         return is;
     }
@@ -121,23 +120,28 @@ public class ServicioMesa {
     public void tramitarTransfernciaMesa(Mozo mozo) throws MesaException {
         TransferenciaMesa transferencia= mozo.getTransferenciaEmitida();
         Mozo mozoReceptor= transferencia.getMozoReceptor();
+        Mesa mesa= transferencia.getMesa();
         
         if(transferencia.getEstado().equals(TransferenciaAprobacionEnum.APROBADA)){
             //agrega mesa al mozo receptor
-            mozoReceptor.agregarMesa(transferencia.getMesa());
-            //deja vacio el transfernciaRecepcion
-            mozoReceptor.quitarTransferenciaRecepcion();
+            mozoReceptor.agregarMesa(mesa);
             //quita mesa al mozo emisor
-            mozo.quitarMesa(transferencia.getMesa());
-            //deja vacio el transferenciaEmitida
+            mozo.quitarMesa(mesa);
             mozo.quitarTransferenciaEmitida();
-            
+            FachadaServicios.getInstance().notifyObservers(Observer.Eventos.TRANSFERENCIA_CONCLUIDA);
         }else if(transferencia.getEstado().equals(TransferenciaAprobacionEnum.RECHAZADA)){
             //deja vacio el transfernciaRecepcion
             mozoReceptor.quitarTransferenciaRecepcion();
             //quita mesa al mozo emisor
-            mozo.quitarMesa(transferencia.getMesa());
+            mozo.quitarMesa(mesa);
         }
+    }
+    
+    public void eliminarTransferencias(TransferenciaMesa transferenciaRecepcion) {
+       //Mozo emisor= transferenciaRecepcion.getMozoEmisor();
+       Mozo receptor= transferenciaRecepcion.getMozoReceptor();
+       
+       receptor.quitarTransferenciaRecepcion();
     }
 
     public ArrayList<Mesa> conjuntoMesasDeMozo(Mozo mozo) {

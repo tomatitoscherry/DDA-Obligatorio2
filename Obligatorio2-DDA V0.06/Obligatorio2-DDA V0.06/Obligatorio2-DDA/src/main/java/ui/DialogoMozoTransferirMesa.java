@@ -102,6 +102,7 @@ public class DialogoMozoTransferirMesa extends javax.swing.JDialog implements Di
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTransferirMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirMesaActionPerformed
+        System.out.println("click");
         transferirMesa();
     }//GEN-LAST:event_btnTransferirMesaActionPerformed
 
@@ -134,7 +135,8 @@ public class DialogoMozoTransferirMesa extends javax.swing.JDialog implements Di
     }
     
     private void transferirMesa(){
-        Mozo mozoSeleccionado= (Mozo) listMozosConectados.getSelectedValuesList();
+        Mozo mozoSeleccionado= (Mozo) listMozosConectados.getSelectedValue();
+        System.out.println("MOZO "+mozoSeleccionado);
         controlador.transferirMesa(mozoSeleccionado);
     }
 

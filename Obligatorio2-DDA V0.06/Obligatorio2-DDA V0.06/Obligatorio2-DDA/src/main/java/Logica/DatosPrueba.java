@@ -32,9 +32,9 @@ public class DatosPrueba {
         ////////////////////////////////////////////////////////
         
         Mozo mozo1= new Mozo("A", "A", "Mariana Martinez", "091445566");
-        Mozo mozo2= new Mozo("b", "b", "Alberto Rolon", "098554466");
-        Mozo mozo3= new Mozo("c", "c", "Gonzalo Perez", "094336588");
-        Mozo mozo4= new Mozo("d", "d", "Alicia Cuadrado", "099885544");
+        Mozo mozo2= new Mozo("B", "B", "Alberto Rolon", "098554466");
+        Mozo mozo3= new Mozo("C", "C", "Gonzalo Perez", "094336588");
+        Mozo mozo4= new Mozo("D", "D", "Alicia Cuadrado", "099885544");
         
         fachada.agregarMozo(mozo1);
         fachada.agregarMozo(mozo2);
@@ -109,10 +109,10 @@ public class DatosPrueba {
         //            // DATOS GESTORES                       //
         ////////////////////////////////////////////////////////
         
-        Gestor g1= new Gestor("e", "e", "Mario Rivera");
-        Gestor g2= new Gestor("f", "f", "Arturo Caceres");
-        Gestor g3= new Gestor("g", "g", "Mariana Rey");
-        Gestor g4= new Gestor("h", "h", "Romina Rodao");
+        Gestor g1= new Gestor("E", "E", "Mario Rivera");
+        Gestor g2= new Gestor("F", "F", "Arturo Caceres");
+        Gestor g3= new Gestor("G", "G", "Mariana Rey");
+        Gestor g4= new Gestor("H", "H", "Romina Rodao");
         
         FachadaServicios.getInstance().agregarGestor(g1);
         FachadaServicios.getInstance().agregarGestor(g2);

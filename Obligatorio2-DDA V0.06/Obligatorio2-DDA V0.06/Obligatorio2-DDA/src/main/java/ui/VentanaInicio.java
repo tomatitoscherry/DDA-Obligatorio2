@@ -11,6 +11,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     public VentanaInicio() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setTitle("Bienvenido al sistema de mozos");
     }
 
     @SuppressWarnings("unchecked")

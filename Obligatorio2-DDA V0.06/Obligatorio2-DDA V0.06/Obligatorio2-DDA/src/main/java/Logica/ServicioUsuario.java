@@ -80,8 +80,8 @@ public class ServicioUsuario {
 
     private Usuario loginGenerico(String usuario, String password, ArrayList<Usuario> listaUsuarios) throws SesionDuplicada {
         for (Usuario u : listaUsuarios) {
-            if (u.getNombreUsuario().equals(usuario) && u.esPassordValida(password)) {
-                if (!usuariosLogeados.contains(u)) {
+            if (u.getNombreUsuario().equals(usuario) && u.esPassordValida(password)) {                              
+                if (!validarSesionDuplicada(u)) {
                     return u;
                 } else {
                     throw new SesionDuplicada("Ud. ya está logueado");
@@ -89,6 +89,19 @@ public class ServicioUsuario {
             }
         }
         return null;
+    }
+    
+    private boolean validarSesionDuplicada(Usuario u){
+        boolean logeado= false;
+        int aux=0;
+        while(aux < usuariosLogeados.size() && !logeado){
+            Usuario usuLogeado= usuariosLogeados.get(aux).getUsuario();
+            if(usuLogeado.equals(u)){
+                logeado=true;
+            }
+            aux++;
+        }
+        return logeado;
     }
 
     public boolean tieneMesasAbiertas(Mozo mozo) {

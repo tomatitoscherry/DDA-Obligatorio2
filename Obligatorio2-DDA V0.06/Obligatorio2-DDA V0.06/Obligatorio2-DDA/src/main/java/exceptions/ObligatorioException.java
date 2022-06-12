@@ -8,7 +8,7 @@ package exceptions;
  *
  * @author yamil
  */
-public class ObligatorioException extends Exception{
+public abstract class ObligatorioException extends Exception{
     
         public ObligatorioException(String message) {
         super(message);

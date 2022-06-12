@@ -55,6 +55,7 @@ public class DialogoCerrarMesaControlador{
             this.mesa.agregarCliente(cli);
             vista.desactivarBotones();
             vista.setLebelsDatosCli("Cliente sin registrar");
+            vista.cargarBeneficiosCliente(cli.getTipoCliente().getBeneficios());
             vista.setLabelsServicio(
                     "Monto del servicio : $"+this.mesa.getServicio().montoServicio(),
                     "Monto descuento por beneficios : $"+this.mesa.descuentoBeneficios(),

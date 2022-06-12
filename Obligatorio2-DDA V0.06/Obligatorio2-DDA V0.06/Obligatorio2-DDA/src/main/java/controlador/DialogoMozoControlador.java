@@ -60,9 +60,7 @@ public class DialogoMozoControlador implements Observer{
 
     public void cargarMesasMozo() {
         ArrayList<Mesa> mesasMozo= FachadaServicios.getInstance().conjuntoMesasDeMozo(mozo);
-        if(!mesasMozo.isEmpty()){
-            vista.cargarMesasMozo(mesasMozo);
-        }
+        vista.cargarMesasMozo(mesasMozo);
     }
     
     //////////////////////////////////////////////////////////////////
@@ -143,6 +141,8 @@ public class DialogoMozoControlador implements Observer{
     public void cerrarMesa(Mesa mesa) throws MesaException {
         try{
             mesa.cerrarMesa();
+            cargarMesasMozo();
+            vista.limpiarTablaServicio();
             vista.callDialogoCerrarMesa(mozo, mesa);
         }catch(MesaException e){
             vista.mostrarError(e.getMessage());
@@ -173,6 +173,15 @@ public class DialogoMozoControlador implements Observer{
     public void update(Observable source, Object event) {
         if(event.equals(Observer.Eventos.STOCK_ACTUALIZADO)){
             actualizarListaProductos();
+        }
+        if(event.equals(Observer.Eventos.PEDIDO_FINALIZADO)){
+            Mesa mesa= FachadaServicios.getInstance().finalizaronMiPedido(mozo);
+            if(mesa!=null){
+                ItemServicio isFinalizado= FachadaServicios.getInstance().isFinalizado(mesa);
+                String detallePedido="Mesa: "+mesa.toString()+", Producto: "+isFinalizado.getProducto()+", Cant.: "+isFinalizado.getUnidades();
+                isFinalizado.setActualizado(false);
+                vista.notificarPedidoFinalizado(detallePedido);
+            }
         }
         if(event.equals(Observer.Eventos.NUEVA_TRANSFERENCIA)){
             if(this.mozo.getTransferenciaRecepcion()!=null){

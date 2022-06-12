@@ -361,7 +361,6 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
 
     private void cargarServicioDeLaMesa(){
         dtm.setNumRows(0);
-       // listProductos.setListData(new ArrayList<>().toArray());
         Mesa mesa= (Mesa) listMesas.getSelectedValue();
         controlador.cargarServicioMesa(mesa);
     }
@@ -470,6 +469,10 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     
     public void notificarEstadoTransferenciaEmitida(String estado){
         JOptionPane.showMessageDialog(this, estado,"Estado transferencia", JOptionPane.PLAIN_MESSAGE);
+    }
+    
+    public void notificarPedidoFinalizado(String texto){
+        JOptionPane.showMessageDialog(this, texto,"Pedido finalizado", JOptionPane.PLAIN_MESSAGE);
     }
     
     //////////////////////////////////////////////////////////////////

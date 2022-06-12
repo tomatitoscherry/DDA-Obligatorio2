@@ -9,7 +9,9 @@ import dominio.Cliente;
 import dominio.ClienteComun;
 import dominio.ClienteDeLaCasa;
 import dominio.ClientePreferencial;
+import dominio.EstadoItemEnum;
 import dominio.Gestor;
+import dominio.ItemServicio;
 import dominio.Mesa;
 import dominio.Mozo;
 import dominio.Producto;
@@ -87,7 +89,7 @@ public class DatosPrueba {
         
         Producto p1= new Producto("Milanesa", 300, 20, up2);
         Producto p2= new Producto("Fritas", 170, 30, up2);
-        Producto p3= new Producto("Chivito", 350, 10, up2);
+        Producto p3= new Producto("Chivito", 500, 10, up2);
         Producto p4= new Producto("Pizza", 200, 15, up2);
         Producto p5= new Producto("Faina", 150, 5, up2);
         Producto p6= new Producto("Agua", 100, 30, up1);
@@ -151,6 +153,32 @@ public class DatosPrueba {
         fachada.agregarCliente(cli2);
         fachada.agregarCliente(cli3);
         
+        ItemServicio is= new ItemServicio(2, "",p1);//milanesa
+        is.setEstado(EstadoItemEnum.FINALIZADO);
+        is.setGestor(g4);
+        ItemServicio is2= new ItemServicio(2, "",p1);//milanesa
+        is2.setEstado(EstadoItemEnum.FINALIZADO);
+        is2.setGestor(g4);
+        ItemServicio is3= new ItemServicio(2, "",p7); //cafe
+        is3.setEstado(EstadoItemEnum.FINALIZADO);
+        is3.setGestor(g4);
+        ItemServicio is4= new ItemServicio(2, "",p6); //agua
+        is4.setEstado(EstadoItemEnum.FINALIZADO);
+        is4.setGestor(g4);
+        ItemServicio is5= new ItemServicio(2, "",p6); //agua
+        is5.setEstado(EstadoItemEnum.FINALIZADO);
+        is5.setGestor(g4);
+        ItemServicio is6= new ItemServicio(5, "",p3); //chivito 2500 pesos
+        is6.setEstado(EstadoItemEnum.FINALIZADO);
+        is6.setGestor(g4);
+        ItemServicio is7= new ItemServicio(1, "",p7); //cafe
+        is7.setEstado(EstadoItemEnum.FINALIZADO);
+        is7.setGestor(g4);
+        
+        mesa1.abrirMesa();
+        mesa1.getServicio().agregarItem(is6);
+        mesa1.getServicio().agregarItem(is3);
+        mesa1.getServicio().agregarItem(is4);
     }
     
 }

@@ -10,6 +10,7 @@ package Logica;
 import Logica.observer.Observer;
 import dominio.Beneficio;
 import dominio.Cliente;
+import dominio.EstadoItemEnum;
 import dominio.ItemServicio;
 import dominio.Mesa;
 import dominio.Mozo;
@@ -191,6 +192,39 @@ public class ServicioMesa {
             }
         }  
         return mesa;
+    }
+
+    public Mesa finalizaronMiPedido(Mozo mozo) {
+        Mesa mesa= null;
+        boolean esLaMesa= false;
+        int i=0;
+        while(i < mozo.getMesas().size() && esLaMesa){
+            Mesa m= mozo.getMesas().get(i);
+            if(m.isAbierta()){
+                boolean encontre= false;
+                int aux=0;
+                while(aux < m.getServicio().getItems().size() && !encontre){
+                    ItemServicio is= m.getServicio().getItems().get(aux);
+                    if(is.getEstado().equals(EstadoItemEnum.FINALIZADO) && is.isActualizado()){
+                        mesa= m;
+                        encontre=true;
+                        esLaMesa=true;
+                    }
+                    aux++;
+                }
+            }
+        }
+        return mesa;
+    }
+
+    ItemServicio isFinalizado(Mesa mesa) {
+        ItemServicio finalizado=null;
+        for(ItemServicio is : mesa.getServicio().getItems()){
+            if(is.getEstado().equals(EstadoItemEnum.FINALIZADO) && is.isActualizado()){
+                finalizado=is;
+            }
+        }
+        return finalizado;
     }
 
 }

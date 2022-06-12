@@ -144,6 +144,14 @@ public class FachadaServicios extends Observable {
     public void agregarPedidoUnidadProcesadora(ItemServicio is) {
         servicioProcesadoraPedidos.agregarProducto(is);
     }
+    
+    public Mesa finalizaronMiPedido(Mozo mozo) {
+        return servicioMesa.finalizaronMiPedido(mozo);
+    }
+    
+    public ItemServicio isFinalizado(Mesa mesa) {
+       return servicioMesa.isFinalizado(mesa);
+    }
 
     //////////////////////////////////////////////////////////////////
     //   //CU: Transferir una mesa                                   //               

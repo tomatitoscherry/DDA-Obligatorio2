@@ -111,10 +111,12 @@ public class ServicioMesa {
         Mozo mozoReceptor= transferencia.getMozoReceptor();
         if(opcionSeleccionada==0){
             transferencia.cambiarEstado(TransferenciaAprobacionEnum.APROBADA);
-        }else{
-            transferencia.cambiarEstado(TransferenciaAprobacionEnum.RECHAZADA);
+            FachadaServicios.getInstance().notifyObservers(Observer.Eventos.CAMBIO_ESTADO_TRANSFERENCIA_APROBADA);
         }
-        FachadaServicios.getInstance().notifyObservers(Observer.Eventos.CAMBIO_ESTADO_TRANSFERENCIA);
+        else{
+            transferencia.cambiarEstado(TransferenciaAprobacionEnum.RECHAZADA);
+            FachadaServicios.getInstance().notifyObservers(Observer.Eventos.CAMBIO_ESTADO_TRANSFERENCIA_RECHAZADA);
+        }
     }  
     
     public void tramitarTransfernciaMesa(Mozo mozo) throws MesaException {
@@ -129,11 +131,12 @@ public class ServicioMesa {
             mozo.quitarMesa(mesa);
             mozo.quitarTransferenciaEmitida();
             FachadaServicios.getInstance().notifyObservers(Observer.Eventos.TRANSFERENCIA_CONCLUIDA);
-        }else if(transferencia.getEstado().equals(TransferenciaAprobacionEnum.RECHAZADA)){
+        }
+        if(transferencia.getEstado().equals(TransferenciaAprobacionEnum.RECHAZADA)){
             //deja vacio el transfernciaRecepcion
             mozoReceptor.quitarTransferenciaRecepcion();
             //quita mesa al mozo emisor
-            mozo.quitarMesa(mesa);
+            mozo.quitarTransferenciaEmitida();
         }
     }
     

@@ -19,6 +19,7 @@ public class Inicio {
            DatosPrueba.cargar();
         } catch (MesaException ex) {
             System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
         
         new VentanaInicio().setVisible(true);

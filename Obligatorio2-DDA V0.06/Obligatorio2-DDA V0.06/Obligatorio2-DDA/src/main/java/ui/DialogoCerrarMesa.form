@@ -64,10 +64,10 @@
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="lblMontoServicio" min="-2" pref="242" max="-2" attributes="0"/>
-                  <Component id="lblBeneficiosAplicados" min="-2" pref="100" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" alignment="0" pref="269" max="32767" attributes="0"/>
                   <Component id="lblMontoPagar" alignment="0" max="32767" attributes="0"/>
+                  <Component id="lblBeneficiosAplicados" alignment="0" max="32767" attributes="0"/>
+                  <Component id="lblMontoServicio" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>

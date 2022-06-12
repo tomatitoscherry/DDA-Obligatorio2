@@ -79,8 +79,9 @@ public class ServicioUsuario {
     }
 
     private Usuario loginGenerico(String usuario, String password, ArrayList<Usuario> listaUsuarios) throws SesionDuplicada {
+        String uUpperCase= usuario.toUpperCase();
         for (Usuario u : listaUsuarios) {
-            if (u.getNombreUsuario().equals(usuario) && u.esPassordValida(password)) {                              
+            if (u.getNombreUsuario().equals(uUpperCase) && u.esPassordValida(password)) {                              
                 if (!validarSesionDuplicada(u)) {
                     return u;
                 } else {
@@ -120,10 +121,8 @@ public class ServicioUsuario {
                             encontre = true;
                             mozo = mozos.get(aux);
                         }
-
                     }
                 }
-
             }
             aux++;
         }

@@ -472,6 +472,10 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         JOptionPane.showMessageDialog(this, estado,"Estado transferencia", JOptionPane.PLAIN_MESSAGE);
     }
     
+    public void notificarPedidoFinalizado(String texto){
+        JOptionPane.showMessageDialog(this, texto,"Pedido finalizado", JOptionPane.PLAIN_MESSAGE);
+    }
+    
     //////////////////////////////////////////////////////////////////
     //   //CU: Salir del sistema                                    //               
     //////////////////////////////////////////////////////////////////

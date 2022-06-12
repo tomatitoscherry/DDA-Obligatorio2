@@ -18,6 +18,7 @@ public class ItemServicio {
     private String descripcion;
     private Producto producto;
     private Gestor gestor;
+    private boolean actualizado;
 
     private float subTotal;
 
@@ -30,12 +31,21 @@ public class ItemServicio {
         this.gestor = null;
         this.subTotal= montoTotalItem();
         this.estado= EstadoItemEnum.EN_ESPERA;
+        this.actualizado= false;
     }
     
     public ItemServicio(){}
 
     public int getUnidades() {
         return unidades;
+    }
+
+    public boolean isActualizado() {
+        return actualizado;
+    }
+
+    public void setActualizado(boolean actualizado) {
+        this.actualizado = actualizado;
     }
 
     public String getDescripcion() {
@@ -70,18 +80,6 @@ public class ItemServicio {
         this.estado = estado;
     }
 
-    
-//    public Gestor getGestorActual(){
-//        if(this.estado.equals(EstadoItemEnum.PREPARANDO)){
-//            return this.gestorInicial; 
-//        } else if (this.gestorFinal.equals(EstadoItemEnum.FINALIZADO)){
-//            return this.gestorFinal;
-//        } else {
-//            //si devuelve null aun no ha sido tomado por un gestor.
-//            return null;
-//        }
-//    }
-    
     public float montoTotalItem(){
         float total=0;
         float precioUnidad=this.producto.getPrecioUnidad();

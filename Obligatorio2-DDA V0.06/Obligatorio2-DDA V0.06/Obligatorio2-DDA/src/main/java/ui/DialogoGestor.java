@@ -144,6 +144,6 @@ public class DialogoGestor extends javax.swing.JDialog {
         this.controlador.tomarPedido(Pedido);
     }
 
-    
+    //la vista no deberia tener a unidad procesadora como atributo, lo tiene que tener el controlador
 
 }

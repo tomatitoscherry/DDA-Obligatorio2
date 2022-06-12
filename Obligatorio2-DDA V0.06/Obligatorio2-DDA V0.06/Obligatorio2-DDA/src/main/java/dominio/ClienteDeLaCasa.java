@@ -43,7 +43,7 @@ public class ClienteDeLaCasa extends TipoCliente{
         int contador=0;
         for(ItemServicio is : unServicio.getItems()){
             if(is.getProducto().getCodigo() == codigo){
-                contador++;
+                contador=contador+is.getUnidades();
             }
         }
         return contador;

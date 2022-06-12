@@ -18,7 +18,8 @@ public interface Observer {
         CAMBIO_ESTADO_TRANSFERENCIA_APROBADA,
         CAMBIO_ESTADO_TRANSFERENCIA_RECHAZADA,
         STOCK_ACTUALIZADO,
-        TRANSFERENCIA_CONCLUIDA
+        TRANSFERENCIA_CONCLUIDA,
+        PEDIDO_FINALIZADO
     }
 
     public void update(Observable source, Object event);

@@ -43,4 +43,6 @@ public interface DialogoMozoVista {
     public void notificarEstadoTransferenciaEmitida(String aprobada);
 
     public void mesaAbierta(String string, ArrayList<Mesa> mesas);
+
+    public void clearTextField();
 }

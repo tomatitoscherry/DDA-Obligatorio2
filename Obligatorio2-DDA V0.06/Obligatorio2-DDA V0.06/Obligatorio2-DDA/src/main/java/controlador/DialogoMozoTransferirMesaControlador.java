@@ -48,8 +48,13 @@ public class DialogoMozoTransferirMesaControlador implements Observer{
     }
 
     public void transferirMesa(Mozo mozoSeleccionado) {
-        FachadaServicios.getInstance().transferirMesa(mozo, mesa, mozoSeleccionado);
-        cerrarVista();
+        if(mozoSeleccionado!=null){
+            cerrarVista();
+            FachadaServicios.getInstance().transferirMesa(mozo, mesa, mozoSeleccionado);
+        }else{
+            vista.mostrarError("Debe selecccionar un mozo");
+        }
+
     }
     
     public void cerrarVista(){

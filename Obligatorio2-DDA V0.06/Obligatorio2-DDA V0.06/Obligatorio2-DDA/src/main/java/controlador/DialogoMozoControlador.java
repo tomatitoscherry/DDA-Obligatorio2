@@ -58,8 +58,10 @@ public class DialogoMozoControlador implements Observer{
     }
 
     public void cargarMesasMozo() {
+        System.out.println("Traigo la lista "+mozo.getNombreCompleto());
         ArrayList<Mesa> mesasMozo= FachadaServicios.getInstance().conjuntoMesasDeMozo(mozo);
         if(!mesasMozo.isEmpty()){
+            System.out.println("La lista no vino vacia");
             vista.cargarMesasMozo(mesasMozo);
         }
     }
@@ -71,7 +73,6 @@ public class DialogoMozoControlador implements Observer{
     public void abrirMesa(Mesa mesa) throws MesaException {
         try{
             FachadaServicios.getInstance().abrirMesa(mesa);
-            System.out.println("Abri mesa");
             vista.mesaAbierta("Servicio de la mesa: "+mesa.getNumero(), mozo.getMesas());
         }catch(MesaException e){
             vista.mostrarError(e.getMessage());
@@ -107,14 +108,12 @@ public class DialogoMozoControlador implements Observer{
         vista.setListProductos(productos);
     }
     
-    public void agregarProductoAlServicio(Mesa mesa, Producto producto, String descripcion, int cantidad) throws ServicioException {
-                System.out.println("estoy en controlador");
-
+    public void agregarProductoAlServicio(Mesa mesa, Producto producto, String descripcion, String cantidad) throws ServicioException {
         try{
-        ItemServicio is= FachadaServicios.getInstance().agregarProductoAServicio(mesa, producto, cantidad, descripcion);
-        vista.agregarItemTablaServicio(is);
-        //cargarServicioMesa(mesa);
-        FachadaServicios.getInstance().agregarPedidoUnidadProcesadora(is);
+            ItemServicio is= FachadaServicios.getInstance().agregarProductoAServicio(mesa, producto, cantidad, descripcion);
+            vista.agregarItemTablaServicio(is);
+            FachadaServicios.getInstance().agregarPedidoUnidadProcesadora(is);
+            vista.clearTextField();
         }catch(ServicioException e){
             vista.mostrarError(e.getMessage());
         }
@@ -125,7 +124,11 @@ public class DialogoMozoControlador implements Observer{
     //////////////////////////////////////////////////////////////////
     
     public void transferirMesa(Mesa mesa) {
-        vista.callDialogoMozoTransferirMesa(mozo, mesa);
+        if(mesa!=null){
+            vista.callDialogoMozoTransferirMesa(mozo, mesa);
+        }else{
+            vista.mostrarError("Debe seleccionar una mesa");
+        }
     }
     
     public void cambioEstadoTransferenciaMesa(int opcionSeleccionada, TransferenciaMesa transferencia) {
@@ -176,30 +179,40 @@ public class DialogoMozoControlador implements Observer{
             }
         }
         if(event.equals(Observer.Eventos.CAMBIO_ESTADO_TRANSFERENCIA)){
+            System.out.println("Evaluando transferenciaEmision: "+this.mozo.getTransferenciaEmitida()+" "+this.mozo.getNombreCompleto());
             if(this.mozo.getTransferenciaEmitida()!=null){
                 if(this.mozo.getTransferenciaEmitida().getEstado().equals(TransferenciaAprobacionEnum.APROBADA)){
                     vista.notificarEstadoTransferenciaEmitida("Aprobada");
                     try {
                         FachadaServicios.getInstance().tramitarTransferenciaMesa(this.mozo);
+                        System.out.println("Tramite la transferencia");
+                        cargarMesasMozo();
                     } catch (MesaException ex) {
                         vista.mostrarError(ex.getMessage());
                     }
-                    vista.cargarMesasMozo(this.mozo.getMesas());
                 }
-                if(this.mozo.getTransferenciaEmitida().getEstado().equals(TransferenciaAprobacionEnum.RECHAZADA)){
+                /*if(this.mozo.getTransferenciaEmitida().getEstado().equals(TransferenciaAprobacionEnum.RECHAZADA)){
                     vista.notificarEstadoTransferenciaEmitida("Rechazada");
                     try {
                         FachadaServicios.getInstance().tramitarTransferenciaMesa(this.mozo);
                     } catch (MesaException ex) {
                         vista.mostrarError(ex.getMessage());
                     }
-                }
+                }*/
             }
+        }
+        
+        if(event.equals(Observer.Eventos.TRANSFERENCIA_CONCLUIDA)){
+            
             if(this.mozo.getTransferenciaRecepcion()!=null){
+                System.out.println("Evaluando transferenciaRecepcion "+this.mozo.getTransferenciaRecepcion()+" "+this.mozo.getNombreCompleto());
                 if(this.mozo.getTransferenciaRecepcion().getEstado().equals(TransferenciaAprobacionEnum.APROBADA)){
-                    vista.cargarMesasMozo(this.mozo.getMesas());
+                    System.out.print("Es por aca!!!!!!!!!!");
+                    FachadaServicios.getInstance().eliminarTransferencias(this.mozo.getTransferenciaRecepcion());
+                    cargarMesasMozo();
                 }
             }
+
         }
     }
 

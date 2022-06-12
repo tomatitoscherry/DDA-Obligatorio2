@@ -137,7 +137,7 @@ public class FachadaServicios extends Observable {
         return servicioMesa.getProductosDisponibles();
     }
     
-    public ItemServicio agregarProductoAServicio(Mesa mesa, Producto producto, int cantidad, String descripcion) throws ServicioException{
+    public ItemServicio agregarProductoAServicio(Mesa mesa, Producto producto, String cantidad, String descripcion) throws ServicioException{
         return servicioMesa.agregarProductoAServicio(mesa, producto, cantidad, descripcion);  
     }
     
@@ -165,6 +165,10 @@ public class FachadaServicios extends Observable {
         servicioMesa.tramitarTransfernciaMesa(mozo);
     }
     
+    public void eliminarTransferencias(TransferenciaMesa transferenciaRecepcion) {
+        servicioMesa.eliminarTransferencias(transferenciaRecepcion);
+    }
+    
     //////////////////////////////////////////////////////////////////
     //   //CU: Cerrar una mesa                                       //               
     ////////////////////////////////////////////////////////////////// 
@@ -190,4 +194,5 @@ public class FachadaServicios extends Observable {
     public Mozo buscarMozoAsociado(ItemServicio is){
         return servicioUsuario.buscarMozoAsociado(is);
     }
+
 }

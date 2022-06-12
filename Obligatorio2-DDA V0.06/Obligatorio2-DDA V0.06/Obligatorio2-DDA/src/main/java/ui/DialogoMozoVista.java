@@ -45,4 +45,10 @@ public interface DialogoMozoVista {
     public void mesaAbierta(String string, ArrayList<Mesa> mesas);
 
     public void clearTextField();
+
+    public void limpiarTablaServicio();
+
+    public void listaProductosActivar();
+
+    public void listaProductosDesactivar();
 }

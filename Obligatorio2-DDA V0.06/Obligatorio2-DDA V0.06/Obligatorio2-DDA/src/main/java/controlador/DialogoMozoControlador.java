@@ -51,6 +51,7 @@ public class DialogoMozoControlador implements Observer{
     private void inicializarVista() {
         cargarNombre();
         cargarMesasMozo();
+        actualizarListaProductos();
     }
     
     private void cargarNombre() {
@@ -82,6 +83,7 @@ public class DialogoMozoControlador implements Observer{
     //////////////////////////////////////////////////////////////////
     
     public void cargarServicioMesa(Mesa mesa) {
+        vista.listaProductosDesactivar();
         if(mesa.isAbierta()){
             Servicio servicio=FachadaServicios.getInstance().getServicioMesa(mesa);
             vista.setLblServicioMesa("Servicio de la mesa: "+mesa.getNumero());
@@ -95,9 +97,10 @@ public class DialogoMozoControlador implements Observer{
     
     public void listaProductosDisponibles(Mesa mesa) {
         if(mesa!=null && mesa.isAbierta()){
+            vista.listaProductosActivar();
             actualizarListaProductos();
         }else{
-            vista.mostrarError("Seleccione una mesa");
+            vista.mostrarError("Seleccione una mesa abierta");
         }
     }
      
@@ -183,6 +186,7 @@ public class DialogoMozoControlador implements Observer{
                     try {
                         FachadaServicios.getInstance().tramitarTransferenciaMesa(this.mozo);
                         cargarMesasMozo();
+                        vista.limpiarTablaServicio();
                     } catch (MesaException ex) {
                         vista.mostrarError(ex.getMessage());
                     }

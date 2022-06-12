@@ -84,7 +84,6 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblServicioMesa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblServicioMesa.setText("Servicio de la mesa:");
 
         btnAbrir.setText("Abrir");
         btnAbrir.addActionListener(new java.awt.event.ActionListener() {
@@ -108,6 +107,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
             }
         });
 
+        listProductos.setEnabled(false);
         jScrollPane1.setViewportView(listProductos);
 
         lblMesasMozo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -186,7 +186,6 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -196,9 +195,9 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
                                 .addComponent(btnAgregarProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnTransferir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(btnAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblCantidadProducto)
                             .addComponent(btnAgregarItemServicio)
@@ -210,6 +209,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblProductosDisponilbes))
                     .addComponent(btnSalir)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblServicioMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -223,33 +223,36 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
                     .addComponent(lblProductosDisponilbes)
                     .addComponent(lblMesasMozo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblCantidadProducto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCantidadProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblDescripcionProducto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDescripcionProducto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAgregarItemServicio))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(btnAbrir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAgregarProducto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCerrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnTransferir)))
-                .addGap(41, 41, 41)
-                .addComponent(lblServicioMesa)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lblCantidadProducto)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtCantidadProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(lblDescripcionProducto)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtDescripcionProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnAgregarItemServicio))
+                                .addComponent(jScrollPane3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(btnAbrir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAgregarProducto)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCerrar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnTransferir)))
+                        .addGap(41, 41, 41)
+                        .addComponent(lblServicioMesa))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(26, 26, 26))
         );
 
         pack();
@@ -316,7 +319,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private javax.swing.JTextField txtCantidadProducto;
     private javax.swing.JTextField txtDescripcionProducto;
     // End of variables declaration//GEN-END:variables
-
+    
     public void cerrarVista() {
         this.dispose();
     }
@@ -358,8 +361,13 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
 
     private void cargarServicioDeLaMesa(){
         dtm.setNumRows(0);
+       // listProductos.setListData(new ArrayList<>().toArray());
         Mesa mesa= (Mesa) listMesas.getSelectedValue();
         controlador.cargarServicioMesa(mesa);
+    }
+    
+    public void limpiarTablaServicio(){
+         dtm.setNumRows(0);
     }
     
     public void setLblServicioMesa(String texto){
@@ -369,6 +377,18 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private void productosDisponibles() {
         Mesa mesa= (Mesa) listMesas.getSelectedValue();
         controlador.listaProductosDisponibles(mesa);
+    }
+    
+    public void listaProductosActivar(){
+        listProductos.setEnabled(true);
+    }
+    
+    public void listaProductosDesactivar(){
+        listProductos.setEnabled(false);
+    }
+    
+    public boolean getEstadoListaProductos(){
+        return listProductos.isEnabled();
     }
     
     public void setListProductos(ArrayList<Producto> productos){

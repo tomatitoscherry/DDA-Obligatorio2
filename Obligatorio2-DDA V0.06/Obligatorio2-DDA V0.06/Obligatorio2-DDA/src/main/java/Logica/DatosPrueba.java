@@ -37,11 +37,26 @@ public class DatosPrueba {
         Mozo mozo2= new Mozo("B", "B", "Alberto Rolon", "098554466");
         Mozo mozo3= new Mozo("C", "C", "Gonzalo Perez", "094336588");
         Mozo mozo4= new Mozo("D", "D", "Alicia Cuadrado", "099885544");
-        
+
         fachada.agregarMozo(mozo1);
         fachada.agregarMozo(mozo2);
         fachada.agregarMozo(mozo3);
         fachada.agregarMozo(mozo4);
+
+        
+         ////////////////////////////////////////////////////////
+         //            // DATOS GESTOR                         //
+         ////////////////////////////////////////////////////////
+        
+        Gestor gestor1= new Gestor("E", "E", "Mauricio Vilar");
+        Gestor gestor2= new Gestor("F", "F", "Yamila Reyes");
+        Gestor gestor3= new Gestor("G", "G", "Marina Migues");
+        Gestor gestor4= new Gestor("H", "H", "Minerva McGonagall");
+
+        fachada.agregarGestor(gestor1);
+        fachada.agregarGestor(gestor2);
+        fachada.agregarGestor(gestor3);
+        fachada.agregarGestor(gestor4);
         
         ///////////////////////
         //    //MESAS        //

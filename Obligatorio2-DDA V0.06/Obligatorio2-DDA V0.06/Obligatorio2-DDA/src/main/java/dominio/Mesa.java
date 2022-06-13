@@ -5,6 +5,7 @@
 package dominio;
 
 import exceptions.MesaException;
+import java.util.ArrayList;
 
 /**
  *
@@ -70,18 +71,8 @@ public class Mesa {
         this.servicio=null;
     }
     
-    public float calcularMontoTotalConBeneficios(){
-        float totalServicio=this.servicio.montoServicio();
-        float totalDescuentos= descuentoBeneficios();
-        float totalPagar=0;
-        if(totalDescuentos < totalServicio){
-            totalPagar= totalServicio-totalDescuentos;
-        }
-        return totalPagar;
-    }
-    
-    public float descuentoBeneficios(){
-        return this.cliente.getTipoCliente().calcularDescuentoBeneficios(this.servicio);
+    public ArrayList<DetalleBeneficiosAplicados> detalleBeneficiosAplicados(){
+        return this.cliente.getTipoCliente().beneficiosAplicados(this.servicio);
     }
 
     @Override

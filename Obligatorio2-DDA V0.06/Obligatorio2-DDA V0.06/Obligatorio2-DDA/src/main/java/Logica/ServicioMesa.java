@@ -8,6 +8,7 @@ package Logica;
 import Logica.observer.Observer;
 import dominio.Beneficio;
 import dominio.Cliente;
+import dominio.DetalleBeneficiosAplicados;
 import dominio.EstadoItemEnum;
 import dominio.Gestor;
 import dominio.ItemServicio;
@@ -17,12 +18,15 @@ import dominio.Producto;
 import dominio.Servicio;
 import dominio.TransferenciaAprobacionEnum;
 import dominio.TransferenciaMesa;
+import exceptions.AgregarClienteMesaException;
 import dominio.UnidadProcesadora;
 import exceptions.ServicioException;
 import exceptions.MesaException;
 import exceptions.PedidoException;
 import java.util.ArrayList;
 import java.lang.Exception;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -158,20 +162,36 @@ public class ServicioMesa {
         return mesa.isAbierta();
     }
 
-    public Cliente buscarCliente(int nroCliente) {
-        boolean encontre = false;
-        int aux = 0;
-        Cliente cliente = null;
-
-        while (!encontre && aux < todosLosClientes.size()) {
-            Cliente cli = todosLosClientes.get(aux);
-            if (nroCliente == cli.getId()) {
-                encontre = true;
-                cliente = cli;
-            }
-            aux++;
+    private boolean validarString(String exReg, String cadena){
+        Pattern pat = Pattern.compile(exReg);
+        Matcher mat = pat.matcher(cadena);
+        boolean match=false;
+        if (mat.matches()) {
+            match=true;
         }
-        return cliente;
+     return match;
+    }
+    
+    public Cliente buscarCliente(String nroCliente) throws AgregarClienteMesaException{
+        String exReg="^[0-9]+$";
+        if(validarString(exReg, nroCliente)){
+            int parserNroCli= Integer.parseInt(nroCliente);
+            boolean encontre= false;
+            int aux=0;
+            Cliente cliente= null;
+
+            while(!encontre && aux < todosLosClientes.size()){
+                Cliente cli= todosLosClientes.get(aux);
+                if(parserNroCli == cli.getId()){
+                    encontre= true;
+                    cliente = cli;
+                }
+                aux++;
+            }  
+            return cliente;
+        }else{
+            throw new AgregarClienteMesaException("Tipo de dato invalido, ingrese un numero");
+        }
     }
 
     public Mesa buscarMesaAsociada(ItemServicio isBuscado) {
@@ -216,15 +236,29 @@ public class ServicioMesa {
     }
 
     public ItemServicio isFinalizado(Mesa mesa) {
-        ItemServicio finalizado = null;
-        for (ItemServicio is : mesa.getServicio().getItems()) {
-            if (is.getEstado().equals(EstadoItemEnum.FINALIZADO) && is.isActualizado()) {
-                finalizado = is;
+        ItemServicio finalizado=null;
+        for(ItemServicio is : mesa.getServicio().getItems()){
+            if(is.getEstado().equals(EstadoItemEnum.FINALIZADO) && is.isActualizado()){
+                finalizado=is;
             }
         }
         return finalizado;
     }
 
+    public ArrayList<DetalleBeneficiosAplicados> beneficiosAplicados(Mesa mesa) {
+        return mesa.detalleBeneficiosAplicados();
+    }
 
+    public float totalDescuentos(ArrayList<DetalleBeneficiosAplicados> beneficiosAplicados) {
+       float total=0; 
+       for(DetalleBeneficiosAplicados dba : beneficiosAplicados){
+           total+= dba.getMontoDescontado();
+       }
+       return total;
+    }
+
+    public float totalPagar(float totalDescuentos, float montoSinDescuentos) {
+        return montoSinDescuentos-totalDescuentos;
+    }
 
 }

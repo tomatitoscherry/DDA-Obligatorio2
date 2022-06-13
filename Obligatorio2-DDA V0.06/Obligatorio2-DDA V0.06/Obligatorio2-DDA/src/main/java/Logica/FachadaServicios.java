@@ -8,6 +8,7 @@ package Logica;
 import Logica.observer.Observable;
 import dominio.Beneficio;
 import dominio.Cliente;
+import dominio.DetalleBeneficiosAplicados;
 import dominio.Gestor;
 import dominio.ItemServicio;
 import dominio.Mesa;
@@ -18,6 +19,7 @@ import dominio.Sesion;
 import dominio.TransferenciaMesa;
 import dominio.UnidadProcesadora;
 import dominio.Usuario;
+import exceptions.AgregarClienteMesaException;
 import exceptions.ServicioException;
 import exceptions.MesaException;
 import exceptions.PedidoException;
@@ -182,12 +184,24 @@ public class FachadaServicios extends Observable {
     //   //CU: Cerrar una mesa                                       //               
     ////////////////////////////////////////////////////////////////// 
     
-    public Cliente buscarCliente(int nroCliente) {
+    public Cliente buscarCliente(String nroCliente) throws AgregarClienteMesaException {
         return servicioMesa.buscarCliente(nroCliente);
     }
     
     public boolean tieneMesasAbiertas(Mozo mozo) {
         return servicioUsuario.tieneMesasAbiertas(mozo);
+    }
+    
+    public ArrayList<DetalleBeneficiosAplicados> beneficiosAplicados(Mesa mesa) {
+        return servicioMesa.beneficiosAplicados(mesa);
+    }
+
+    public float totalDescuentos(ArrayList<DetalleBeneficiosAplicados> beneficiosAplicados) {
+        return servicioMesa.totalDescuentos(beneficiosAplicados);
+    }
+
+    public float totalPagar(float totalDescuentos, float montoSinDescuentos) {
+        return servicioMesa.totalPagar(totalDescuentos, montoSinDescuentos);
     }
     
          //////////////////////////////////////////////////////////////////

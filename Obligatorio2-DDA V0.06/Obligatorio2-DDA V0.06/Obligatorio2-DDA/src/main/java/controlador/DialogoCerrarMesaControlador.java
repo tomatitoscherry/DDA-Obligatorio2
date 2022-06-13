@@ -7,8 +7,10 @@ package controlador;
 import Logica.FachadaServicios;
 import dominio.Beneficio;
 import dominio.Cliente;
+import dominio.DetalleBeneficiosAplicados;
 import dominio.Mesa;
 import dominio.Mozo;
+import exceptions.AgregarClienteMesaException;
 import java.util.ArrayList;
 import ui.DialogoCerrarMesa;
 
@@ -33,39 +35,46 @@ public class DialogoCerrarMesaControlador{
         vista.inicializarVista(mesa);
     }
     
-    public void agregarCliente(int nroCliente) {
-        if(nroCliente!=-1){
-            Cliente cli= buscarCliente(nroCliente);
+    public void agregarCliente(String nroCliente) throws AgregarClienteMesaException {
+        try{
+           vista.desactivarActivarBotones(false);
+           Cliente cli= buscarCliente(nroCliente);
             if(cli!=null){
-                vista.desactivarBotones();
-                this.mesa.agregarCliente(cli);
-                vista.setLebelsDatosCli("Cliente: "+cli.getNombre());
-                vista.cargarBeneficiosCliente(cli.getTipoCliente().getBeneficios());
-                vista.setLabelsServicio(
-                        "Monto del servicio : $"+this.mesa.getServicio().montoServicio(),
-                        "Monto descuento por beneficios : $"+this.mesa.descuentoBeneficios(),
-                        "Monto total a pagar : $"+this.mesa.calcularMontoTotalConBeneficios()
-                    );   
+                cargarDatosCliente(cli);
             }else{
                 vista.mostrarError("No se encontró al cliente");
                 vista.cerrarVista();
             }
-        }else{
-            Cliente cli= new Cliente();
-            this.mesa.agregarCliente(cli);
-            vista.desactivarBotones();
-            vista.setLebelsDatosCli("Cliente sin registrar");
-            vista.cargarBeneficiosCliente(cli.getTipoCliente().getBeneficios());
-            vista.setLabelsServicio(
-                    "Monto del servicio : $"+this.mesa.getServicio().montoServicio(),
-                    "Monto descuento por beneficios : $"+this.mesa.descuentoBeneficios(),
-                    "Monto total a pagar : $"+this.mesa.calcularMontoTotalConBeneficios()
-                );  
+        }catch(AgregarClienteMesaException ex){
+            vista.mostrarError(ex.getMessage());
+            vista.desactivarActivarBotones(true);
         }
         
     }
     
-    public Cliente buscarCliente(int nroCliente){
+    public void noAgregarCliente(){
+        vista.desactivarActivarBotones(false);
+        Cliente cli= new Cliente();
+        cargarDatosCliente(cli);
+    }
+    
+    private void cargarDatosCliente(Cliente cli){
+        this.mesa.agregarCliente(cli);
+        float montoSinDescuentos= this.mesa.getServicio().montoServicio();
+        ArrayList<DetalleBeneficiosAplicados> beneficiosAplicados= FachadaServicios.getInstance().beneficiosAplicados(this.mesa);
+        float totalDescuentos= FachadaServicios.getInstance().totalDescuentos(beneficiosAplicados);
+        float totalPagar= FachadaServicios.getInstance().totalPagar(totalDescuentos, montoSinDescuentos);
+        
+        vista.setLebelsDatosCli("Cliente: "+cli.getNombre());
+        vista.cargarBeneficiosCliente(beneficiosAplicados);
+        vista.setLabelsServicio(
+            "Monto del servicio : $"+montoSinDescuentos,
+            "Monto descuento por beneficios : $"+totalDescuentos,
+            "Monto total a pagar : $"+totalPagar
+        );
+    }
+    
+    public Cliente buscarCliente(String nroCliente) throws AgregarClienteMesaException{
         return FachadaServicios.getInstance().buscarCliente(nroCliente);
     }
 

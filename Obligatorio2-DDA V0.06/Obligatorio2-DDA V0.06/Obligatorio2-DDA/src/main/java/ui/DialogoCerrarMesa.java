@@ -7,9 +7,13 @@ package ui;
 import controlador.DialogoCerrarMesaControlador;
 import dominio.Beneficio;
 import dominio.Cliente;
+import dominio.DetalleBeneficiosAplicados;
 import dominio.Mesa;
 import dominio.Mozo;
+import exceptions.AgregarClienteMesaException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -220,23 +224,27 @@ public class DialogoCerrarMesa extends javax.swing.JDialog implements DialogoCer
     
     @Override
     public void agregarClienteMesa() {
-        int nroCliente= Integer.parseInt(txtNroCliente.getText());
-        controlador.agregarCliente(nroCliente);
+        String nroCliente= txtNroCliente.getText();
+        try {
+            controlador.agregarCliente(nroCliente);
+        } catch (AgregarClienteMesaException ex) {
+            Logger.getLogger(DialogoCerrarMesa.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
     public void noAgregarClienteMesa() {
-        controlador.agregarCliente(-1);
+        controlador.noAgregarCliente();
     }
 
-    public void cargarBeneficiosCliente(ArrayList<Beneficio> beneficios){
+    public void cargarBeneficiosCliente(ArrayList<DetalleBeneficiosAplicados> beneficios){
         listBeneficiosAplicados.setListData(beneficios.toArray());
         btnSalir.setEnabled(true);
     }
     
-    public void desactivarBotones(){
-        btnAgregarCliente.setEnabled(false);
-        btnNoAgregarCliente.setEnabled(false);
+    public void desactivarActivarBotones(boolean valor){
+        btnAgregarCliente.setEnabled(valor);
+        btnNoAgregarCliente.setEnabled(valor);
     }
 
     public void setLebelsDatosCli(String texto){

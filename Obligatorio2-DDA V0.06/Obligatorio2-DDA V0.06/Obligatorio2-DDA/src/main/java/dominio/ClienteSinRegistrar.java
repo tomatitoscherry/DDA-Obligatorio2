@@ -9,10 +9,5 @@ package dominio;
  * @author yamil
  */
 public class ClienteSinRegistrar extends TipoCliente{
-
-    @Override
-    public float calcularDescuentoBeneficios(Servicio unServicio) {
-        return 0;
-    }
-    
+    //No tiene beneficios
 }

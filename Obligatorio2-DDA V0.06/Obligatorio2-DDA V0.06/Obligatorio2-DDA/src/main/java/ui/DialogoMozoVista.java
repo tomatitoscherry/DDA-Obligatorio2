@@ -53,4 +53,5 @@ public interface DialogoMozoVista {
     public void listaProductosDesactivar();
 
     public void notificarPedidoFinalizado(String detallePedido);
+
 }

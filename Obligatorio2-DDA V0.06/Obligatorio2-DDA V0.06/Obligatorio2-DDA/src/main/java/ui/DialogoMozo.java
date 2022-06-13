@@ -361,6 +361,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
 
     private void cargarServicioDeLaMesa(){
         dtm.setNumRows(0);
+       // listProductos.setListData(new ArrayList<>().toArray());
         Mesa mesa= (Mesa) listMesas.getSelectedValue();
         controlador.cargarServicioMesa(mesa);
     }

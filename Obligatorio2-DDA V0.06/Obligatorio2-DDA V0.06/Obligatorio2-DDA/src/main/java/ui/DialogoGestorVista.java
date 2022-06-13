@@ -17,8 +17,10 @@ public interface DialogoGestorVista {
 
     public void cargarTabla();
 
-    public void tomarPedido(ItemServicio pedido);
+    public void tomarPedido();
 
     public void vaciarTabla(); 
+
+    public void finalizarPedido(ItemServicio pedido);
    
 }

@@ -20,6 +20,7 @@ import dominio.UnidadProcesadora;
 import dominio.Usuario;
 import exceptions.ServicioException;
 import exceptions.MesaException;
+import exceptions.PedidoException;
 import exceptions.SesionDuplicada;
 import java.util.ArrayList;
 
@@ -201,6 +202,15 @@ public class FachadaServicios extends Observable {
 
     public Mozo buscarMozoAsociado(ItemServicio is){
         return servicioUsuario.buscarMozoAsociado(is);
+    }
+
+    public void setearPedidoParaGestor(ItemServicio pedido, Gestor gestor, UnidadProcesadora unidadProcesadora) throws PedidoException {
+        servicioProcesadoraPedidos.setearPedidoParaGestor(pedido, gestor, unidadProcesadora);
+        
+    }
+
+    public void finalizarPedidoParaGestor(ItemServicio pedido, Gestor gestor) throws PedidoException {
+        servicioProcesadoraPedidos.finalizarPedidoParaGestor(pedido, gestor);
     }
 
 }

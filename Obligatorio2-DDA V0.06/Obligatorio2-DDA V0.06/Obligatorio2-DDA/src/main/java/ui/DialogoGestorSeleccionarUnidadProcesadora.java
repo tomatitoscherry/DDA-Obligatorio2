@@ -126,7 +126,11 @@ public class DialogoGestorSeleccionarUnidadProcesadora extends javax.swing.JDial
 
     @Override
     public void cargarListadoUnidadesProcesadoras(ArrayList<UnidadProcesadora> unidadesProcesadoras) {
-       listUnidadesProcesadoras.setListData(unidadesProcesadoras.toArray());
+//        for(UnidadProcesadora up : unidadesProcesadoras){
+                 listUnidadesProcesadoras.setListData(unidadesProcesadoras.toArray());
+
+//        }
+
     }
     //////////////////////////////////////////////////////////////////
     //   *CU: Ingresar a la aplicación                              //               

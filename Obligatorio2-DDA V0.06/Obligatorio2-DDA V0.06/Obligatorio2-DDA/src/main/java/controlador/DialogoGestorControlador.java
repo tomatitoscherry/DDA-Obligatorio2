@@ -16,6 +16,7 @@ import dominio.Sesion;
 import dominio.UnidadProcesadora;
 import exceptions.ServicioException;
 import exceptions.MesaException;
+import exceptions.PedidoException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,9 +34,9 @@ public class DialogoGestorControlador implements Observer{
     private Gestor gestor;
     private UnidadProcesadora unidadProcesadora;
     private Sesion sesion;
-    DefaultTableModel dtm;
     
-    public DialogoGestorControlador(DialogoGestorVista vista, Gestor gestor, UnidadProcesadora unidadProcesadora, DefaultTableModel dtm) {
+    public DialogoGestorControlador(DialogoGestorVista vista, Gestor gestor, UnidadProcesadora unidadProcesadora) {
+
         this.vista = vista;
         this.gestor= gestor;
         sesion = new Sesion(gestor, new Date());
@@ -43,6 +44,8 @@ public class DialogoGestorControlador implements Observer{
         FachadaServicios.getInstance().iniciar(sesion);
         FachadaServicios.getInstance().addObserver(this);
         inicializarVista();
+
+
     }
 
     //////////////////////////////////////////////////////////////////
@@ -61,33 +64,11 @@ public class DialogoGestorControlador implements Observer{
      
     public void cargarTabla(){
         vaciarTabla();
-        int col = dtm.getColumnCount();
-        Object[] newRow = new Object[col];
-        for(ItemServicio is : unidadProcesadora.getItemServicios()){
-              newRow[0]= is.getProducto().getNombre();
-              newRow[1]= is.getUnidades();
-              newRow[2]= is.getDescripcion();
-              newRow[3]= FachadaServicios.getInstance().buscarMesaAsociada(is).getNumero();
-              newRow[4]= FachadaServicios.getInstance().buscarMozoAsociado(is).getNombreCompleto();
-    
-        }
-        dtm.addRow(newRow);
         vista.cargarTabla();
+
     }
 
      public void vaciarTabla(){
-
-        int col = dtm.getColumnCount();
-        Object[] newRow = new Object[col];
-        for(ItemServicio is : unidadProcesadora.getItemServicios()){
-              newRow[0]= "";
-              newRow[1]= "";
-              newRow[2]= "";
-              newRow[3]= "";
-              newRow[4]= "";
-    
-        }
-        dtm.addRow(newRow);
         vista.vaciarTabla();
     }
     
@@ -95,18 +76,33 @@ public class DialogoGestorControlador implements Observer{
     //   //*CU: Tomar un pedido                                     //               
     ////////////////////////////////////////////////////////////////// 
 
-    public void tomarPedido(ItemServicio pedido){
-        pedido.setGestor(gestor);
-        pedido.setEstado(EstadoItemEnum.PREPARANDO);
-        unidadProcesadora.removeItemServicio(pedido);
-        gestor.setPedidos(pedido);
-        vista.tomarPedido(pedido);
+    public void tomarPedido(ItemServicio pedido) throws PedidoException{
+        
+        FachadaServicios.getInstance().setearPedidoParaGestor(pedido, gestor, unidadProcesadora);
+        vista.cargarTabla();
     }
 
     public Gestor getGestor() {
         return gestor;
     }
       
+    //////////////////////////////////////////////////////////////////
+    //   //*CU: Finalizar un pedido                                 //               
+    ////////////////////////////////////////////////////////////////// 
+    
+    public UnidadProcesadora getUnidadProcesadora() {
+        return unidadProcesadora;
+    }
+    
+    
+    public void finalizarPedido(ItemServicio pedido) throws PedidoException {
+        FachadaServicios.getInstance().finalizarPedidoParaGestor(pedido, gestor);
+      
+        vista.finalizarPedido(pedido);
+        
+    }
+       
+    
     @Override
     public void update(Observable source, Object event) {
         if(event.equals(Observer.Eventos.PEDIDOS_ACTUALIZADOS)){
@@ -115,5 +111,7 @@ public class DialogoGestorControlador implements Observer{
 
         
     }
-    
+
+ 
+
 }

@@ -13,13 +13,16 @@ import java.util.Date;
  */
 public class Gestor extends Usuario{
     
-    private ArrayList<ItemServicio> pedidos;
+    private ArrayList<ItemServicio> pedidosTomados;
     private Date ultimoAcceso;
+
     
     public Gestor(String nombreUsuario, String contrasenia, String nombreCompleto) {
         super(nombreUsuario, contrasenia, nombreCompleto);
         this.ultimoAcceso= null;
     }
+
+
 
     public Date getUltimoAcceso() {
         return ultimoAcceso;
@@ -35,13 +38,16 @@ public class Gestor extends Usuario{
     }
 
     public ArrayList<ItemServicio> getPedidos() {
-        return pedidos;
+        return pedidosTomados;
     }
 
-    public void setPedidos(ItemServicio pedidos) {
-        this.pedidos.add(pedidos);
+    public void setPedidosTomados(ItemServicio pedido) {
+        this.pedidosTomados.add(pedido);
     }
     
+        public void removePedidoTomado(ItemServicio pedido){
+        this.pedidosTomados.remove(pedido);
+    }
     
     
 }

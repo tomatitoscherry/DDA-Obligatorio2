@@ -94,9 +94,11 @@ public class DatosPrueba {
         
         UnidadProcesadora up1= new UnidadProcesadora("Bar");
         UnidadProcesadora up2= new UnidadProcesadora("Cocina");
+        UnidadProcesadora up3= new UnidadProcesadora("Barra sushi");
         
         FachadaServicios.getInstance().agregarUnidadProcesadora(up1);
         FachadaServicios.getInstance().agregarUnidadProcesadora(up2);
+        FachadaServicios.getInstance().agregarUnidadProcesadora(up3);
         
         /////////////////////////////////////////////
         //            // PRODUCTOS                //
@@ -111,6 +113,8 @@ public class DatosPrueba {
         Producto p7= new Producto("Cafe", 130, 20, up1);
         Producto p8= new Producto("Refresco", 180, 5, up1);
         Producto p9= new Producto("Cerveza", 280, 30, up1);
+        Producto p10= new Producto("Nigiri", 150, 30, up3);
+        Producto p11= new Producto("Sushi", 230, 30, up3);
         
         FachadaServicios.getInstance().agregarProductos(p1);
         FachadaServicios.getInstance().agregarProductos(p2);
@@ -121,6 +125,8 @@ public class DatosPrueba {
         FachadaServicios.getInstance().agregarProductos(p7);
         FachadaServicios.getInstance().agregarProductos(p8);
         FachadaServicios.getInstance().agregarProductos(p9);
+        FachadaServicios.getInstance().agregarProductos(p10);
+        FachadaServicios.getInstance().agregarProductos(p11);
         
         /////////////////////////////////////////////////////////
         //            // DATOS GESTORES                       //

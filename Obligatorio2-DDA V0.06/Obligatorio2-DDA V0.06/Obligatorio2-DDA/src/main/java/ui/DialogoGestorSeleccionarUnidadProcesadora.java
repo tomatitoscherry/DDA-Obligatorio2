@@ -22,19 +22,13 @@ public class DialogoGestorSeleccionarUnidadProcesadora extends javax.swing.JDial
     
     
     private DialogoGestorSeleccionarUnidadProcesadoraControlador controlador;
-    
-    /////////////////////////////////////////////////////////////////
-    //  OJO: por MVC la vista no puede contener entidades del modelo//
-    //  quien tiene que tener la entidad de modelo es el controlador//
-    //////////////////////////////////////////////////////////////////
-    
-    
     /**
      * Creates new form DialogoMozosConectados
      */
     public DialogoGestorSeleccionarUnidadProcesadora(java.awt.Frame parent, boolean modal, Gestor gestor) {
         super(parent, modal);
         initComponents();
+        this.setTitle("Bienvenido al sistema de gestor");
         this.controlador= new DialogoGestorSeleccionarUnidadProcesadoraControlador(this, gestor);
     }
 
@@ -126,11 +120,7 @@ public class DialogoGestorSeleccionarUnidadProcesadora extends javax.swing.JDial
 
     @Override
     public void cargarListadoUnidadesProcesadoras(ArrayList<UnidadProcesadora> unidadesProcesadoras) {
-//        for(UnidadProcesadora up : unidadesProcesadoras){
-                 listUnidadesProcesadoras.setListData(unidadesProcesadoras.toArray());
-
-//        }
-
+        listUnidadesProcesadoras.setListData(unidadesProcesadoras.toArray());
     }
     //////////////////////////////////////////////////////////////////
     //   *CU: Ingresar a la aplicación                              //               

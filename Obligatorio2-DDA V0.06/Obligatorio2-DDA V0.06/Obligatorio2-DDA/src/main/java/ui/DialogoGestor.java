@@ -9,13 +9,16 @@ import controlador.DialogoGestorControlador;
 import controlador.DialogoMozoControlador;
 import dominio.Gestor;
 import dominio.ItemServicio;
+import dominio.Pedido;
 import dominio.Producto;
 import dominio.UnidadProcesadora;
 import exceptions.PedidoException;
 import ui.DialogoGestorVista;
 import java.awt.Frame;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -36,7 +39,7 @@ public class DialogoGestor extends javax.swing.JDialog implements DialogoGestorV
         this.setTitle("Unidad Procesadora: " + unidadProcesadora.getNombre().toString());
         dtm = (DefaultTableModel) tblPedidosPendientes.getModel();
         this.controlador = new DialogoGestorControlador(this, gestor, unidadProcesadora);
-     
+
     }
 
     @SuppressWarnings("unchecked")
@@ -50,8 +53,9 @@ public class DialogoGestor extends javax.swing.JDialog implements DialogoGestorV
         jScrollPane2 = new javax.swing.JScrollPane();
         lPedidosTomados = new javax.swing.JList();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        bFinalizarPedido = new javax.swing.JButton();
         lblGestorNombre = new javax.swing.JLabel();
+        bSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -78,60 +82,71 @@ public class DialogoGestor extends javax.swing.JDialog implements DialogoGestorV
 
         jLabel2.setText("Pedidos Tomados");
 
-        jButton1.setText("Finalizar Pedido");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bFinalizarPedido.setText("Finalizar Pedido");
+        bFinalizarPedido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bFinalizarPedidoActionPerformed(evt);
             }
         });
 
         lblGestorNombre.setText("LABEL");
+
+        bSalir.setText("Salir");
+        bSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(140, 140, 140)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(209, 209, 209)
+                        .addGap(199, 199, 199)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(338, 338, 338)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(48, 48, 48)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(201, 201, 201)
+                        .addGap(191, 191, 191)
                         .addComponent(bTomarPedido)
                         .addGap(377, 377, 377)
-                        .addComponent(jButton1)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                        .addComponent(bFinalizarPedido)))
+                .addContainerGap(138, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(22, 22, 22)
+                .addComponent(bSalir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblGestorNombre)
-                .addGap(363, 363, 363))
+                .addGap(466, 466, 466))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(lblGestorNombre)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblGestorNombre)
+                    .addComponent(bSalir))
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bTomarPedido)
-                    .addComponent(jButton1))
-                .addGap(55, 55, 55))
+                    .addComponent(bFinalizarPedido))
+                .addContainerGap())
         );
 
         pack();
@@ -141,13 +156,18 @@ public class DialogoGestor extends javax.swing.JDialog implements DialogoGestorV
         tomarPedido();
     }//GEN-LAST:event_bTomarPedidoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void bFinalizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bFinalizarPedidoActionPerformed
+        finalizarPedido();
+    }//GEN-LAST:event_bFinalizarPedidoActionPerformed
+
+    private void bSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSalirActionPerformed
+       salir();
+    }//GEN-LAST:event_bSalirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bFinalizarPedido;
+    private javax.swing.JButton bSalir;
     private javax.swing.JButton bTomarPedido;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -163,52 +183,69 @@ public class DialogoGestor extends javax.swing.JDialog implements DialogoGestorV
     }
 
     @Override
-    public void cargarTabla() {
+    public void cargarTabla(ArrayList<Pedido> pedido) {
         int col = dtm.getColumnCount();
-        Object[] newRow = new Object[col];
-        if (this.controlador != null && !this.controlador.getUnidadProcesadora().getItemServicios().isEmpty()) {
-            for (ItemServicio is : this.controlador.getUnidadProcesadora().getItemServicios()) {
-                newRow[0] = is.getProducto().getNombre();
-                newRow[1] = is.getUnidades();
-                newRow[2] = is.getDescripcion();
-                newRow[3] = FachadaServicios.getInstance().buscarMesaAsociada(is).getNumero();
-                newRow[4] = FachadaServicios.getInstance().buscarMozoAsociado(is).getNombreCompleto();
 
-            }
+        for (Pedido p : pedido) {
+            Object[] newRow = new Object[col];
+            newRow[0] = p.getItem().getProducto().getNombre();
+            newRow[1] = p.getItem().getUnidades();
+            newRow[2] = p.getItem().getDescripcion();
+            newRow[3] = p.getMesa();
+            newRow[4] = p.getMozo();
             dtm.addRow(newRow);
         }
 
     }
 
     @Override
-    public void vaciarTabla() {
-//        dtm.setRowCount(0);
-    }
-
-    @Override
     public void tomarPedido() {
         int pos = tblPedidosPendientes.getSelectedRow();
-        ItemServicio Pedido = this.controlador.getUnidadProcesadora().getItemServicios().get(pos);
-
         try {
-            this.controlador.tomarPedido(Pedido);
-            lPedidosTomados.clearSelection();
-            lPedidosTomados.setListData(this.controlador.getGestor().getPedidos().toArray());
+            this.controlador.tomarPedido(pos);
+        } catch (PedidoException ex) {
+            Logger.getLogger(DialogoGestor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    public void finalizarPedido() {
+        Pedido pedido = (Pedido) lPedidosTomados.getSelectedValue();
+         try {
+            this.controlador.finalizarPedido(pedido);
         } catch (PedidoException ex) {
             Logger.getLogger(DialogoGestor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+
+
+    public void vaciarTabla() {
+       dtm.setRowCount(0);
+    }
+    
+    
+    public void cargarPedidosGestor(ArrayList<Pedido> pedidosGestor) {
+        lPedidosTomados.clearSelection();
+        lPedidosTomados.setListData(pedidosGestor.toArray());
+
+    }
+
+
+    public void cerrarVista() {
+        this.dispose();
+    }
+
+        
     @Override
-    public void finalizarPedido(ItemServicio pedido) {
-        ItemServicio Pedido = (ItemServicio) lPedidosTomados.getSelectedValue();
-        try {
-            this.controlador.finalizarPedido(Pedido);
-            lPedidosTomados.clearSelection();
-            lPedidosTomados.setListData(this.controlador.getGestor().getPedidos().toArray());
-        } catch (PedidoException ex) {
-            Logger.getLogger(DialogoGestor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void mostrarError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
+
+    private void salir() {
+        controlador.salirDelSistema();
+    }
+
+
 
 }

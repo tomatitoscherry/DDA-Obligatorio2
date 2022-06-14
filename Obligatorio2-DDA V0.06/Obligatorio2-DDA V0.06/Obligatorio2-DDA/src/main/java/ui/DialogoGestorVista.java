@@ -5,6 +5,8 @@
 package ui;
 
 import dominio.ItemServicio;
+import dominio.Pedido;
+import java.util.ArrayList;
 
 
 /**
@@ -15,12 +17,18 @@ public interface DialogoGestorVista {
 
     public void cargarNombreGestor(String nombreCompleto);
 
-    public void cargarTabla();
-
     public void tomarPedido();
 
-    public void vaciarTabla(); 
+    public void finalizarPedido();
 
-    public void finalizarPedido(ItemServicio pedido);
+    public void cargarTabla(ArrayList<Pedido> pedidos);
+
+    public void mostrarError(String message);
+
+    public void cargarPedidosGestor(ArrayList<Pedido> pedidos);
+
+    public void vaciarTabla();
+
+    public void cerrarVista();
    
 }

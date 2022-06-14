@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class Gestor extends Usuario{
     
-    private ArrayList<ItemServicio> pedidosTomados;
+    private ArrayList<Pedido> pedidosTomados = new ArrayList<Pedido>();
     private Date ultimoAcceso;
 
     
@@ -37,16 +37,25 @@ public class Gestor extends Usuario{
         return this.getNombreCompleto();
     }
 
-    public ArrayList<ItemServicio> getPedidos() {
+    public ArrayList<Pedido> getPedidos() {
         return pedidosTomados;
     }
 
-    public void setPedidosTomados(ItemServicio pedido) {
+    public void setPedidosTomados(Pedido pedido) {
         this.pedidosTomados.add(pedido);
     }
     
-        public void removePedidoTomado(ItemServicio pedido){
+        public void removePedidoTomado(Pedido pedido){
         this.pedidosTomados.remove(pedido);
+    }
+
+    public boolean tengoPedidosPendientes() {
+        boolean pedidosPendientes = false;
+        if(!pedidosTomados.isEmpty()){
+           pedidosPendientes = true;
+        }  
+    
+        return pedidosPendientes;
     }
     
     

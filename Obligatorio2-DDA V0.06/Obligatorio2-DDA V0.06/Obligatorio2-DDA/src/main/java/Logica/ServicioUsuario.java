@@ -79,9 +79,9 @@ public class ServicioUsuario {
     }
 
     private Usuario loginGenerico(String usuario, String password, ArrayList<Usuario> listaUsuarios) throws SesionDuplicada {
-        String uUpperCase= usuario.toUpperCase();
+        String uUpperCase = usuario.toUpperCase();
         for (Usuario u : listaUsuarios) {
-            if (u.getNombreUsuario().equals(uUpperCase) && u.esPassordValida(password)) {                              
+            if (u.getNombreUsuario().equals(uUpperCase) && u.esPassordValida(password)) {
                 if (!validarSesionDuplicada(u)) {
                     return u;
                 } else {
@@ -91,14 +91,14 @@ public class ServicioUsuario {
         }
         return null;
     }
-    
-    private boolean validarSesionDuplicada(Usuario u){
-        boolean logeado= false;
-        int aux=0;
-        while(aux < usuariosLogeados.size() && !logeado){
-            Usuario usuLogeado= usuariosLogeados.get(aux).getUsuario();
-            if(usuLogeado.equals(u)){
-                logeado=true;
+
+    private boolean validarSesionDuplicada(Usuario u) {
+        boolean logeado = false;
+        int aux = 0;
+        while (aux < usuariosLogeados.size() && !logeado) {
+            Usuario usuLogeado = usuariosLogeados.get(aux).getUsuario();
+            if (usuLogeado.equals(u)) {
+                logeado = true;
             }
             aux++;
         }
@@ -129,4 +129,7 @@ public class ServicioUsuario {
         return mozo;
     }
 
+    boolean tienePedidosPendientes(Gestor gestor) {
+        return gestor.tengoPedidosPendientes();
+    }
 }

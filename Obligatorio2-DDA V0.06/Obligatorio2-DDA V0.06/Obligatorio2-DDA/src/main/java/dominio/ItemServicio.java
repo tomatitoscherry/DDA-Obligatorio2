@@ -68,6 +68,13 @@ public class ItemServicio {
         return subTotal;
     }
 
+       @Override
+    public String toString() {
+       return unidades + " " + producto.getNombre();
+    }
+    
+    
+    
     public void setSubTotal(float subTotal) {
         this.subTotal = subTotal;
     }

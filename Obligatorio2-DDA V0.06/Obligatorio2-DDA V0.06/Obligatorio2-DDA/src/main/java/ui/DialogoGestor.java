@@ -246,6 +246,4 @@ public class DialogoGestor extends javax.swing.JDialog implements DialogoGestorV
         controlador.salirDelSistema();
     }
 
-
-
 }

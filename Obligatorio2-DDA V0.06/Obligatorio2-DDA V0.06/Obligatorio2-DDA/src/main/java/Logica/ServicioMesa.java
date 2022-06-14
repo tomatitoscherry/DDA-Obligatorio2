@@ -216,7 +216,7 @@ public class ServicioMesa {
         Mesa mesa = null;
         boolean esLaMesa = false;
         int i = 0;
-        while (i < mozo.getMesas().size() && esLaMesa) {
+        while (i < mozo.getMesas().size() && !esLaMesa) {
             Mesa m = mozo.getMesas().get(i);
             if (m.isAbierta()) {
                 boolean encontre = false;
@@ -231,6 +231,7 @@ public class ServicioMesa {
                     aux++;
                 }
             }
+            i++;
         }
         return mesa;
     }
@@ -245,6 +246,41 @@ public class ServicioMesa {
         return finalizado;
     }
 
+    public ItemServicio isPreparando(Mesa mesa) {
+        ItemServicio preparando=null;
+        for(ItemServicio is : mesa.getServicio().getItems()){
+            if(is.getEstado().equals(EstadoItemEnum.PREPARANDO) && is.isActualizado()){
+                preparando=is;
+            }
+        }
+        return preparando;
+    }
+    
+    public Mesa preparandoMiPedido(Mozo mozo) {
+        Mesa mesa = null;
+        boolean esLaMesa = false;
+        int i = 0;
+        while (i < mozo.getMesas().size() && !esLaMesa) {
+            Mesa m = mozo.getMesas().get(i);
+            if (m.isAbierta()) {
+                boolean encontre = false;
+                int aux = 0;
+                while (aux < m.getServicio().getItems().size() && !encontre) {
+                    ItemServicio is = m.getServicio().getItems().get(aux);
+                    if (is.getEstado().equals(EstadoItemEnum.PREPARANDO) && is.isActualizado()) {
+                        mesa = m;
+                        encontre = true;
+                        esLaMesa = true;
+                    }
+                    aux++;
+                }
+            }
+            i++;
+        }
+        return mesa;
+    }
+
+    
     public ArrayList<DetalleBeneficiosAplicados> beneficiosAplicados(Mesa mesa) {
         return mesa.detalleBeneficiosAplicados();
     }
@@ -254,7 +290,11 @@ public class ServicioMesa {
        for(DetalleBeneficiosAplicados dba : beneficiosAplicados){
            total+= dba.getMontoDescontado();
        }
-       return total;
+       if(total>=0){
+           return total;
+       }else{
+           return 0;
+       }
     }
 
     public float totalPagar(float totalDescuentos, float montoSinDescuentos) {

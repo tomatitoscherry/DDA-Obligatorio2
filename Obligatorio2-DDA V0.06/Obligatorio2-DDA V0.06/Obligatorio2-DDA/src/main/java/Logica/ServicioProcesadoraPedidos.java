@@ -56,6 +56,8 @@ public class ServicioProcesadoraPedidos {
             pedido.getItem().setEstado(EstadoItemEnum.PREPARANDO);
             unidadProcesadora.removeItemServicio(pedido);
             gestor.setPedidosTomados(pedido);
+            pedido.getItem().setActualizado(true);
+            FachadaServicios.getInstance().notifyObservers(Observer.Eventos.PEDIDO_TOMADO);
         } else {
             throw new PedidoException("Debe seleccionar un item.");
         }

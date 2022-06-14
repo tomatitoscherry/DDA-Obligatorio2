@@ -13,6 +13,7 @@ import dominio.Mozo;
 import exceptions.AgregarClienteMesaException;
 import java.util.ArrayList;
 import ui.DialogoCerrarMesa;
+import ui.DialogoCerrarMesaVista;
 
 /**
  *
@@ -20,7 +21,7 @@ import ui.DialogoCerrarMesa;
  */
 public class DialogoCerrarMesaControlador{
     
-    private DialogoCerrarMesa vista;
+    private DialogoCerrarMesaVista vista;
     private Mozo mozo;
     private Mesa mesa;
 

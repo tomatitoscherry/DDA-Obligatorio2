@@ -87,6 +87,7 @@ public class DialogoMozoControlador implements Observer{
             Servicio servicio=FachadaServicios.getInstance().getServicioMesa(mesa);
             vista.setLblServicioMesa("Servicio de la mesa: "+mesa.getNumero());
             if(!servicio.getItems().isEmpty()){
+                vista.limpiarTablaServicio();
                 vista.cargarServicioCompleto(servicio);
             }
         }else{
@@ -184,6 +185,15 @@ public class DialogoMozoControlador implements Observer{
                 String detallePedido="Mesa: "+mesa.toString()+", Producto: "+isFinalizado.getProducto()+", Cant.: "+isFinalizado.getUnidades();
                 isFinalizado.setActualizado(false);
                 vista.notificarPedidoFinalizado(detallePedido);
+                cargarServicioMesa(mesa);
+            }
+        }
+        if(event.equals(Observer.Eventos.PEDIDO_TOMADO)){
+            Mesa mesa= FachadaServicios.getInstance().preparandoMiPedido(mozo);
+            if(mesa!=null){
+                ItemServicio isPreparando= FachadaServicios.getInstance().isPreparando(mesa);
+                isPreparando.setActualizado(false);
+                cargarServicioMesa(mesa);
             }
         }
         if(event.equals(Observer.Eventos.NUEVA_TRANSFERENCIA)){

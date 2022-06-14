@@ -320,6 +320,10 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private javax.swing.JTextField txtDescripcionProducto;
     // End of variables declaration//GEN-END:variables
     
+    private void formWindowClosed(java.awt.event.WindowEvent evt){
+        controlador.salirDelSistema();
+    }
+    
     public void cerrarVista() {
         this.dispose();
     }

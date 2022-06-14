@@ -37,8 +37,7 @@ public class TipoCliente {
                 
             }else if(b.getTipoBeneficio().equals(TipoBeneficioEnum.DESCUENTO_DINERO)){
                 float montoDescontarDinero= b.getMontoDescuento();
-                beneficiosAplicados.add(new DetalleBeneficiosAplicados(b, montoDescontarDinero));
-            
+                    beneficiosAplicados.add(new DetalleBeneficiosAplicados(b, montoDescontarDinero));
             }else if(b.getTipoBeneficio().equals(TipoBeneficioEnum.DESCUENTO_PORCENTAJE)){
                 
                 if(unServicio.montoServicio() >= b.getMontoMinimoDescuento()){

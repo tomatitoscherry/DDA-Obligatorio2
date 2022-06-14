@@ -13,6 +13,7 @@ import dominio.Gestor;
 import dominio.ItemServicio;
 import dominio.Mesa;
 import dominio.Mozo;
+import dominio.Pedido;
 import dominio.Producto;
 import dominio.Servicio;
 import dominio.Sesion;
@@ -144,7 +145,7 @@ public class FachadaServicios extends Observable {
         return servicioMesa.agregarProductoAServicio(mesa, producto, cantidad, descripcion);  
     }
     
-    public void agregarPedidoUnidadProcesadora(ItemServicio is) {
+    public void agregarPedidoUnidadProcesadora(Pedido is) {
         servicioProcesadoraPedidos.agregarProducto(is);
     }
     
@@ -209,22 +210,19 @@ public class FachadaServicios extends Observable {
          //////////////////////////////////////////////////////////////////
          //   //*CU: Monitor de pedidos                                  //               
          //////////////////////////////////////////////////////////////////   
-    
-    public Mesa buscarMesaAsociada(ItemServicio is){
-        return servicioMesa.buscarMesaAsociada(is);
-    }
 
-    public Mozo buscarMozoAsociado(ItemServicio is){
-        return servicioUsuario.buscarMozoAsociado(is);
-    }
 
-    public void setearPedidoParaGestor(ItemServicio pedido, Gestor gestor, UnidadProcesadora unidadProcesadora) throws PedidoException {
+    public void setearPedidoParaGestor(Pedido pedido, Gestor gestor, UnidadProcesadora unidadProcesadora) throws PedidoException {
         servicioProcesadoraPedidos.setearPedidoParaGestor(pedido, gestor, unidadProcesadora);
         
     }
 
-    public void finalizarPedidoParaGestor(ItemServicio pedido, Gestor gestor) throws PedidoException {
+    public void finalizarPedidoParaGestor(Pedido pedido, Gestor gestor) throws PedidoException {
         servicioProcesadoraPedidos.finalizarPedidoParaGestor(pedido, gestor);
+    }
+
+    public boolean tienePedidosPendientes(Gestor gestor) {
+        return servicioUsuario.tienePedidosPendientes(gestor);
     }
 
 }

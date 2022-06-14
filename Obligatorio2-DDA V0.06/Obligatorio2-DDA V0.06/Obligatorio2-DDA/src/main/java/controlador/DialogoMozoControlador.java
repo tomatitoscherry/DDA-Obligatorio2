@@ -13,6 +13,7 @@ import Logica.observer.Observable;
 import Logica.observer.Observer;
 import dominio.ItemServicio;
 import dominio.Mozo;
+import dominio.Pedido;
 import dominio.Servicio;
 import dominio.Sesion;
 import dominio.TransferenciaAprobacionEnum;
@@ -109,9 +110,11 @@ public class DialogoMozoControlador implements Observer{
     
     public void agregarProductoAlServicio(Mesa mesa, Producto producto, String descripcion, String cantidad) throws ServicioException {
         try{
+            
             ItemServicio is= FachadaServicios.getInstance().agregarProductoAServicio(mesa, producto, cantidad, descripcion);
+            Pedido pedido = new Pedido(this.mozo, is, mesa);
             vista.agregarItemTablaServicio(is);
-            FachadaServicios.getInstance().agregarPedidoUnidadProcesadora(is);
+            FachadaServicios.getInstance().agregarPedidoUnidadProcesadora(pedido);
             vista.clearTextField();
         }catch(ServicioException e){
             vista.mostrarError(e.getMessage());

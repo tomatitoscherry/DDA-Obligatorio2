@@ -4,6 +4,7 @@
  */
 package dominio;
 
+import exceptions.PedidoException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -16,21 +17,21 @@ public class UnidadProcesadora {
     
     private int id;
     private String nombre;
-    private ArrayList<ItemServicio> itemServicios;
+    private ArrayList<Pedido> itemPedidos;
      
     public UnidadProcesadora (String nombre){
         this.nombre = nombre;
         this.id= contId;
-        this.itemServicios= new ArrayList<ItemServicio>();
+        this.itemPedidos= new ArrayList<Pedido>();
         contId++;
     }
     
-    public void addItemServicio(ItemServicio itemServicio){
-        itemServicios.add(itemServicio);
+    public void addItemServicio(Pedido itemPedido){
+        itemPedidos.add(itemPedido);
     }
 
-    public void removeItemServicio(ItemServicio itemServicio){
-        itemServicios.remove(itemServicio);
+    public void removeItemServicio(Pedido itemPedido){
+        itemPedidos.remove(itemPedido);
     }
     
     
@@ -38,8 +39,9 @@ public class UnidadProcesadora {
         return nombre;
     }
 
-    public ArrayList<ItemServicio> getItemServicios() {
-        return itemServicios;
+    public ArrayList<Pedido> getItemPedidos(){
+        
+        return itemPedidos;
     }
 
     @Override

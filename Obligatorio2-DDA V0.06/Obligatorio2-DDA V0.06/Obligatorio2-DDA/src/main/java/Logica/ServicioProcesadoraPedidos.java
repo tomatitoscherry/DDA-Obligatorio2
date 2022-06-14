@@ -10,6 +10,8 @@ import dominio.EstadoItemEnum;
 import dominio.Gestor;
 import dominio.ItemServicio;
 import dominio.Mesa;
+import dominio.Mozo;
+import dominio.Pedido;
 import dominio.Producto;
 import dominio.Servicio;
 import dominio.UnidadProcesadora;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 public class ServicioProcesadoraPedidos {
 
     //lista que tiene todos los pedidos generados
-    ArrayList<ItemServicio> pedidosMonitor = new ArrayList<ItemServicio>();
+    ArrayList<Pedido> pedidosMonitor = new ArrayList<Pedido>();
     ArrayList<UnidadProcesadora> unidadesProcesadoras = new ArrayList<UnidadProcesadora>();
 
     /////////////////////////////////////////////
@@ -35,22 +37,23 @@ public class ServicioProcesadoraPedidos {
         unidadesProcesadoras.add(unaUnidadProcesadora);
     }
 
-    public void agregarProducto(ItemServicio is) {
-        Producto p = is.getProducto();
+    public void agregarProducto(Pedido pedido) {
+        Producto p = pedido.getItem().getProducto();
         for (UnidadProcesadora up : unidadesProcesadoras) {
             if (up.equals(p.getUnidadProcesadora())) {
-                pedidosMonitor.add(is);
-                up.addItemServicio(is);
+                pedidosMonitor.add(pedido);
+                
+                up.addItemServicio(pedido);
                 FachadaServicios.getInstance().notifyObservers(Observer.Eventos.PEDIDOS_ACTUALIZADOS);
             }
         }
     }
 
-    public void setearPedidoParaGestor(ItemServicio pedido, Gestor gestor, UnidadProcesadora unidadProcesadora) throws PedidoException {
+    public void setearPedidoParaGestor(Pedido pedido, Gestor gestor, UnidadProcesadora unidadProcesadora) throws PedidoException {
 
         if (pedido != null) {
-            pedido.setGestor(gestor);
-            pedido.setEstado(EstadoItemEnum.PREPARANDO);
+            pedido.getItem().setGestor(gestor);
+            pedido.getItem().setEstado(EstadoItemEnum.PREPARANDO);
             unidadProcesadora.removeItemServicio(pedido);
             gestor.setPedidosTomados(pedido);
         } else {
@@ -63,11 +66,11 @@ public class ServicioProcesadoraPedidos {
         return unidadesProcesadoras;
     }
 
-    void finalizarPedidoParaGestor(ItemServicio pedido, Gestor gestor) throws PedidoException {
+    void finalizarPedidoParaGestor(Pedido pedido, Gestor gestor) throws PedidoException {
 
         if (pedido != null) {
-            pedido.setEstado(EstadoItemEnum.FINALIZADO);
-            pedido.setActualizado(true);
+            pedido.getItem().setEstado(EstadoItemEnum.FINALIZADO);
+            pedido.getItem().setActualizado(true);
             gestor.removePedidoTomado(pedido);
             FachadaServicios.getInstance().notifyObservers(Observer.Eventos.PEDIDO_FINALIZADO);
         } else {

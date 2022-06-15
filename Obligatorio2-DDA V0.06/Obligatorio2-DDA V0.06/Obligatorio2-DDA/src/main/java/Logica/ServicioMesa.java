@@ -72,8 +72,10 @@ public class ServicioMesa {
     }
 
     public ItemServicio agregarProductoAServicio(Mesa mesa, Producto producto, String cantidad, String descripcion) throws ServicioException {
+        String exReg="^[0-9]+$";
         ItemServicio is;
-        if (producto != null) {
+        if(validarString(exReg, cantidad)){
+            if (producto != null) {
             if (!cantidad.isEmpty()) {
                 int cantP = Integer.parseInt(cantidad);
                 if (cantP > 0) {
@@ -99,6 +101,10 @@ public class ServicioMesa {
             throw new ServicioException("Seleccione un producto");
         }
         return is;
+        } else {
+               throw new ServicioException("Debe ingresar un número para la cantidad.");
+        }
+     
     }
 
     public void transferirMesa(Mesa mesa, Mozo mozo, Mozo mozoSeleccionado) {

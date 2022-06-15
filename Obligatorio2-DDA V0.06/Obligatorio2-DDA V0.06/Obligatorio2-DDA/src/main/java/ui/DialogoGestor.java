@@ -58,6 +58,11 @@ public class DialogoGestor extends javax.swing.JDialog implements DialogoGestorV
         bSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         tblPedidosPendientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -163,6 +168,10 @@ public class DialogoGestor extends javax.swing.JDialog implements DialogoGestorV
     private void bSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSalirActionPerformed
        salir();
     }//GEN-LAST:event_bSalirActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+       salir();
+    }//GEN-LAST:event_formWindowClosed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bFinalizarPedido;

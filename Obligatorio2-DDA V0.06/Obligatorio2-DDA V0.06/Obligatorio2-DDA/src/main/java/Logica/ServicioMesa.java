@@ -218,7 +218,17 @@ public class ServicioMesa {
         return mesa;
     }
 
-    public Mesa finalizaronMiPedido(Mozo mozo) {
+    public ItemServicio isActualizado(Mesa mesa, EstadoItemEnum estado) {
+        ItemServicio isActualizado=null;
+        for(ItemServicio is : mesa.getServicio().getItems()){
+            if(is.getEstado().equals(estado) && is.isActualizado()){
+                isActualizado=is;
+            }
+        }
+        return isActualizado;
+    }
+
+    public Mesa actualizaronMiPedido(Mozo mozo, EstadoItemEnum estado) {
         Mesa mesa = null;
         boolean esLaMesa = false;
         int i = 0;
@@ -229,7 +239,7 @@ public class ServicioMesa {
                 int aux = 0;
                 while (aux < m.getServicio().getItems().size() && !encontre) {
                     ItemServicio is = m.getServicio().getItems().get(aux);
-                    if (is.getEstado().equals(EstadoItemEnum.FINALIZADO) && is.isActualizado()) {
+                    if (is.getEstado().equals(estado) && is.isActualizado()) {
                         mesa = m;
                         encontre = true;
                         esLaMesa = true;
@@ -240,52 +250,8 @@ public class ServicioMesa {
             i++;
         }
         return mesa;
-    }
-
-    public ItemServicio isFinalizado(Mesa mesa) {
-        ItemServicio finalizado=null;
-        for(ItemServicio is : mesa.getServicio().getItems()){
-            if(is.getEstado().equals(EstadoItemEnum.FINALIZADO) && is.isActualizado()){
-                finalizado=is;
-            }
-        }
-        return finalizado;
-    }
-
-    public ItemServicio isPreparando(Mesa mesa) {
-        ItemServicio preparando=null;
-        for(ItemServicio is : mesa.getServicio().getItems()){
-            if(is.getEstado().equals(EstadoItemEnum.PREPARANDO) && is.isActualizado()){
-                preparando=is;
-            }
-        }
-        return preparando;
     }
     
-    public Mesa preparandoMiPedido(Mozo mozo) {
-        Mesa mesa = null;
-        boolean esLaMesa = false;
-        int i = 0;
-        while (i < mozo.getMesas().size() && !esLaMesa) {
-            Mesa m = mozo.getMesas().get(i);
-            if (m.isAbierta()) {
-                boolean encontre = false;
-                int aux = 0;
-                while (aux < m.getServicio().getItems().size() && !encontre) {
-                    ItemServicio is = m.getServicio().getItems().get(aux);
-                    if (is.getEstado().equals(EstadoItemEnum.PREPARANDO) && is.isActualizado()) {
-                        mesa = m;
-                        encontre = true;
-                        esLaMesa = true;
-                    }
-                    aux++;
-                }
-            }
-            i++;
-        }
-        return mesa;
-    }
-
     
     public ArrayList<DetalleBeneficiosAplicados> beneficiosAplicados(Mesa mesa) {
         return mesa.detalleBeneficiosAplicados();

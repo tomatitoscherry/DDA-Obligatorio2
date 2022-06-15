@@ -9,6 +9,7 @@ import Logica.observer.Observable;
 import dominio.Beneficio;
 import dominio.Cliente;
 import dominio.DetalleBeneficiosAplicados;
+import dominio.EstadoItemEnum;
 import dominio.Gestor;
 import dominio.ItemServicio;
 import dominio.Mesa;
@@ -149,21 +150,14 @@ public class FachadaServicios extends Observable {
         servicioProcesadoraPedidos.agregarProducto(is);
     }
     
-    public Mesa preparandoMiPedido(Mozo mozo) {
-        return servicioMesa.preparandoMiPedido(mozo);
+    public Mesa actualizaronMiPedido(Mozo mozo, EstadoItemEnum estado) {
+        return servicioMesa.actualizaronMiPedido(mozo, estado);
     }
     
-    public ItemServicio isPreparando(Mesa mesa) {
-        return servicioMesa.isPreparando(mesa);
+    public ItemServicio isActualizado(Mesa mesa, EstadoItemEnum estado) {
+        return servicioMesa.isActualizado(mesa, estado);
     }
-    
-    public Mesa finalizaronMiPedido(Mozo mozo) {
-        return servicioMesa.finalizaronMiPedido(mozo);
-    }
-    
-    public ItemServicio isFinalizado(Mesa mesa) {
-       return servicioMesa.isFinalizado(mesa);
-    }
+   
 
     //////////////////////////////////////////////////////////////////
     //   //CU: Transferir una mesa                                   //               

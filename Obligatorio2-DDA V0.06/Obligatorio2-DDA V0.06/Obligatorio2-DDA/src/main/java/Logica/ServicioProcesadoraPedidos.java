@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class ServicioProcesadoraPedidos {
 
     //lista que tiene todos los pedidos generados
-    ArrayList<Pedido> pedidosMonitor = new ArrayList<Pedido>();
+    //ArrayList<Pedido> pedidosMonitor = new ArrayList<Pedido>();
     ArrayList<UnidadProcesadora> unidadesProcesadoras = new ArrayList<UnidadProcesadora>();
 
     /////////////////////////////////////////////
@@ -41,8 +41,7 @@ public class ServicioProcesadoraPedidos {
         Producto p = pedido.getItem().getProducto();
         for (UnidadProcesadora up : unidadesProcesadoras) {
             if (up.equals(p.getUnidadProcesadora())) {
-                pedidosMonitor.add(pedido);
-                
+                //pedidosMonitor.add(pedido);
                 up.addItemServicio(pedido);
                 FachadaServicios.getInstance().notifyObservers(Observer.Eventos.PEDIDOS_ACTUALIZADOS);
             }

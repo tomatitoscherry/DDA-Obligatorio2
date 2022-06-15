@@ -19,6 +19,7 @@ public interface Observer {
         CAMBIO_ESTADO_TRANSFERENCIA_RECHAZADA,
         STOCK_ACTUALIZADO,
         TRANSFERENCIA_CONCLUIDA,
+        PEDIDO_TOMADO,
         PEDIDO_FINALIZADO
     }
 

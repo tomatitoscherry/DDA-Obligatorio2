@@ -47,7 +47,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     public DialogoMozo(java.awt.Frame parent, boolean modal, Mozo mozo) {
         super(parent, modal);
         initComponents();
-        this.setTitle("Ventana mozo");
+        this.setTitle("Bienvenido al sistema de mozos");
         this.controlador= new DialogoMozoControlador(this, mozo);
         dtm = (DefaultTableModel) tblServicio.getModel();
     }
@@ -320,6 +320,10 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     private javax.swing.JTextField txtDescripcionProducto;
     // End of variables declaration//GEN-END:variables
     
+    private void formWindowClosed(java.awt.event.WindowEvent evt){
+        controlador.salirDelSistema();
+    }
+    
     public void cerrarVista() {
         this.dispose();
     }
@@ -327,7 +331,7 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
     public void mostrarError(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje,"Error", JOptionPane.ERROR_MESSAGE);
     }
-
+    
     //////////////////////////////////////////////////////////////////
     //   //*CU:  Ingresar a la aplicación                           //               
     ////////////////////////////////////////////////////////////////// 
@@ -488,17 +492,17 @@ public class DialogoMozo extends javax.swing.JDialog implements DialogoMozoVista
 
         @Override
         public Component getListCellRendererComponent(JList<? extends Mesa> list, Mesa m, int index, boolean isSelected, boolean cellHasFocus) {
+            setText(m.toString());
             if(m.isAbierta()) {
-                setText(m.toString());
                 setOpaque(true);
                 setBackground(Color.red);
-            } else {
-                setText(m.toString());
+            } else {   
                 setOpaque(true);
                 setBackground(Color.white);
             }
             return this;
         }
     }
+
     
 }

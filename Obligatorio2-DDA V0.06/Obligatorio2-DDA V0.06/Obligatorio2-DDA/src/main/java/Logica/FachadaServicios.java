@@ -149,6 +149,14 @@ public class FachadaServicios extends Observable {
         servicioProcesadoraPedidos.agregarProducto(is);
     }
     
+    public Mesa preparandoMiPedido(Mozo mozo) {
+        return servicioMesa.preparandoMiPedido(mozo);
+    }
+    
+    public ItemServicio isPreparando(Mesa mesa) {
+        return servicioMesa.isPreparando(mesa);
+    }
+    
     public Mesa finalizaronMiPedido(Mozo mozo) {
         return servicioMesa.finalizaronMiPedido(mozo);
     }

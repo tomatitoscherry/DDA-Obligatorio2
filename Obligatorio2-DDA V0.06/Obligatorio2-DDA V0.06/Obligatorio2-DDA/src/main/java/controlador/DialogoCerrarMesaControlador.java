@@ -13,6 +13,7 @@ import dominio.Mozo;
 import exceptions.AgregarClienteMesaException;
 import java.util.ArrayList;
 import ui.DialogoCerrarMesa;
+import ui.DialogoCerrarMesaVista;
 
 /**
  *
@@ -20,7 +21,7 @@ import ui.DialogoCerrarMesa;
  */
 public class DialogoCerrarMesaControlador{
     
-    private DialogoCerrarMesa vista;
+    private DialogoCerrarMesaVista vista;
     private Mozo mozo;
     private Mesa mesa;
 
@@ -64,8 +65,11 @@ public class DialogoCerrarMesaControlador{
         ArrayList<DetalleBeneficiosAplicados> beneficiosAplicados= FachadaServicios.getInstance().beneficiosAplicados(this.mesa);
         float totalDescuentos= FachadaServicios.getInstance().totalDescuentos(beneficiosAplicados);
         float totalPagar= FachadaServicios.getInstance().totalPagar(totalDescuentos, montoSinDescuentos);
-        
-        vista.setLebelsDatosCli("Cliente: "+cli.getNombre());
+        if(cli.getNombre()!=null){
+            vista.setLebelsDatosCli("Cliente: "+cli.getNombre());
+        }else{
+            vista.setLebelsDatosCli("Cliente sin registrar");
+        }
         vista.cargarBeneficiosCliente(beneficiosAplicados);
         vista.setLabelsServicio(
             "Monto del servicio : $"+montoSinDescuentos,

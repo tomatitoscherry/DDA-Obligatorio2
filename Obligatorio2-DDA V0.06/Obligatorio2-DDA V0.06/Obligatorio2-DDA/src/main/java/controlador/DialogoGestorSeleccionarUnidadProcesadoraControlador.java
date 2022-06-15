@@ -17,8 +17,8 @@ import ui.DialogoMozoTransferirMesaVista;
  *
  * @author yamil
  */
-public class DialogoGestorSeleccionarUnidadProcesadoraControlador implements Observer{
-    
+public class DialogoGestorSeleccionarUnidadProcesadoraControlador implements Observer {
+
     private Gestor gestor;
     private DialogoGestorSeleccionarUnidadProcesadoraVista vista;
 
@@ -32,7 +32,7 @@ public class DialogoGestorSeleccionarUnidadProcesadoraControlador implements Obs
 
     @Override
     public void update(Observable source, Object event) {
-        if(event.equals(Observer.Eventos.SESIONES_ACTUALIZADAS)){
+        if (event.equals(Observer.Eventos.SESIONES_ACTUALIZADAS)) {
             cargarListaUnidadProcesadoras();
         }
     }
@@ -41,7 +41,7 @@ public class DialogoGestorSeleccionarUnidadProcesadoraControlador implements Obs
         vista.setLabelInicio("Seleccionando Unidad Procesadora");
     }
 
-    public void cerrarVista(){
+    public void cerrarVista() {
         FachadaServicios.getInstance().deleteObserver(this);
         vista.cerrarVista();
     }
@@ -50,12 +50,16 @@ public class DialogoGestorSeleccionarUnidadProcesadoraControlador implements Obs
         ArrayList<UnidadProcesadora> unidadesProcesadoras = FachadaServicios.getInstance().conjuntoUnidadesProcesadoras();
         vista.cargarListadoUnidadesProcesadoras(unidadesProcesadoras);
     }
-    
 
     public void continuarUnidadProcesadora(UnidadProcesadora unidadProcesadora) {
-        vista.callDialogoGestor(unidadProcesadora, gestor); //aca hay que mandarle el gestor
-        FachadaServicios.getInstance().deleteObserver(this); //antes de cerrar la vista hay que sacarla de la lista de observadores
-        vista.cerrarVista();
+        if (unidadProcesadora == null) {
+            vista.mostrarError("Debe seleccionar una Unidad Procesadora.");
+        } else {
+            vista.callDialogoGestor(unidadProcesadora, gestor);
+            FachadaServicios.getInstance().deleteObserver(this);
+            vista.cerrarVista();
+        }
+
     }
-    
+
 }

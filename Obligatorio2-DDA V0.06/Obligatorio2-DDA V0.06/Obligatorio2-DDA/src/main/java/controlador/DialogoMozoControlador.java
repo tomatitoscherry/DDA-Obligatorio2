@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import Logica.FachadaServicios;
 import Logica.observer.Observable;
 import Logica.observer.Observer;
+import dominio.EstadoItemEnum;
 import dominio.ItemServicio;
 import dominio.Mozo;
 import dominio.Pedido;
@@ -90,7 +91,7 @@ public class DialogoMozoControlador implements Observer {
             Servicio servicio = FachadaServicios.getInstance().getServicioMesa(mesa);
             vista.setLblServicioMesa("Servicio de la mesa: " + mesa.getNumero());
             if (!servicio.getItems().isEmpty()) {
-
+                vista.limpiarTablaServicio();
                 vista.cargarServicioCompleto(servicio);
             }
         } else {
@@ -184,9 +185,9 @@ public class DialogoMozoControlador implements Observer {
             actualizarListaProductos();
         }
         if (event.equals(Observer.Eventos.PEDIDO_FINALIZADO)) {
-            Mesa mesa = FachadaServicios.getInstance().finalizaronMiPedido(mozo);
+            Mesa mesa = FachadaServicios.getInstance().actualizaronMiPedido(mozo, EstadoItemEnum.FINALIZADO);
             if (mesa != null) {
-                ItemServicio isFinalizado = FachadaServicios.getInstance().isFinalizado(mesa);
+                ItemServicio isFinalizado = FachadaServicios.getInstance().isActualizado(mesa, EstadoItemEnum.FINALIZADO);
                 String detallePedido = "Mesa: " + mesa.toString() + ", Producto: " + isFinalizado.getProducto() + ", Cant.: " + isFinalizado.getUnidades();
                 isFinalizado.setActualizado(false);
                 vista.notificarPedidoFinalizado(detallePedido);
@@ -194,10 +195,10 @@ public class DialogoMozoControlador implements Observer {
             }
         }
         if(event.equals(Observer.Eventos.PEDIDO_TOMADO)){
-            Mesa mesa= FachadaServicios.getInstance().preparandoMiPedido(mozo);
+            Mesa mesa= FachadaServicios.getInstance().actualizaronMiPedido(mozo, EstadoItemEnum.PREPARANDO);
             if(mesa!=null){
-                ItemServicio isPreparando= FachadaServicios.getInstance().isPreparando(mesa);
-                isPreparando.setActualizado(false);
+                ItemServicio isActualizado= FachadaServicios.getInstance().isActualizado(mesa, EstadoItemEnum.PREPARANDO);
+                isActualizado.setActualizado(false);
                 cargarServicioMesa(mesa);
             }
         }
